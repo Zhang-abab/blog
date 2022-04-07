@@ -1,0 +1,25 @@
+version: "3.9"
+
+services:
+
+  mysql:
+    image: mysql
+    ports:
+      - 3000:3306
+    command:
+        - mysqld
+        - --max_connections=3000
+        - --wait_timeout=600
+        - --interactive_timeout=600
+        - --thread_cache_size=50
+        - --default-authentication-plugin=mysql_native_password
+        - --character-set-server=utf8
+        - --collation-server=utf8_general_ci
+    environment:
+        - MYSQL_DATABASE=blog
+        - MYSQL_ROOT_PASSWORD=root
+        - MYSQL_USER=zhang
+        - MYSQL_PASSWORD=zhang
+    volumes:
+        - ./db_data/data:/var/lib/mysql       #将容器中运行的mysql数据保存到宿主机，防止容器删除后数据丢失
+        - ./db_data/log/conf:/etc/my.conf.d 
