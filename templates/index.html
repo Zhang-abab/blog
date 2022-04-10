@@ -1,0 +1,219 @@
+
+<!DOCTYPE html>
+<html lang="en">
+{% load my_tag %}
+
+<head>
+    <title>Hello</title>
+    <link rel="stylesheet" href="/static/my/css/reset.css">
+    <link rel="stylesheet" href="/static/my/css/index.css">
+    <script src="/static/vue/vue.js"></script>
+</head>
+<body>
+
+    <div id="app">
+        <link rel="stylesheet" :href="'/static/my/css/theme/' + theme +'.css'">
+        
+        <nav>
+            <div class="left">
+                <a href="/">首页</a>
+                <a href="/news">新闻</a>
+                <a href="#">心得</a>
+                <a href="#">关于</a>
+            </div>
+
+            <div class="right">
+                <img v-show = "theme === 'light'" src="/static/my/img/nav/light.svg" @click="setTheme('dark')" alt="">
+                <img v-show = "theme === 'dark'" src="/static/my/img/nav/dark.svg" @click="setTheme('light')" alt="">
+                <a href="#">登录</a>
+                <a href="#">注册</a>
+            </div>
+        </nav>
+            {% banner 'index'%}
+        <main>
+            {% block main %}
+            <div class="main">
+                <div class="left">
+                    <div class="boutique_card card">
+                        <div class="title">
+                            <h2>精选文档</h2>
+                            <div>
+                                <a href="">查看更多</a>
+                            </div>
+                        </div>
+                        <div class="body">
+                            主要内容区
+                        </div>
+                    </div>
+
+                    <div class="hotList card">
+                        <div class="title">
+                            <h2>今日新闻</h2>
+                            <div>
+                                <a href="">查看更多</a>
+                            </div>
+                        </div>
+                        <div class="body">
+                            主要内容区
+                        </div>
+                    </div>
+
+                    <div class="all_article card">
+                        <div class="title">
+                            <h2>博客文章</h2>
+                        </div>
+                        <div class="body">
+                            主要内容区
+                        </div>
+                    </div>
+
+                </div>
+
+                
+
+                <div class="right">
+                    <div class="advertisement card">
+                        <div class="title">
+                            <h2>独家广告</h2>
+                            <div>
+                                <a href="">申请</a>
+                            </div>
+                        </div>
+                        <div class="body">
+                            主要内容区
+                        </div>
+                    </div>
+
+                    <div class="tags card">
+                        <div class="title">
+                            <h2>标签云</h2>
+                        </div>
+                        <div class="body">
+                            <ul>
+                                <li>python</li>
+                                <li>python</li>
+                                <li>python</li>
+                                <li>python</li>
+                                <li>python</li>
+                                <li>python</li>
+                                <li>python</li>
+                                <li>python</li>
+                                <li>python</li>
+                                <li>python</li>
+                                <li>python</li>
+                                <li>python</li>
+                                <li>python</li>
+                                <li>python</li>
+                                <li>python</li>
+
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="site_info card">
+                        <div class="title">
+                            <h2>站点信息</h2>
+                        </div>
+                        <div class="body">
+                            主要内容区
+                        </div>
+                    </div>
+
+                    <div class="links card">
+                        <div class="title">
+                            <h2>友情链接</h2>
+                        </div>
+                        <div class="body">
+                            主要内容区
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            {% endblock main %}
+        </main>
+    
+        <footer>
+            <div class="left">
+                <p class="thank">Thank For</p>
+                <p class="site_info">
+                    <span><img src="/static/my/img/footer/tencent.png" alt="">腾讯云服务器</span>
+                    <span><img src="/static/my/img/footer/tencent.png" alt="">腾讯云SSL证书</span>
+                    <span><img src="/static/my/img/footer/qiniu.png" alt="">七牛云存储</span>
+                </p>
+                <p class="version">
+                    <span>Version</span>
+                    <span>4.0.0</span>
+                </p>
+                <p>建站日期: 2021-12-29</p>
+                <p class="beian">
+                    <a href="">
+                        <img src="/static/my/img/footer/badges.png" alt="">
+                        备案号:2121212121
+                    </a>
+                </p>
+            </div>
+
+            <div class="right">
+                    <div class="contact">
+                        <div>
+                            <img class="svg" src="/static/my/img/footer/qq_icon.svg" alt="">
+                            <img class="qq" src="/static/my/img/footer/qq.png" alt="">
+                        </div>
+
+                    </div>
+                    <p>2411358676@qq.com</p>
+            </div>
+
+        </footer>
+    </div>
+
+    <script>
+        new Vue({
+            el:'#app',
+            delimiters:["[[", "]]"],
+            data:{
+                theme:'light'//默认主题
+            },
+            created(){
+                this.init_theme()
+            },
+            methods:{
+            //初始化主题信息
+            init_theme(){
+                let theme = localStorage.getItem('theme')
+                if (theme){
+                    this.theme = theme
+                }
+            },
+            //设置主题
+                setTheme(themeName){
+                    this.theme = themeName
+                    //持久化存储
+                    localStorage.setItem('theme', themeName)
+                }
+            },
+
+        })
+        
+
+        let menu_img = document.querySelectorAll('.dynamic_shuffl')
+        let menu_length = menu_img.length
+        let index = 0
+        let timer = null;
+        clearInterval(timer)
+        timer = setInterval(()=>{
+            index ++
+            if (index == menu_length){
+                index = 0
+            }
+            for (let i of menu_img){
+                i.style.opacity = 0
+            }
+            menu_img[index].style.opacity = 1
+        },2000)    
+    
+    </script>
+
+</body>
+</html>
