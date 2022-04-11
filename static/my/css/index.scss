@@ -108,6 +108,23 @@
             }
             .left {
                 width: 69%;
+                .boutique_card > .title{
+                    .switch_article_category{
+                        span{
+                            cursor: pointer;
+                            font-size: 16px;
+                            font-weight: bold;
+                            transition: all 0.3s;
+                            &:hover{
+                                color: #ff9800;
+                            }
+
+                            &[active]{
+                                color: #ff9800;
+                            }
+                        }
+                    }
+                }
                 .boutique_card > .body{
                     padding: 0 20px;
                     > ul{

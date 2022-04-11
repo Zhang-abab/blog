@@ -33,8 +33,8 @@
                         src="/static/my/img/nav/dark.svg"
                         @click="setTheme('light')"
                         alt="">
-                    <a href="#">登录</a>
-                    <a href="#">注册</a>
+                    <a href="/login">登录</a>
+                    <a href="/sign">注册</a>
                 </div>
             </nav>
             {% banner 'index'%}
@@ -45,12 +45,13 @@
                             <div class="boutique_card card">
                                 <div class="title">
                                     <h2>精选文档</h2>
-                                    <div>
-                                        <a href="">查看更多</a>
+                                    <div class="switch_article_category">
+                                        <span :active = "this_category === 'qianduan'" @click = 'switch_article_category("qianduan")'>前端</span>
+                                        <span :active = "this_category === 'houduan'" @click = 'switch_article_category("houduan")'>后端</span>
                                     </div>
                                 </div>
                                 <div class="body">
-                                    <ul class = 'qianduan'>
+                                    <ul v-show = "this_category === 'qianduan'" class = 'qianduan'>
                                         <li>
                                             <div class="left">
                                                 <div>
@@ -128,7 +129,88 @@
                                                 <span>2天前</span>
                                             </div>
                                         </li>
-                                        
+
+                                    </ul>
+
+                                    <ul v-show = "this_category === 'houduan'" class = 'houduan'>
+                                        <li>
+                                            <div class="left">
+                                                <div>
+                                                    <img src="/static/shuffl/2.jpeg" alt="">
+                                                </div>
+                                            </div>
+                                            <div class="right">
+                                                <h2>React基本使用</h2>
+                                                <p>安装react包 python npm i 安装react包</p>
+                                                <span>2天前</span>
+                                            </div>
+                                        </li>
+
+                                        <li>
+                                            <div class="left">
+                                                <div>
+                                                    <img src="/static/shuffl/2.jpeg" alt="">
+                                                </div>
+                                            </div>
+                                            <div class="right">
+                                                <h2>React基本使用</h2>
+                                                <p>安装react包 python npm i 安装react包</p>
+                                                <span>2天前</span>
+                                            </div>
+                                        </li>
+
+                                        <li>
+                                            <div class="left">
+                                                <div>
+                                                    <img src="/static/shuffl/2.jpeg" alt="">
+                                                </div>
+                                            </div>
+                                            <div class="right">
+                                                <h2>React基本使用</h2>
+                                                <p>安装react包 python npm i 安装react包</p>
+                                                <span>2天前</span>
+                                            </div>
+                                        </li>
+
+                                        <li>
+                                            <div class="left">
+                                                <div>
+                                                    <img src="/static/shuffl/2.jpeg" alt="">
+                                                </div>
+                                            </div>
+                                            <div class="right">
+                                                <h2>React基本使用</h2>
+                                                <p>安装react包 python npm i 安装react包</p>
+                                                <span>2天前</span>
+                                            </div>
+                                        </li>
+
+                                        <li>
+                                            <div class="left">
+                                                <div>
+                                                    <img src="/static/shuffl/2.jpeg" alt="">
+                                                </div>
+                                            </div>
+                                            <div class="right">
+                                                <h2>React基本使用</h2>
+                                                <p>安装react包 python npm i 安装react包</p>
+                                                <span>2天前</span>
+                                            </div>
+                                        </li>
+
+                                        <li>
+                                            <div class="left">
+                                                <div>
+                                                    <img src="/static/shuffl/2.jpeg" alt="">
+                                                </div>
+                                            </div>
+                                            <div class="right">
+                                                <h2>React基本使用</h2>
+                                                <p>安装react包 python npm i 安装react包</p>
+                                                <span>2天前</span>
+                                            </div>
+                                        </li>
+
                                     </ul>
                                 </div>
                             </div>
@@ -333,7 +415,8 @@
                     "[[", "]]"
                 ],
                 data: {
-                    theme: 'light' //默认主题
+                    theme: 'light',//默认主题
+                    this_category: 'qianduan',
                 },
                 created() {
                     this.init_theme()
@@ -351,7 +434,12 @@
                         this.theme = themeName
                         //持久化存储
                         localStorage.setItem('theme', themeName)
-                    }
+                    },
+                    //选择分类
+                    switch_article_category(categoryName){
+                        this.this_category = categoryName
+                    },
+
                 }
             })
 
