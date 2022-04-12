@@ -22,14 +22,15 @@
                     
                 </div>
                 <div class="login_forms">
+                    {% csrf_token %}
                     {% block form%}
-                        <input type="text" placeholder="请输入用户名">
-                        <input type="text" placeholder="请输入密码">
+                        <input type="text" v-model="login_form.name" placeholder="请输入用户名">
+                        <input type="text" v-model="login_form.pwd" placeholder="请输入密码">
                         <div class="code">
-                            <input type="text" placeholder="请输入验证码">
-                            <img src="/static/my/login/code.png" alt="">
+                            <input v-model="login_form.code"  type="text" placeholder="请输入验证码">
+                            <img src="/login/random_code/" alt="">
                         </div>
-                        <button>登陆</button>
+                        <button @click="login" >登陆</button>
                     {% endblock %}
                 </div>
                 <div class="other_login">
@@ -47,5 +48,42 @@
             </div>
         </main>
     </div>
+
+    <script src="/static/axios/axios.min.js"></script>
+    <script src="/static/vue/vue.js"></script>
+    <script>
+        axios.interceptors.request.use(
+            request=>{
+                if (request.method === 'post'){
+                    let csrftoken = document.querySelector('input[name="csrfmiddlewaretoken"]').value
+                    request.headers[ 'X-CSRFToken'] = csrftoken
+                }
+                return request
+            })
+        axios.interceptors.response.use(
+            response=>{
+                console.log(response)
+                return response
+            })
+
+        new Vue({
+            el:'#app',
+            data:{
+                login_form:{
+                    name:'',
+                    pwd:'',
+                    code:'',
+                }
+            },
+            methods:{
+                login(){
+                    axios.post('/login/', this.login_form).then(res=>{
+                        console.log(res)
+                    })
+                }
+            }
+        })
+    </script>
+
 </body>
 </html>
