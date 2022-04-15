@@ -1,0 +1,132 @@
+body{
+    width: 100%;
+    height: 100vh;
+    #app{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+main{
+    width: 200px;
+    height: 400px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    position: relative;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    background-color: #6c6565;
+    > ul{
+        padding: 40px 10px;
+
+        > li{
+            padding: 0;
+            display: flex;
+            width: 100%;
+            height: 50px;
+            background-color: #6c6565;
+            border-radius: 5px;
+            margin-top: 40px;
+            &:nth-child(1){
+                margin-top: 0;
+            }     
+        }
+        .white{
+            >span{
+                width: 70%;
+                background-color: white;
+                margin-right: 10px;
+                border-radius: 5px;
+            }
+            >button{
+                width: 30%;
+                border-radius: 5px;
+                border: none;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+                transition: all 0.3s;
+                position: relative;
+                >img{
+                    padding: 0;
+                    width: 100%;
+                    height: 100%;
+                }
+                // >i{
+                //     font-size: 20px;
+                //     color:#000;
+                // }
+                // &:hover{
+                //     background-color: #000;
+                //     >i{
+                //         color:white;
+                //     }
+                // }
+            }
+        }
+        .green{
+                >span{
+                    width: 70%;
+                    background-color:green;
+                    margin-right: 10px;
+                    border-radius: 5px;
+                }
+                >button{
+                    width: 30%;
+                    border-radius: 5px;
+                    border: none;
+                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+                    transition: all 0.3s;
+        
+                    >img{
+                        padding: 0;
+                        width: 100%;
+                        height: 100%;
+                    }
+                }
+            }   
+        .yellow{
+                >span{
+                    width: 70%;
+                    background-color: yellow;
+                    margin-right: 10px;
+                    border-radius: 5px;
+                }
+                >button{
+                    width: 30%;
+                    border-radius: 5px;
+                    border: none;
+                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+                                    transition: all 0.3s;
+                >img{
+                    padding: 0;
+                    width: 100%;
+                    height: 100%;
+                }
+                }
+            }
+            .red{
+                >span{
+                    width: 70%;
+                    background-color: red;
+                    margin-right: 10px;
+                    border-radius: 5px;
+                }
+                >button{
+                    width: 30%;
+                    border-radius: 5px;
+                    border: none;
+                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+                                    transition: all 0.3s;
+                >img{
+                    padding: 0;
+                    width: 100%;
+                    height: 100%;
+                }
+                }
+            }
+    }
+       
+}

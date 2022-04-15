@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load my_tag %}
+
+    <head>
+        <title>Mqtt LED</title>
+        <link rel="stylesheet" href="/static/my/css/reset.css">
+        <link rel="stylesheet" href="/static/my/css/Len.css">
+        <link rel="stylesheet" href="/static/fontawesome-free-5/css/all.min.css">
+        <script src="/static/vue/vue.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <main>
+                <ul>
+                    <li class="white">
+                        <link rel="stylesheet" :href="'/static/my/css/' + theme +'.css'">
+                        <span></span>
+                        <button>
+
+                            <img
+                                v-show="theme === 'lw'"
+                                src="/static/my/img/nav/light.svg"
+                                @click="setTheme('dw')"
+                                alt="">
+
+                            <a href="/Led/1">
+                            <img
+                                v-show="theme === 'dw'"
+                                src="/static/my/img/nav/dark.svg"
+                                @click="setTheme('lw')"
+                                alt="">
+                            </a>    
+                        </button> 
+                    </li>
+                    <li class="green">
+                        <span></span>
+                        <button>
+                        <link rel="stylesheet" :href="'/static/my/css/' + thema +'.css'">
+                        <img
+                            v-show="thema === 'lg'"
+                            src="/static/my/img/nav/light.svg"
+                            @click="setThema('dg')"
+                            alt="">
+                        <img
+                            v-show="thema === 'dg'"
+                            src="/static/my/img/nav/dark.svg"
+                            @click="setThema('lg')"
+                            alt="">
+                        </button>
+                    </li>
+                    <li class="yellow">
+                        <span></span>
+                        <button>
+                            <link rel="stylesheet" :href="'/static/my/css/' + themb +'.css'">
+                            <img
+                            v-show="themb === 'ly'"
+                            src="/static/my/img/nav/light.svg"
+                            @click="setThemb('dy')"
+                            alt="">
+                        <img
+                            v-show="themb === 'dy'"
+                            src="/static/my/img/nav/dark.svg"
+                            @click="setThemb('ly')"
+                            alt="">
+                        </button> 
+                    </li>
+                    <li class="red">
+                        <span></span>
+                        <button>
+                        <link rel="stylesheet" :href="'/static/my/css/' + themc +'.css'">
+                        <img
+                            v-show="themc === 'lr'"
+                            src="/static/my/img/nav/light.svg"
+                            @click="setThemc('dr')"
+                            alt="">
+                        <img
+                            v-show="themc === 'dr'"
+                            src="/static/my/img/nav/dark.svg"
+                            @click="setThemc('lr')"
+                            alt="">
+                        </button> 
+                    </li>
+                </ul>
+            </main>
+
+        </div>
+
+        <script>
+            new Vue({
+                el: '#app',
+                delimiters: [
+                    "[[", "]]"
+                ],
+                data: {
+                    theme: 'dw',//默认主题
+                    thema: 'dg',
+                    themb: 'dy',
+                    themc: 'dr',
+                },
+                created() {
+                    this.init_theme()
+                },
+                methods: {
+                    //初始化主题信息
+                    init_theme() {
+                        let theme = localStorage.getItem('theme')
+                        let thema = localStorage.getItem('thema')
+                        let themb = localStorage.getItem('themb')
+                        let themc = localStorage.getItem('themc')
+                        if (theme) {
+                            this.theme = theme
+                        }
+                        if (thema) {
+                            this.thema = thema
+                        }
+                        if (themb) {
+                            this.themb = themb
+                        }
+                        if (themc) {
+                            this.themc = themc
+                        }
+                    },
+                    //设置主题
+                        setTheme(themeName) {
+                            this.theme = themeName
+                            //持久化存储
+                            localStorage.setItem('theme', themeName)
+                        },
+                        setThema(themaName) {
+                            this.thema = themaName
+                            //持久化存储
+                            localStorage.setItem('thema', themaName)
+                        },
+                        setThemb(thembName) {
+                            this.themb = thembName
+                            //持久化存储
+                            localStorage.setItem('themb', thembName)
+                        },
+                        setThemc(themcName) {
+                            this.themc = themcName
+                            //持久化存储
+                            localStorage.setItem('themc', themcName)
+                        },
+                }
+            })
+
+        </script>
+
+    </body>
+</html>

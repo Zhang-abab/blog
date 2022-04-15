@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mqtt LED</title>
+    <link rel="stylesheet" href="/static/my/css/reset.css">
+    <link rel="stylesheet" href="/static/my/css/Len.css">
+    <link rel="stylesheet" href="/static/fontawesome-free-5/css/all.min.css">
+    <script src="/static/vue/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+
+        <main>
+            <ul>
+                <li class="white">
+                    <span>[[ msg ]]</span>
+                    <button>
+                        <img
+                            v-show="theme === 'light'"
+                            src="/static/my/img/nav/light.svg"
+                            @click="setTheme('dark')"
+                            alt="">
+                        <img
+                            v-show="theme === 'dark'"
+                            src="/static/my/img/nav/dark.svg"
+                            @click="setTheme('light')"
+                            alt="">
+                            
+                    </button> 
+                </li>
+                <li class="green">
+                    <span></span>
+                    <button>
+                        <i class="fas fa-star-half-alt"></i>
+                    </button>
+                </li>
+                <li class="yellow">
+                    <span></span>
+                    <button>
+                        <i class="fas fa-star-half-alt"></i>
+                    </button> 
+                </li>
+                <li class="red">
+                    <span></span>
+                    <button>
+                        <i class="fas fa-star-half-alt"></i>
+                    </button> 
+                </li>
+            </ul>
+        </main>
+    </div>
+
+    <script>
+        new Vue({
+
+            delimiters: [
+                "[[", "]]",
+            ],
+            data: {
+                msg:'放风筝的',
+            },
+        })
+    </script>
+</body>
+</html>

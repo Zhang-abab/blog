@@ -1,6 +1,7 @@
 from django.shortcuts import render, HttpResponse
 from django.http import JsonResponse
 from app01.utils.random_code import random_code
+from app01.utils.mqtt import led
 # Create your views here.
 
 def index(request):
@@ -29,3 +30,12 @@ def get_random_code(request):
     data, valid_code = random_code()
     request.session['valid_code']= valid_code
     return HttpResponse(data)
+
+def mqtt(request):
+    return render(request,'Led.html')
+
+
+def mqtt_led(request,pin):
+    if pin == 1:
+        led(1)
+    return render(request,'Led.html')
