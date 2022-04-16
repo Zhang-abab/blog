@@ -76,6 +76,12 @@
                     name:'',
                     pwd:'',
                     code:'',
+                },
+                sing_form:{
+                    name:'',
+                    pwd:'',
+                    re_pwd:'',
+                    code:''
                 }
             },
             methods:{
@@ -89,7 +95,24 @@
                             return
                         } 
                         this.$message.success(res.msg)
-                    })
+                        setTimeout(() => {
+                            location.href = '/'
+                            },1000)
+                })
+                },
+                sign(){
+                    axios.post('/sign/', this.sing_form).then(res=>{
+                        if (res.code){
+                            //验证失败
+                            this.$message.error(res.msg)
+                            this.$refs[`sign_form_${res.self}`].focus()
+                            return
+                        } 
+                        this.$message.success(res.msg)
+                        setTimeout(() => {
+                            location.href = '/'
+                            },1000)
+                        })
                 }
             }
         })
