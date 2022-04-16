@@ -13,14 +13,44 @@ def news(request):
     return render(request,'news.html')
 
 def login(request):
+
     if request.method == 'POST':
+        res = {
+            'code':425,
+            "msg":"登陆成功",
+            'self':None,
+        }
         data = request.data
+
+        #为空验证
+        name = data.get('name')
+        if not name:
+            res['msg'] = "请输入用户名"
+            res['self'] = 'name'
+            return JsonResponse(res)
+        pwd = data.get('pwd')
+        if not pwd:
+            res['msg'] = "请输入密码"
+            res['self'] = 'pwd'
+            return JsonResponse(res)
+        code = data.get('code')
+        if not code:
+            res['msg'] = "请输入验证码"
+            res['self'] = 'code'
+            return JsonResponse(res)
+
+        #正确性验证
         valid_code:str = request.session.get('valid_code')
-        if valid_code.upper() == data.get('code').upper():
-            print('正确')
-        else:
-            print("错误")
-        return JsonResponse(data)
+        if valid_code.upper() != code.upper():
+            res['msg'] = "验证码错误"
+            res['self'] = 'code'
+            return JsonResponse(res)
+        if name != '1234' or pwd != '1234':
+            res['msg'] = "用户名或密码错误"
+            res['self'] = 'name'
+            return JsonResponse(res)
+        res['code'] = 0
+        return JsonResponse(res)
     return render(request, 'login.html')
 
 def sign(request):
