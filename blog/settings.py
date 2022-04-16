@@ -31,15 +31,15 @@ ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
-    #用户自定义应用
-    'app01',
-
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    #自定义应用
+    'app01.apps.App01Config',
+    'api.apps.ApiConfig'
 ]
 
 MIDDLEWARE = [

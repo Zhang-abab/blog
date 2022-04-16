@@ -10,11 +10,11 @@
 
 {% block form%}
     <input type="text" v-model ="sing_form.name" ref = "sign_form_name" class = "sign_input" placeholder="请输入用户名">
-    <input type="text" v-model ="sing_form.pwd" ref = "sign_form_pwd" class = "sign_input" placeholder="请输入密码">
-    <input type="text" v-model ="sing_form.re_pwd" ref = "sign_form_re_pwd" class = "sign_input" placeholder="请输入确认密码">
+    <input type="password" v-model ="sing_form.pwd" ref = "sign_form_pwd" class = "sign_input" placeholder="请输入密码">
+    <input type="password" v-model ="sing_form.re_pwd" ref = "sign_form_re_pwd" class = "sign_input" placeholder="请输入确认密码">
     <div class="code">
         <input type="text" v-model ="sing_form.code" ref = "sign_form_code" class = "sign_input" placeholder="请输入验证码">
-        <img src="/login/random_code" alt="">
+        <img @click="get_rendom_code" src="/static/my/login/code.png" alt="">
     </div>
     <button @click = "sign">注册</button>
 {% endblock %}

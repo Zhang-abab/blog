@@ -54,6 +54,13 @@
                 margin-right: 20px;
                 cursor: pointer;
             }
+
+            .el-dropdown{
+                color: white;
+                span{
+                    cursor: pointer;
+                }
+            }
         }
 
         a {
@@ -452,4 +459,10 @@
         }
     }
 
+}
+    
+.el-dropdown-menu{
+    a{
+        color: #333;
+    }
 }

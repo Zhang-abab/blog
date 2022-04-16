@@ -12,7 +12,7 @@ def random_color():
 
 str_all = string.digits + string.ascii_letters
 
-def random_code(size = (200, 40), length = 4, point_num = 100, line_num =15):
+def random_code(size = (184, 44), length = 4, point_num = 100, line_num =15):
     width,hight = size
     #生成一个200 40 的白色的背景图片
     img = Image.new('RGB', (width, hight), color=(255, 255, 255))

@@ -7,7 +7,9 @@
         <link rel="stylesheet" href="/static/my/css/reset.css">
         <link rel="stylesheet" href="/static/my/css/index.css">
         <link rel="stylesheet" href="/static/fontawesome-free-5/css/all.min.css">
+        <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
         <script src="/static/vue/vue.js"></script>
+        <script src="https://unpkg.com/element-ui/lib/index.js"></script>
     </head>
     <body>
         <div id="app">
@@ -33,8 +35,24 @@
                         src="/static/my/img/nav/dark.svg"
                         @click="setTheme('light')"
                         alt="">
-                    <a href="/login">登录</a>
-                    <a href="/sign">注册</a>
+                    {% if request.user.username %}
+                    <el-dropdown>
+                        <span class="el-dropdown-link">
+                          {{ request.user.username }}
+                          <i class="el-icon-arrow-down el-icon--right"></i>
+                        </span>
+                        <el-dropdown-menu slot="dropdown">
+                          <el-dropdown-item><a href="">个人中心</a></el-dropdown-item>
+                          <el-dropdown-item><a href="">修改头像</a></el-dropdown-item>
+                          <el-dropdown-item><a href="">发布文章</a></el-dropdown-item>
+                          <el-dropdown-item><a href="">后台管理</a></el-dropdown-item>
+                          <el-dropdown-item><a href="/logout">注销退出</a></el-dropdown-item>
+                        </el-dropdown-menu>
+                      </el-dropdown>
+                    {% else %}
+                        <a href="/login">登录</a>
+                        <a href="/sign">注册</a>
+                    {% endif %}
                 </div>
             </nav>
             {% banner 'index'%}
