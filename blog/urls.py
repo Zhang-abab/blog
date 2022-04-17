@@ -29,4 +29,5 @@ urlpatterns = [
     path("logout/",views.logout),
     #路由分发，将所有api开头的分发到api下的urls
     re_path(r'^api/',include('api.urls')),
+    re_path(r'^article/(?P<nid>\d+)/',views.article)
 ]

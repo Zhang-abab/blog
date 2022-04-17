@@ -11,6 +11,9 @@ def index(request):
 
     return render(request,'index.html', {"requst":request})
 
+def article(request,nid):
+    return render(request, 'article.html',locals())
+
 def news(request):
 
     return render(request,'news.html')

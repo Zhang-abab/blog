@@ -2,10 +2,16 @@
 <html lang="en">
     {% load my_tag %}
 
+
+
     <head>
         <title>Hello</title>
-        <link rel="stylesheet" href="/static/my/css/reset.css">
+        <link rel="stylesheet" href="/static/my/css/base.css">
+        {% block CSS %}
         <link rel="stylesheet" href="/static/my/css/index.css">
+        {% endblock %}
+        <link rel="stylesheet" href="/static/my/css/reset.css">
+
         <link rel="stylesheet" href="/static/fontawesome-free-5/css/all.min.css">
         <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
         <script src="/static/vue/vue.js"></script>
@@ -55,7 +61,9 @@
                     {% endif %}
                 </div>
             </nav>
-            {% banner 'index'%}
+            {% block banner %}
+                {% banner 'index'%}
+            {% endblock %}
             <main>
                 {% block main %}
                     <div class="main">

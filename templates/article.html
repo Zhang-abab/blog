@@ -1,0 +1,194 @@
+{% extends 'index.html' %}
+{% load my_tag %}
+{% block CSS %}
+    <link rel="stylesheet" href="/static/my/css/article.css">
+{% endblock %}
+
+{% block banner %}
+    {% banner 'article' nid %}
+{% endblock %}
+
+{% block main %}
+<div class="article">
+    <div class="article_title">
+        <h2>MD文档预览</h2>
+        <p>
+            <span>发布时间<i>2021-12-21</i></span>
+            <span>作者<i>zhang</i></span>
+            <span>来源<i>博客</i></span>
+        </p>
+        <div>
+            <i title = "文章标签" class="fas fa-tags"></i>
+            <i>HTML</i>
+            <i>CSS</i>
+        </div>
+    </div>
+    <div class="article_content">
+        md内容
+    </div>
+    <div class="comment_submit">
+        <div class="title">你觉得文章怎么样</div>
+        <div class="body">
+            <textarea name="" id="" cols="30" rows="10" placeholder="写下你想说的话,开始我们的对话"></textarea>
+            <button class = 'submit_comment'>发布评论</button>
+        </div>
+        <div class="footer">
+            <p>
+                <span>49</span>人参与
+                <span>3</span>条评论
+            </p>
+        </div>
+    </div>
+    <div class="comment_list">
+        <ul>
+            <li>
+                <div class="left">
+                    <img src="/static/my/img/img_head/1.webp" alt=""> 
+                </div>
+                <div class="right">
+                    <h4>Mr_zhang</h4>
+                    <div class="comment_content">
+                        <p>你好呀</p>
+                        <div>
+                            <img src="/static/my/img/img_head/1.webp" alt="">
+                            <img src="/static/my/img/img_head/1.webp" alt="">
+                            <img src="/static/my/img/img_head/1.webp" alt="">
+                        </div>
+                        <div>
+                            <img src="/static/my/img/img_head/1.webp" alt="">
+                            <img src="/static/my/img/img_head/1.webp" alt="">
+                            <img src="/static/my/img/img_head/1.webp" alt="">
+                        </div>
+                    </div>
+                    <div class="comment_info">
+                        <span>刚刚</span>
+                        <div>
+                            <span>点赞（0）</span>
+                            <span>评论云（0）</span>
+                            <span class ="delete">删除</span>
+                        </div>
+                    </div>
+                    <div class="sub_comment_list">
+                        <div class="sub_comment_item"> 
+                            <div class="left">
+                                <img src="/static/my/img/img_head/1.webp" alt="">
+                            </div>
+                            <div class="right">
+                                <h4>张山@李四</h4>
+                                <div class="sub_comment_content">
+                                    你好
+                                </div>
+                                 <div class="sub_comment_info">
+                                     <span>1 秒前</span>
+                                     <div>
+                                         <span>点赞（1）</span>
+                                         <span>回复（1）</span>
+                                         <span class="delete">删除</span>
+                                     </div>
+                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sub_comment_list">
+                        <div class="sub_comment_item"> 
+                            <div class="left">
+                                <img src="/static/my/img/img_head/1.webp" alt="">
+                            </div>
+                            <div class="right">
+                                <h4>张山@李四</h4>
+                                <div class="sub_comment_content">
+                                    你好
+                                </div>
+                                 <div class="sub_comment_info">
+                                     <span>1 秒前</span>
+                                     <div>
+                                         <span>点赞（1）</span>
+                                         <span>回复（1）</span>
+                                         <span class="delete">删除</span>
+                                     </div>
+                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <div class="comment_list">
+        <ul>
+            <li>
+                <div class="left">
+                    <img src="/static/my/img/img_head/1.webp" alt=""> 
+                </div>
+                <div class="right">
+                    <h4>Mr_zhang</h4>
+                    <div class="comment_content">
+                        <p>你好呀</p>
+                        <div>
+                            <img src="/static/my/img/img_head/1.webp" alt="">
+                            <img src="/static/my/img/img_head/1.webp" alt="">
+                            <img src="/static/my/img/img_head/1.webp" alt="">
+                        </div>
+                        <div>
+                            <img src="/static/my/img/img_head/1.webp" alt="">
+                            <img src="/static/my/img/img_head/1.webp" alt="">
+                            <img src="/static/my/img/img_head/1.webp" alt="">
+                        </div>
+                    </div>
+                    <div class="comment_info">
+                        <span>刚刚</span>
+                        <div>
+                            <span>点赞（0）</span>
+                            <span>评论云（0）</span>
+                            <span class ="delete">删除</span>
+                        </div>
+                    </div>
+                    <div class="sub_comment_list">
+                        <div class="sub_comment_item"> 
+                            <div class="left">
+                                <img src="/static/my/img/img_head/1.webp" alt="">
+                            </div>
+                            <div class="right">
+                                <h4>张山@李四</h4>
+                                <div class="sub_comment_content">
+                                    你好
+                                </div>
+                                 <div class="sub_comment_info">
+                                     <span>1 秒前</span>
+                                     <div>
+                                         <span>点赞（1）</span>
+                                         <span>回复（1）</span>
+                                         <span class="delete">删除</span>
+                                     </div>
+                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sub_comment_list">
+                        <div class="sub_comment_item"> 
+                            <div class="left">
+                                <img src="/static/my/img/img_head/1.webp" alt="">
+                            </div>
+                            <div class="right">
+                                <h4>张山@李四</h4>
+                                <div class="sub_comment_content">
+                                    你好
+                                </div>
+                                 <div class="sub_comment_info">
+                                     <span>1 秒前</span>
+                                     <div>
+                                         <span>点赞（1）</span>
+                                         <span>回复（1）</span>
+                                         <span class="delete">删除</span>
+                                     </div>
+                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+{% endblock %}
