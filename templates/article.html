@@ -5,22 +5,23 @@
 {% endblock %}
 
 {% block banner %}
-    {% banner 'article' nid %}
+    {% banner 'article' article %}
 {% endblock %}
 
 {% block main %}
 <div class="article">
     <div class="article_title">
-        <h2>MD文档预览</h2>
+        <h2>{{ article.title }}</h2>
         <p>
-            <span>发布时间<i>2021-12-21</i></span>
-            <span>作者<i>zhang</i></span>
-            <span>来源<i>博客</i></span>
+            <span>发布时间:<i>{{ article.create_date|date:'Y-m-d' }}</i></span>
+            <span>作者:<i>{{ article.author }}</i></span>
+            <span>来源:<i>{{ article.source }}</i></span>
         </p>
         <div>
             <i title = "文章标签" class="fas fa-tags"></i>
-            <i>HTML</i>
-            <i>CSS</i>
+            {% for tag in article.tag.all %}
+                <i>{{ tag.title }}</i>
+            {% endfor %}
         </div>
     </div>
     <div class="article_content">

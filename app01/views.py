@@ -5,6 +5,7 @@ from django import forms
 from django.contrib import auth
 from app01.utils.mqtt import led
 from app01.models import UserInfo
+from app01.models import Articles
 # Create your views here.
 
 def index(request):
@@ -12,6 +13,12 @@ def index(request):
     return render(request,'index.html', {"requst":request})
 
 def article(request,nid):
+    article_query = Articles.objects.filter(nid = nid)
+    print(article_query)
+    if not article_query:
+        return redirect('/')
+    article = article_query.first()
+    print(locals())
     return render(request, 'article.html',locals())
 
 def news(request):
