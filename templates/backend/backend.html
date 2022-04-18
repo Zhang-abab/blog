@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>后台界面</title>
+    <link rel="stylesheet" href="/static/my/css/reset.css">
+    <link rel="stylesheet" href="/static/my/css/backend/backend_base.css">
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+</head>
+<body>
+<div id="app">
+    <aside>
+        <div class="slogan">
+            <img src="/static/my/img/backend/slogan.png" alt="">
+        </div>
+        <ul>
+            <li><a href="/">首页</a></li>
+            <li><a href="/backend/">个人中心</a></li>
+            <li><a href="/backend/edit_avatar/">修改头像</a></li>
+            <li><a href="/backend/reset_password/">修改密码</a></li>
+            {% if request.user.is_superuser %}
+                <li><a href="/backend/add_article/">添加文章</a></li>
+                <li><a href="/backend/reset_password/">修改密码</a></li>
+                <li><a href="/backend/reset_password/">修改密码</a></li>
+            {% endif %}
+            <li><a href="/logout/">注销退出</a></li>
+        </ul>
+    </aside>
+    <main>
+        {% block main %}
+            <div class="user_info">
+            <div class="left">
+                <img src="/static/my/img/img_head/1.webp" alt="">
+            </div>
+            <div class="right">
+                <div class="item">
+                    <span><b>用户名</b>zzzz</span>
+                </div>
+                <div class="item">
+                    <span><b>注册时间</b>2022-1-5</span>
+                </div>
+                <div class="item">
+                    <span><b>上次登陆时间</b>2022-4-5</span>
+                </div>
+                <div class="item">
+                    <span><b>积分</b>20</span>
+                </div>
+                <div class="item">
+                    <span><b>邮箱</b>312313134@qq.com</span>
+                </div>
+                <div class="item">
+                    <span><b>手机号码</b>1848182222</span>
+                </div>
+            </div>
+        </div>
+            <div class="actions">
+            <div class="item"><el-button type="primary">完善信息</el-button></div>
+            <div class="item"><el-button type="info">修改头像</el-button></div>
+            <div class="item"><el-button type="warning">修改密码</el-button></div>
+            <div class="item"><el-button type="danger">注销退出</el-button></div>
+        </div>
+            <div class="collection_all">
+            <p>我收藏的文章</p>
+            <div class="article_list">
+                <div class="item">
+                    <div class="left">
+                        <img src="/media/article_img/1.webp" alt="">
+                    </div>
+                    <div class="right">
+                        <h4>路由分发</h4>
+                        <p>路由分发路由分发路由由分发路由分发路由分发路由分发路由分发路由分发路由分发路由分发路由分发路由分发</p>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <div class="left">
+                        <img src="/media/article_img/1.webp" alt="">
+                    </div>
+                    <div class="right">
+                        <h4>路由分发</h4>
+                        <p>路由分发路由分发路由由分发路由分发路由分发路由分发路由分发路由分发路由分发路由分发路由分发路由分发</p>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <div class="left">
+                        <img src="/media/article_img/1.webp" alt="">
+                    </div>
+                    <div class="right">
+                        <h4>路由分发</h4>
+                        <p>路由分发路由分发路由由分发路由分发路由分发路由分发路由分发路由分发路由分发路由分发路由分发路由分发</p>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <div class="left">
+                        <img src="/media/article_img/1.webp" alt="">
+                    </div>
+                    <div class="right">
+                        <h4>路由分发</h4>
+                        <p>路由分发路由分发路由由分发路由分发路由分发路由分发路由分发路由分发路由分发路由分发路由分发路由分发</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        {% endblock %}
+
+    </main>
+</div>
+<script src="/static/vue/vue.js"></script>
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+    })
+</script>
+</body>
+</html>
