@@ -16,6 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,include,re_path
 from app01 import views
+from django.conf import settings 
+from django.views.static import serve
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,5 +31,10 @@ urlpatterns = [
     path("logout/",views.logout),
     #路由分发，将所有api开头的分发到api下的urls
     re_path(r'^api/',include('api.urls')),
-    re_path(r'^article/(?P<nid>\d+)/',views.article)
+    re_path(r'^article/(?P<nid>\d+)/',views.article),
+
+
+
+
+    re_path(r'media/(?P<path>.*)$', serve, {'document_root':settings.MEDIA_ROOT}),
 ]

@@ -16,7 +16,7 @@ def banner(menu_name, article = None):
     ]
     if article:
         # 文章详情页面 
-        cover = article.cover.url
+        cover = article.cover.url.url
         img_list = [cover]
         pass
     return {'img_list':img_list}

@@ -1,5 +1,6 @@
 .article{
     width: 1200px;
+    position: relative;
     .article_title{
         display: flex;
         flex-direction: column;
@@ -32,7 +33,8 @@
     }
     .article_content{
         margin-top: 1px;
-        min-height: 200px;
+        min-height: 200px;        
+        box-sizing: border-box;
         background-color: #fff;
     }
     .comment_submit{
@@ -198,4 +200,58 @@
             }
         }
     }
+
+    .slider_bar{
+        width: calc(250px - 40px);
+        background-color: #fff;
+        position: absolute;
+        top: 0;
+        left: -270px;
+        border-radius: 5px;
+        padding: 20px;
+        .title{
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        .body{
+            font-size: 16px;
+            p{
+                transition: all 0.3s;
+                cursor: pointer;
+                height: 30px;
+                line-height: 30px;
+                white-space: normal;
+                overflow: hidden;
+                text-overflow: ellipsis;
+
+                &:hover{
+                    color: white;
+                    background-color: #26c6da;
+                }
+                &.h1{
+                    font-size: 16px;
+                }
+                &.h2{
+                    padding-left: 10px;
+                }
+                &.h3{
+                    padding-left: 15px;
+                }
+                &.h4{
+                    padding-left: 20px;
+                }
+                &.h5{
+                    font-size: 14px;
+                    padding-left: 20px;
+                }
+                &.h6{
+                    font-size: 12px;
+                    padding-left: 20px;
+                }
+            }
+        }
+    }
 }
+
+

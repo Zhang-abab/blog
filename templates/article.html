@@ -1,6 +1,7 @@
 {% extends 'index.html' %}
 {% load my_tag %}
 {% block CSS %}
+    <link rel="stylesheet" href="/static/editor-md/css/editormd.css">
     <link rel="stylesheet" href="/static/my/css/article.css">
 {% endblock %}
 
@@ -9,7 +10,23 @@
 {% endblock %}
 
 {% block main %}
+
+
+
 <div class="article">
+    <div class="slider_bar">
+        <div class="title">
+            悬浮目录
+        </div>
+        <div class="body">
+            <p class="h1">什么是反向解析什么是反向解析什么是反向解析什么是反向解析什么是反向解析什么是反向解析</p>
+            <p class="h2">名称空间</p>
+            <p class="h4">名称空间</p>
+            <p class="h5">名称空间</p>
+            <p class="h6">名称空间</p>
+            <p class="h6">名称空间</p>
+        </div>
+    </div>
     <div class="article_title">
         <h2>{{ article.title }}</h2>
         <p>
@@ -24,8 +41,8 @@
             {% endfor %}
         </div>
     </div>
-    <div class="article_content">
-        md内容
+    <div class="article_content" id = "article_content">
+        <textarea style="display: none;">{{ article.content }}</textarea>
     </div>
     <div class="comment_submit">
         <div class="title">你觉得文章怎么样</div>
@@ -192,4 +209,20 @@
         </ul>
     </div>
 </div>
+{% endblock %}
+
+{% block js %}
+    <script src = '/static/editor-md/lib/marked.min.js'></script>
+    <script src = '/static/editor-md/lib/prettify.min.js'></script>
+    <script src = '/static/jquery/jquery.min.js'></script>
+    <script src = '/static/editor-md/editormd.min.js'></script>
+    <script type="text/javascript">
+        $(function(){
+            let editor = editormd.markdownToHTML("article_content",{
+                width:"100%",
+                heighr:"100%",
+                path: "/static/editor-md/lib",
+            })
+        })
+    </script>
 {% endblock %}
