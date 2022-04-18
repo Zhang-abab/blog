@@ -31,6 +31,9 @@ urlpatterns = [
     path("logout/", views.logout),
     path("backend/", views.backend),
     path("backend/add_article/", views.add_article),
+    path("backend/edit_avatar/", views.edit_avatar),
+    path("backend/reset_password/", views.reset_password),
+
 
     # 路由分发，将所有api开头的分发到api下的urls
     re_path(r'^api/', include('api.urls')),

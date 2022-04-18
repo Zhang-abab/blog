@@ -69,3 +69,11 @@ def backend(request):
 
 def add_article(request):
     return render(request, 'backend/add_article.html', locals())
+
+
+def edit_avatar(request):
+    return render(request, 'backend/edit_avatar.html', locals())
+
+
+def reset_password(request):
+    return render(request, 'backend/reset_password.html', locals())

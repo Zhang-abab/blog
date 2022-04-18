@@ -6,6 +6,9 @@
     <link rel="stylesheet" href="/static/my/css/reset.css">
     <link rel="stylesheet" href="/static/my/css/backend/backend_base.css">
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    {% block css %}
+    
+    {% endblock %}
 </head>
 <body>
 <div id="app">
@@ -20,8 +23,6 @@
             <li><a href="/backend/reset_password/">修改密码</a></li>
             {% if request.user.is_superuser %}
                 <li><a href="/backend/add_article/">添加文章</a></li>
-                <li><a href="/backend/reset_password/">修改密码</a></li>
-                <li><a href="/backend/reset_password/">修改密码</a></li>
             {% endif %}
             <li><a href="/logout/">注销退出</a></li>
         </ul>
@@ -59,60 +60,92 @@
             <div class="item"><el-button type="warning">修改密码</el-button></div>
             <div class="item"><el-button type="danger">注销退出</el-button></div>
         </div>
-            <div class="collection_all">
-            <p>我收藏的文章</p>
-            <div class="article_list">
-                <div class="item">
-                    <div class="left">
-                        <img src="/media/article_img/1.webp" alt="">
+            {% block content %}
+                <div class="collection_all">
+                <p>我收藏的文章</p>
+                <div class="article_list">
+                    <div class="item">
+                        <div class="left">
+                            <img src="/media/article_img/1.webp" alt="">
+                        </div>
+                        <div class="right">
+                            <h4>路由分发</h4>
+                            <p>路由分发路由分发路由由分发路由分发路由分发路由分发路由分发路由分发路由分发路由分发路由分发路由分发</p>
+                        </div>
                     </div>
-                    <div class="right">
-                        <h4>路由分发</h4>
-                        <p>路由分发路由分发路由由分发路由分发路由分发路由分发路由分发路由分发路由分发路由分发路由分发路由分发</p>
+
+                    <div class="item">
+                        <div class="left">
+                            <img src="/media/article_img/1.webp" alt="">
+                        </div>
+                        <div class="right">
+                            <h4>路由分发</h4>
+                            <p>路由分发路由分发路由由分发路由分发路由分发路由分发路由分发路由分发路由分发路由分发路由分发路由分发</p>
+                        </div>
+                    </div>
+
+                    <div class="item">
+                        <div class="left">
+                            <img src="/media/article_img/1.webp" alt="">
+                        </div>
+                        <div class="right">
+                            <h4>路由分发</h4>
+                            <p>路由分发路由分发路由由分发路由分发路由分发路由分发路由分发路由分发路由分发路由分发路由分发路由分发</p>
+                        </div>
+                    </div>
+
+                    <div class="item">
+                        <div class="left">
+                            <img src="/media/article_img/1.webp" alt="">
+                        </div>
+                        <div class="right">
+                            <h4>路由分发</h4>
+                            <p>路由分发路由分发路由由分发路由分发路由分发路由分发路由分发路由分发路由分发路由分发路由分发路由分发</p>
+                        </div>
                     </div>
                 </div>
 
-                <div class="item">
-                    <div class="left">
-                        <img src="/media/article_img/1.webp" alt="">
-                    </div>
-                    <div class="right">
-                        <h4>路由分发</h4>
-                        <p>路由分发路由分发路由由分发路由分发路由分发路由分发路由分发路由分发路由分发路由分发路由分发路由分发</p>
-                    </div>
-                </div>
-
-                <div class="item">
-                    <div class="left">
-                        <img src="/media/article_img/1.webp" alt="">
-                    </div>
-                    <div class="right">
-                        <h4>路由分发</h4>
-                        <p>路由分发路由分发路由由分发路由分发路由分发路由分发路由分发路由分发路由分发路由分发路由分发路由分发</p>
-                    </div>
-                </div>
-
-                <div class="item">
-                    <div class="left">
-                        <img src="/media/article_img/1.webp" alt="">
-                    </div>
-                    <div class="right">
-                        <h4>路由分发</h4>
-                        <p>路由分发路由分发路由由分发路由分发路由分发路由分发路由分发路由分发路由分发路由分发路由分发路由分发</p>
-                    </div>
-                </div>
             </div>
-
-        </div>
+            {% endblock %}
         {% endblock %}
 
     </main>
 </div>
 <script src="/static/vue/vue.js"></script>
 <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+{% block js %}
+
+{% endblock %}
 <script>
     new Vue({
         el: '#app',
+        data:{
+            add_drawer: false,
+            add_article_activeNames:['1'],
+            category_id:'',
+            category_options: [
+                {value:'0',label: '前端'},
+                {value:'1',label: '后段'},
+            ],
+            tags:[],
+            tags_options:[
+                {value:'0',label: 'Python'},
+                {value:'1',label: 'Django'},
+                {value:'2',label: 'Php'},
+                {value:'3',label: 'MySQL'},
+            ],
+            recommend: true,
+            pwd_active: false,
+            pwd:'',
+            cover_id:'',
+            title:'',
+        },
+        methods: {
+            add_handleClose(done) {
+                done()
+          },
+
+        }
     })
 </script>
 </body>
