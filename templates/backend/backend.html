@@ -28,6 +28,7 @@
         </ul>
     </aside>
     <main>
+    {% csrf_token %}
         {% block main %}
             <div class="user_info">
             <div class="left">
@@ -111,12 +112,27 @@
 
     </main>
 </div>
+
+<script src="/static/axios/axios.min.js"></script>
 <script src="/static/vue/vue.js"></script>
 <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 {% block js %}
 
 {% endblock %}
 <script>
+        axios.interceptors.request.use(
+            request=>{
+                if (request.method === 'post'){
+                    let csrftoken = document.querySelector('input[name="csrfmiddlewaretoken"]').value
+                    request.headers[ 'X-CSRFToken'] = csrftoken
+                }
+                return request
+            })
+            axios.interceptors.response.use(
+                response=>{
+                return response.data
+            })
+
     new Vue({
         el: '#app',
         data:{
@@ -128,23 +144,47 @@
                 {value:'1',label: '后段'},
             ],
             tags:[],
-            tags_options:[
-                {value:'0',label: 'Python'},
-                {value:'1',label: 'Django'},
-                {value:'2',label: 'Php'},
-                {value:'3',label: 'MySQL'},
-            ],
             recommend: true,
             pwd_active: false,
             pwd:'',
             cover_id:'',
             title:'',
+            abstract:'',
         },
         methods: {
             add_handleClose(done) {
                 done()
-          },
+            },
+            add_article(){
+                let data ={
+                    title: this.title,
+                    cover_id: this.cover_id,
+                    pwd: this.pwd,
+                    recommend: this.recommend,
+                    tags:this.tags,
+                    category_id: this.category_id,
+                    abstract:this.abstract,
+                    content:editor.querySelector('.editormd-markdown-textarea').value
+                }
+                axios.post('/api/article/', data).then(res => {
+                    if(res.code){
+                        this.$message.error(res.msg)
+                        return
+                    }
+                    this.$message.success(res.msg)
+                    setTimeout(() => {
+                        location.href = `/article/${res.data}/`
+                    },1000)
+                })
+            },
 
+            select_cover(val){
+                setTimeout(() =>{
+                    let v = document.querySelector('.article_cover input').value
+                    let cover = document.getElementById('cover_img')
+                    cover.src = v
+                },1)
+            },
         }
     })
 </script>
