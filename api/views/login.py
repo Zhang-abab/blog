@@ -7,9 +7,9 @@ from django.http import JsonResponse
 
 
 class LoginBaseForm(forms.Form):
-    name = forms.CharField(error_messages={'required':'请输入用户名'})
-    pwd = forms.CharField(error_messages={'required':'请输入密码'})
-    code = forms.CharField(error_messages={'required':'请输入验证码'})
+    name = forms.CharField(error_messages={'required': '请输入用户名'})
+    pwd = forms.CharField(error_messages={'required': '请输入密码'})
+    code = forms.CharField(error_messages={'required': '请输入验证码'})
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request',None)
         super().__init__(*args,**kwargs)

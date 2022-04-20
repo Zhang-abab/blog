@@ -151,6 +151,14 @@
             title:'',
             abstract:'',
         },
+        created(){
+            console.log(data)
+            let img = document.getElementById('cover_img')
+            let cover_list = img.getAttribute('data')
+            let item = cover_list(Math.floor(Math.random() * cover_list.length))
+            img.setAttribute('src', item.uri)
+            this.cover_id = item.nid.toString()
+        },
         methods: {
             add_handleClose(done) {
                 done()
@@ -162,7 +170,7 @@
                     pwd: this.pwd,
                     recommend: this.recommend,
                     tags:this.tags,
-                    category_id: this.category_id,
+                    category: this.category,
                     abstract:this.abstract,
                     content:editor.querySelector('.editormd-markdown-textarea').value
                 }
