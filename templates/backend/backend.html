@@ -127,11 +127,11 @@
                     request.headers[ 'X-CSRFToken'] = csrftoken
                 }
                 return request
-            })
+            }),
             axios.interceptors.response.use(
                 response=>{
                 return response.data
-            })
+            }),
 
     new Vue({
         el: '#app',
@@ -152,10 +152,10 @@
             abstract:'',
         },
         created(){
-            console.log(data)
+
             let img = document.getElementById('cover_img')
-            let cover_list = img.getAttribute('data')
-            let item = cover_list(Math.floor(Math.random() * cover_list.length))
+            let cover_list = eval(img.getAttribute('data'))
+            let item = cover_list[Math.floor(Math.random() * cover_list.length)]
             img.setAttribute('src', item.uri)
             this.cover_id = item.nid.toString()
         },

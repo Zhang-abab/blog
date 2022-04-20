@@ -69,6 +69,7 @@ class ArticleView(View):
                 tag_obj = Tags.objects.create(title=tag)
                 article_obj.tag.add(tag_obj)
         res['code'] = 0
+        res['data'] = article_obj.nid
         return JsonResponse(res)
 
 

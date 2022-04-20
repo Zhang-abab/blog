@@ -4,7 +4,6 @@
     <link rel="stylesheet" href="/static/my/css/backend/add_article.css">
 {% endblock %}
 {% block main %}
-                          {{ c_l }}
     <div class="add_article_actions">
         <el-button type = 'primary' @click="add_drawer=true">完善文章信息</el-button>
     </div>
@@ -59,7 +58,7 @@
               </el-collapse-item>
               <el-collapse-item class="article_cover" title="文章封面" name="4">
                   <div class="left">
-                      <img id="cover_img" data = {{ c_l }} src="/media/article_img/1.webp">
+                      <img id="cover_img" data = "{{ c_l }}" src="/media/article_img/1.webp">
                   </div>
                   
                   <div class="right">
