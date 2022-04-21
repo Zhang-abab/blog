@@ -139,10 +139,6 @@
             add_drawer: false,
             add_article_activeNames:['1'],
             category_id:'',
-            category_options: [
-                {value:'0',label: '前端'},
-                {value:'1',label: '后段'},
-            ],
             tags:[],
             recommend: true,
             pwd_active: false,
@@ -152,12 +148,41 @@
             abstract:'',
         },
         created(){
-
             let img = document.getElementById('cover_img')
             let cover_list = eval(img.getAttribute('data'))
             let item = cover_list[Math.floor(Math.random() * cover_list.length)]
-            img.setAttribute('src', item.uri)
+            img.setAttribute('src', item.url)
             this.cover_id = item.nid.toString()
+
+            let box = document.getElementById('edit_info')
+            this.title = box.getAttribute('data_title')
+            this.cover_id = box.getAttribute('data_cover_id')
+
+            let recommend = box.getAttribute('data_recommend')
+            if(recommend === 'True'){
+                this.recommend = true
+            }
+            else {
+                this.recommend = false
+            }
+
+            let cover_url = box.getAttribute('data_cover_url')
+            img.setAttribute('srv',cover_url)
+
+            this.abstract = box.getAttribute('data_abstract')
+            let category_id = box.getAttribute('data_category')
+
+            if(category_id !== 'None'){
+                this.category_id = category_id
+            }
+
+            this.tags = eval(box.getAttribute('data_tags'))
+
+            let pwd = box.getAttribute('data_pwd')
+            if(pwd !== 'None'){
+                this.pwd = pwd
+                this.pwd_active = true
+            }
         },
         methods: {
             add_handleClose(done) {

@@ -28,17 +28,22 @@
         </div>
     </div>
     <div class="article_title">
-        <h2>{{ article.title }}</h2>
+        <h2>{{ article.title }}
+            {% if request.user.is_superuser %}
+            <a href="/backend/edit_article/{{ article.nid }}/"><i class="fas fa-edit"></i></a> </h2>
+            {% endif %}
         <p>
             <span>发布时间:<i>{{ article.create_date|date:'Y-m-d' }}</i></span>
             <span>作者:<i>{{ article.author }}</i></span>
             <span>来源:<i>{{ article.source }}</i></span>
         </p>
         <div>
+            {% if article.tag.all %}
             <i title = "文章标签" class="fas fa-tags"></i>
-            {% for tag in article.tag.all %}
-                <i>{{ tag.title }}</i>
-            {% endfor %}
+                {% for tag in article.tag.all %}
+                    <i>{{ tag.title }}</i>
+                {% endfor %}
+            {% endif %}
         </div>
     </div>
     <div class="article_content" id = "article_content">

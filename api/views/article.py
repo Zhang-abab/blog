@@ -55,11 +55,14 @@ class ArticleView(View):
         }
         data = request.data
         data['status'] = 1
+
         form = AddArticleForm(data)
 
         if not form.is_valid():
             res['self'], res['msg'] = clean_form(form)
             return JsonResponse(res)
+        form.cleaned_data['author'] = '张，'
+        form.cleaned_data['source'] = 'Blog'
         article_obj = Articles.objects.create(**form.cleaned_data)
         tags = data.get('tags')
         for tag in tags:
