@@ -101,7 +101,7 @@
               </el-collapse-item>
             </el-collapse>
           <div class="article_btn_list">
-              <el-button type="danger">确认修改</el-button>
+              <el-button @click="edit_article('{{ article_obj.nid }}')" type="danger">确认修改</el-button>
           </div>
           </div>
     </el-drawer>

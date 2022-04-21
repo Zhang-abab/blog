@@ -122,7 +122,7 @@
 <script>
         axios.interceptors.request.use(
             request=>{
-                if (request.method === 'post'){
+                if (request.method !== 'get'){
                     let csrftoken = document.querySelector('input[name="csrfmiddlewaretoken"]').value
                     request.headers[ 'X-CSRFToken'] = csrftoken
                 }
@@ -188,6 +188,7 @@
             add_handleClose(done) {
                 done()
             },
+
             add_article(){
                 let data ={
                     title: this.title,
@@ -195,11 +196,12 @@
                     pwd: this.pwd,
                     recommend: this.recommend,
                     tags:this.tags,
-                    category: this.category,
+                    category: this.category_id,
                     abstract:this.abstract,
                     content:editor.querySelector('.editormd-markdown-textarea').value
                 }
                 axios.post('/api/article/', data).then(res => {
+                    console.log(data)
                     if(res.code){
                         this.$message.error(res.msg)
                         return
@@ -218,7 +220,33 @@
                     cover.src = v
                 },1)
             },
-        }
+
+            edit_article(nid){
+                let data ={
+                    title: this.title,
+                    cover_id: this.cover_id,
+                    pwd: this.pwd,
+                    recommend: this.recommend,
+                    tags:this.tags,
+                    category: this.category_id,
+                    abstract:this.abstract,
+                    content:editor.querySelector('.editormd-markdown-textarea').value
+                }
+                console.log(data, nid)
+                axios.put(`/api/article/${nid}/`, data).then(res => {
+                    if(res.code){
+                        this.$message.error(res.msg)
+                        return
+                     }
+                    this.$message.success(res.msg)
+                    setTimeout(() => {
+                        location.href = `/article/${res.data}/`
+                     },1000)
+                 })
+            },
+
+
+        },
     })
 </script>
 </body>

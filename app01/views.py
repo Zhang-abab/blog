@@ -8,17 +8,17 @@ from app01.models import Articles, Tags, Cover
 
 
 def index(request):
-
-    return render(request, 'index.html', {"request": request})
+    article_list = Articles.objects.filter(status=1).order_by('-change_date')
+    frontend_list = article_list.filter(category=1)[:6]
+    backend_list = article_list.filter(category=2)[:6]
+    return render(request, 'index.html', locals())
 
 
 def article(request, nid):
     article_query = Articles.objects.filter(nid=nid)
-    print(article_query)
     if not article_query:
         return redirect('/')
     article = article_query.first()
-    print(locals())
     return render(request, 'article.html', locals())
 
 

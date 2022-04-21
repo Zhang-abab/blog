@@ -43,6 +43,7 @@
                         alt="">
                     {% if request.user.username %}
                     <el-dropdown>
+                    <el-dropdown>
                         <span class="el-dropdown-link">
                           {{ request.user.username }}
                           <i class="el-icon-arrow-down el-icon--right"></i>
@@ -59,6 +60,7 @@
                         <a href="/login">登录</a>
                         <a href="/sign">注册</a>
                     {% endif %}
+                    </el-dropdown>
                 </div>
             </nav>
             {% block banner %}
@@ -78,165 +80,37 @@
                                 </div>
                                 <div class="body">
                                     <ul v-show = "this_category === 'qianduan'" class = 'qianduan'>
-                                        <li>
-                                            <div class="left">
-                                                <div>
-                                                    <img src="/static/shuffl/1.jpeg" alt="">
+                                        {% for frontend in frontend_list %}
+                                            <li>
+                                                <div class="left">
+                                                    <div>
+                                                        <img src="{{ frontend.cover.url.url }}" alt="">
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="right">
-                                                <h2>React基本使用</h2>
-                                                <p>安装react包 python npm i 安装react包</p>
-                                                <span>2天前</span>
-                                            </div>
-                                        </li>
-
-                                        <li>
-                                            <div class="left">
-                                                <div>
-                                                    <img src="/static/shuffl/1.jpeg" alt="">
+                                                <div class="right">
+                                                    <h2><a href="/article/{{ frontend.nid }}/" >{{ frontend.title }}</a></h2>
+                                                    <p>{{ frontend.abstract }}</p>
+                                                    <span>{{ frontend.create_date }}</span>
                                                 </div>
-                                            </div>
-                                            <div class="right">
-                                                <h2>React基本使用</h2>
-                                                <p>安装react包 python npm i 安装react包</p>
-                                                <span>2天前</span>
-                                            </div>
-                                        </li>
-
-                                        <li>
-                                            <div class="left">
-                                                <div>
-                                                    <img src="/static/shuffl/1.jpeg" alt="">
-                                                </div>
-                                            </div>
-                                            <div class="right">
-                                                <h2>React基本使用</h2>
-                                                <p>安装react包 python npm i 安装react包</p>
-                                                <span>2天前</span>
-                                            </div>
-                                        </li>
-
-                                        <li>
-                                            <div class="left">
-                                                <div>
-                                                    <img src="/static/shuffl/1.jpeg" alt="">
-                                                </div>
-                                            </div>
-                                            <div class="right">
-                                                <h2>React基本使用</h2>
-                                                <p>安装react包 python npm i 安装react包</p>
-                                                <span>2天前</span>
-                                            </div>
-                                        </li>
-
-                                        <li>
-                                            <div class="left">
-                                                <div>
-                                                    <img src="/static/shuffl/1.jpeg" alt="">
-                                                </div>
-                                            </div>
-                                            <div class="right">
-                                                <h2>React基本使用</h2>
-                                                <p>安装react包 python npm i 安装react包</p>
-                                                <span>2天前</span>
-                                            </div>
-                                        </li>
-
-                                        <li>
-                                            <div class="left">
-                                                <div>
-                                                    <img src="/static/shuffl/1.jpeg" alt="">
-                                                </div>
-                                            </div>
-                                            <div class="right">
-                                                <h2>React基本使用</h2>
-                                                <p>安装react包 python npm i 安装react包</p>
-                                                <span>2天前</span>
-                                            </div>
-                                        </li>
-
+                                            </li>
+                                        {% endfor %}
                                     </ul>
 
                                     <ul v-show = "this_category === 'houduan'" class = 'houduan'>
-                                        <li>
-                                            <div class="left">
-                                                <div>
-                                                    <img src="/static/shuffl/2.jpeg" alt="">
+                                        {% for backend in backend_list %}
+                                            <li>
+                                                <div class="left">
+                                                    <div>
+                                                        <h2><a href="/article/{{ backend.nid }}/" >{{ backend.title }}</a></h2>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="right">
-                                                <h2>React基本使用</h2>
-                                                <p>安装react包 python npm i 安装react包</p>
-                                                <span>2天前</span>
-                                            </div>
-                                        </li>
-
-                                        <li>
-                                            <div class="left">
-                                                <div>
-                                                    <img src="/static/shuffl/2.jpeg" alt="">
+                                                <div class="right">
+                                                    <h2>{{ backend.title }}</h2>
+                                                    <p>{{ backend.abstract }}</p>
+                                                    <span>{{ backend.create_date }}</span>
                                                 </div>
-                                            </div>
-                                            <div class="right">
-                                                <h2>React基本使用</h2>
-                                                <p>安装react包 python npm i 安装react包</p>
-                                                <span>2天前</span>
-                                            </div>
-                                        </li>
-
-                                        <li>
-                                            <div class="left">
-                                                <div>
-                                                    <img src="/static/shuffl/2.jpeg" alt="">
-                                                </div>
-                                            </div>
-                                            <div class="right">
-                                                <h2>React基本使用</h2>
-                                                <p>安装react包 python npm i 安装react包</p>
-                                                <span>2天前</span>
-                                            </div>
-                                        </li>
-
-                                        <li>
-                                            <div class="left">
-                                                <div>
-                                                    <img src="/static/shuffl/2.jpeg" alt="">
-                                                </div>
-                                            </div>
-                                            <div class="right">
-                                                <h2>React基本使用</h2>
-                                                <p>安装react包 python npm i 安装react包</p>
-                                                <span>2天前</span>
-                                            </div>
-                                        </li>
-
-                                        <li>
-                                            <div class="left">
-                                                <div>
-                                                    <img src="/static/shuffl/2.jpeg" alt="">
-                                                </div>
-                                            </div>
-                                            <div class="right">
-                                                <h2>React基本使用</h2>
-                                                <p>安装react包 python npm i 安装react包</p>
-                                                <span>2天前</span>
-                                            </div>
-                                        </li>
-
-                                        <li>
-                                            <div class="left">
-                                                <div>
-                                                    <img src="/static/shuffl/2.jpeg" alt="">
-                                                </div>
-                                            </div>
-                                            <div class="right">
-                                                <h2>React基本使用</h2>
-                                                <p>安装react包 python npm i 安装react包</p>
-                                                <span>2天前</span>
-                                            </div>
-                                        </li>
-
+                                            </li>
+                                        {% endfor %}
                                     </ul>
                                 </div>
                             </div>
@@ -259,45 +133,45 @@
                                 </div>
                                 <div class="body">
                                     <ul>
-                                        <li>
-                                            <div class="left">
-                                                <div>
-                                                    <img src="/static/shuffl/1.jpeg" alt="">
+                                        {% for article in article_list %}
+                                            <li>
+                                                <div class="left">
+                                                    <div>
+                                                        <img src="{{ article.cover.url.url }}" alt="">
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="right">
-                                                <h2>
-                                                    <a href="">React基本使用</a>
-                                                </h2>
-                                                <p>
-                                                    安装react包 Python npm i react react-dom 使用react ‘’‘html React基本使用安装react包 Python
-                                                    npm i react react-dom 使用react ‘’‘html React基本使用安装react包 Python npm i react
-                                                    react-dom 使用react ‘’‘html React基本使用
-                                                </p>
-                                                <div class="article_info">
-                                                    <span>
-                                                        <i class="far fa-clock"></i>2021-12-12
-                                                    </span>
-                                                    <span>
-                                                        <i class="fas fa-thumbs-up"></i>123
-                                                    </span>
-                                                    <span>
-                                                        <i class="far fa-eye"></i>
-                                                    </span>
-                                                    <span>
-                                                        <i class="fas fa-comment"></i>
-                                                    </span>
-                                                    <span>
-                                                        <i class="fas fa-star-half-alt"></i>
-                                                    </span>
-                                                    <a href="">查看标签</a>
+                                                <div class="right">
+                                                    <h2>
+                                                        <a href="/article/{{ article.nid }}/">{{ article.title }}</a>
+                                                    </h2>
+                                                    <p>
+                                                        {{ article.abstract }}
+                                                    </p>
+                                                    <div class="article_info">
+                                                        <span>
+                                                            <i class="far fa-clock"></i>{{ article.create_date|date:'Y-m-d'}}
+                                                        </span>
+                                                        <span>
+                                                            <i class="fas fa-thumbs-up"></i>{{ article.digg_count }}
+                                                        </span>
+                                                        <span>
+                                                            <i class="far fa-eye"></i>{{ article.look_count }}
+                                                        </span>
+                                                        <span>
+                                                            <i class="fas fa-comment"></i>{{ article.comment_count }}
+                                                        </span>
+                                                        <span>
+                                                            <i class="fas fa-star-half-alt"></i>{{ article.collects_count }}
+                                                        </span>
+                                                        <a href="/article/{{ article.nid }}/" target="_blank">查看详情</a>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            </li>
-                                        </ul>
+                                                </li>
+                                        {% endfor %}
+                                    </ul>
                                     </div>
 
-                                    <div class="body">
+                                <div class="body">
                                         <ul>
                                             <li>
                                                 <div class="left">

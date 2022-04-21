@@ -15,6 +15,7 @@ class AddArticleForm(forms.Form):
     cover_id = forms.IntegerField(required=False)
 
     category = forms.IntegerField(required=False)
+    print(category)
     pwd = forms.CharField(required=False)
     recommend = forms.BooleanField(required=False)
     status = forms.IntegerField(required=False)
@@ -73,6 +74,41 @@ class ArticleView(View):
                 article_obj.tag.add(tag_obj)
         res['code'] = 0
         res['data'] = article_obj.nid
+
+        return JsonResponse(res)
+
+    def put(self, request, nid):
+        res = {
+            'msg': '文章编辑成功',
+            'code': 412,
+            'data': None,
+        }
+        article_query = Articles.objects.filter(nid=nid)
+        if not article_query:
+            res['msg'] = '请求错误'
+            return JsonResponse(res)
+        data = request.data
+        data['status'] = 1
+
+        form = AddArticleForm(data)
+
+        if not form.is_valid():
+            res['self'], res['msg'] = clean_form(form)
+            return JsonResponse(res)
+        form.cleaned_data['author'] = '张，'
+        form.cleaned_data['source'] = 'Blog'
+        article_query.update(**form.cleaned_data)
+
+        tags = data.get('tags')
+        article_query.first().tag.clear()
+        for tag in tags:
+            if tag.isdigit():
+                article_query.first().tag.add(tag)
+            else:
+                tag_obj = Tags.objects.create(title=tag)
+                article_query.first().tag.add(tag_obj)
+        res['code'] = 0
+        res['data'] = article_query.first().nid
         return JsonResponse(res)
 
 

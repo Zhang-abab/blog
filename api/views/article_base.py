@@ -68,3 +68,4 @@ class ArticleView(View):
         res['code'] = 0
         res['data'] = article_obj.nid
         return JsonResponse(res)
+
