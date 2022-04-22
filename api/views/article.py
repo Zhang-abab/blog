@@ -47,7 +47,18 @@ class AddArticleForm(forms.Form):
         return cover_id
 
 
+# 给文章添加标签
+def add_article_tags(tags, article_obj):
+    for tag in tags:
+        if tag.isdigit():
+            article_obj.tag.add(tag)
+        else:
+            tag_obj = Tags.objects.create(title=tag)
+            article_obj.tag.add(tag_obj.nid)
+
+
 class ArticleView(View):
+    # 添加文章
     def post(self, request):
         res = {
             'msg': '文章发布成功',
@@ -66,17 +77,14 @@ class ArticleView(View):
         form.cleaned_data['source'] = 'Blog'
         article_obj = Articles.objects.create(**form.cleaned_data)
         tags = data.get('tags')
-        for tag in tags:
-            if tag.isdigit():
-                article_obj.tag.add(tag)
-            else:
-                tag_obj = Tags.objects.create(title=tag)
-                article_obj.tag.add(tag_obj)
+        #添加标签
+        add_article_tags(tags, article_obj)
         res['code'] = 0
         res['data'] = article_obj.nid
 
         return JsonResponse(res)
-
+    
+    # 编辑文章
     def put(self, request, nid):
         res = {
             'msg': '文章编辑成功',
@@ -101,12 +109,9 @@ class ArticleView(View):
 
         tags = data.get('tags')
         article_query.first().tag.clear()
-        for tag in tags:
-            if tag.isdigit():
-                article_query.first().tag.add(tag)
-            else:
-                tag_obj = Tags.objects.create(title=tag)
-                article_query.first().tag.add(tag_obj)
+
+        add_article_tags(tags, article_query.first())
+
         res['code'] = 0
         res['data'] = article_query.first().nid
         return JsonResponse(res)

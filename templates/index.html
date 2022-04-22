@@ -84,11 +84,11 @@
                                             <li>
                                                 <div class="left">
                                                     <div>
-                                                        <img src="{{ frontend.cover.url.url }}" alt="">
+                                                        <a href="/article/{{ frontend.nid }}/" ><img src="{{ frontend.cover.url.url }}" alt=""></a>
                                                     </div>
                                                 </div>
                                                 <div class="right">
-                                                    <h2><a href="/article/{{ frontend.nid }}/" >{{ frontend.title }}</a></h2>
+                                                    <h2><a href="/article/{{ frontend.nid }}/" target="_blank">{{ frontend.title }}</a></h2>
                                                     <p>{{ frontend.abstract }}</p>
                                                     <span>{{ frontend.create_date }}</span>
                                                 </div>
@@ -101,11 +101,11 @@
                                             <li>
                                                 <div class="left">
                                                     <div>
-                                                        <h2><a href="/article/{{ backend.nid }}/" >{{ backend.title }}</a></h2>
+                                                        <a href="/article/{{ backend.nid }}/"  ><img src="{{ backend.cover.url.url }}" alt=""></a>
                                                     </div>
                                                 </div>
                                                 <div class="right">
-                                                    <h2>{{ backend.title }}</h2>
+                                                    <h2><a href="/article/{{ backend.nid }}/" target="_blank">{{ backend.title }}</a></h2>
                                                     <p>{{ backend.abstract }}</p>
                                                     <span>{{ backend.create_date }}</span>
                                                 </div>
