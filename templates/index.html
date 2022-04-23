@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
     {% load my_tag %}
-
-
-
     <head>
         <title>Hello</title>
         <link rel="stylesheet" href="/static/my/css/base.css">
@@ -13,9 +10,10 @@
         <link rel="stylesheet" href="/static/my/css/reset.css">
 
         <link rel="stylesheet" href="/static/fontawesome-free-5/css/all.min.css">
-        <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+        <link rel="stylesheet" href="/static/elementui/theme-chalk/index.css">
         <script src="/static/vue/vue.js"></script>
-        <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+        <script src="/static/jquery/jquery.min.js"></script>
+        <script src="/static/elementui/index.js"></script>
     </head>
     <body>
         <div id="app">
@@ -309,17 +307,29 @@
                 </div>
             </footer>
         </div>
-
+        <script src="/static/axios/axios.min.js"></script>
         <script>
+            axios.interceptors.request.use(
+                request=>{
+                    if (request.method === 'post'){
+                        let csrftoken = document.querySelector('input[name="csrfmiddlewaretoken"]').value
+                        request.headers[ 'X-CSRFToken'] = csrftoken
+                    }
+                    return request
+                })
+                axios.interceptors.response.use(
+                    response=>{
+                    return response.data
+                })
             new Vue({
                 el: '#app',
                 delimiters: [
                     "[[", "]]"
                 ],
                 data: {
-                    msg:'放风筝的',
                     theme: 'light',//默认主题
                     this_category: 'qianduan',
+                    comment_content: ''
                 },
                 created() {
                     this.init_theme()
@@ -339,10 +349,61 @@
                         localStorage.setItem('theme', themeName)
                     },
                     //选择分类
-                    switch_article_category(categoryName){
+                    switch_article_category(categoryName) {
                         this.this_category = categoryName
                     },
-
+                    //发布评论
+                    add_comment(nid) {
+                        axios.post(`/api/article/comment/${nid}/`, {content: this.comment_content}).then(res => {
+                            if (res.code) {
+                                if (res.self) {
+                                    this.$refs[`comment_${res.self}`].focus()
+                                }
+                                this.$message.error(res.msg)
+                                return
+                            }
+                            this.$message.success(res.msg)
+                            setTimeout(() => {
+                                location.reload()
+                            }, 500)
+                        })
+                    },
+                    // 将被评论人的名字写到输入框
+                    set_sub_placeholder(div, username, cid) {
+                        $(div).find('textarea').attr('placeholder', `@${username}`)
+                        $(div).find('textarea').attr('cid', cid)
+                    },
+                    //展示子评论列表
+                    show_sub_comment_list(e, username, cid) {
+                        let div = $(e.target).parent().parent().next()
+                        $(div).slideToggle()
+                        this.set_sub_placeholder(div, username, cid)
+                    },
+                    //子评论回复显示
+                    sub_comment_set_placeholder(e, username, cid) {
+                        let div = $(e.target).parents('.sub_comment_list')
+                        this.set_sub_placeholder(div, username, cid)
+                    },
+                    //发布子评论
+                    add_sub_comment(e, nid) {
+                        // nid文章ID cid 评论id
+                        axios.post(`/api/article/comment/${nid}/`, {
+                            content: $(e.target).prev().val(),
+                            pid: $(e.target).prev().attr('cid')
+                        }).then(res => {
+                            if (res.code) {
+                                if (res.self) {
+                                    this.$refs[`comment_${res.self}`].focus()
+                                }
+                                this.$message.error(res.msg)
+                                return
+                            }
+                            this.$message.success(res.msg)
+                            setTimeout(() => {
+                                location.reload()
+                            }, 500)
+                        })
+                    },
                 }
             })
 

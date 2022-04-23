@@ -10,9 +10,6 @@
 {% endblock %}
 
 {% block main %}
-
-
-
 <div class="article">
     <div class="slider_bar">
         <div class="title">
@@ -30,8 +27,9 @@
     <div class="article_title">
         <h2>{{ article.title }}
             {% if request.user.is_superuser %}
-            <a href="/backend/edit_article/{{ article.nid }}/"><i class="fas fa-edit"></i></a> </h2>
+            <a href="/backend/edit_article/{{ article.nid }}/"><i class="fas fa-edit"></i></a>
             {% endif %}
+         </h2>
         <p>
             <span>发布时间:<i>{{ article.create_date|date:'Y-m-d' }}</i></span>
             <span>作者:<i>{{ article.author }}</i></span>
@@ -51,9 +49,10 @@
     </div>
     <div class="comment_submit">
         <div class="title">你觉得文章怎么样</div>
+        {% csrf_token %}
         <div class="body">
-            <textarea name="" id="" cols="30" rows="10" placeholder="写下你想说的话,开始我们的对话"></textarea>
-            <button class = 'submit_comment'>发布评论</button>
+            <textarea name="" id="" ref="comment_content" cols="30" rows="10" v-model="comment_content" placeholder="写下你想说的话,开始我们的对话"></textarea>
+            <button class = 'submit_comment' @click="add_comment('{{ article.nid }}')">发布评论</button>
         </div>
         <div class="footer">
             <p>
@@ -64,153 +63,56 @@
     </div>
     <div class="comment_list">
         <ul>
-            <li>
+            {% for comment in comment_list %}
+                <li>
                 <div class="left">
-                    <img src="/static/my/img/img_head/1.webp" alt=""> 
+                    <img src="{{ comment.user.avatar.url.url }}" alt="">
                 </div>
                 <div class="right">
-                    <h4>Mr_zhang</h4>
+                    <h4>{{ comment.user.username }}</h4>
                     <div class="comment_content">
-                        <p>你好呀</p>
-                        <div>
-                            <img src="/static/my/img/img_head/1.webp" alt="">
-                            <img src="/static/my/img/img_head/1.webp" alt="">
-                            <img src="/static/my/img/img_head/1.webp" alt="">
-                        </div>
-                        <div>
-                            <img src="/static/my/img/img_head/1.webp" alt="">
-                            <img src="/static/my/img/img_head/1.webp" alt="">
-                            <img src="/static/my/img/img_head/1.webp" alt="">
-                        </div>
+                        {{ comment.content }}
                     </div>
                     <div class="comment_info">
-                        <span>刚刚</span>
+                        <span>{{ comment.create_time }}</span>
                         <div>
-                            <span>点赞（0）</span>
-                            <span>评论云（0）</span>
+                            <span>点赞（{{ comment.digg_count }}）</span>
+                            <span @click="show_sub_comment_list($event, '{{ comment.user.username }}', '{{ comment.nid }}')">回复（{{ comment.comment_count }}）</span>
                             <span class ="delete">删除</span>
                         </div>
                     </div>
                     <div class="sub_comment_list">
-                        <div class="sub_comment_item"> 
-                            <div class="left">
-                                <img src="/static/my/img/img_head/1.webp" alt="">
-                            </div>
-                            <div class="right">
-                                <h4>张山@李四</h4>
-                                <div class="sub_comment_content">
-                                    你好
+                        {% for sub in comment.sub_comment %}
+                            <div class="sub_comment_item">
+                                <div class="left">
+                                    <img src="{{ sub.user.avatar.url.url }}" alt="">
                                 </div>
-                                 <div class="sub_comment_info">
-                                     <span>1 秒前</span>
-                                     <div>
-                                         <span>点赞（1）</span>
-                                         <span>回复（1）</span>
-                                         <span class="delete">删除</span>
+                                <div class="right">
+                                    <h4>{{ sub.user.username }}@{{ sub.parent_comment.user.username }}</h4>
+                                    <div class="sub_comment_content">
+                                        {{ sub.content }}
+                                    </div>
+                                     <div class="sub_comment_info">
+                                         <span>{{ sub.create_time}}</span>
+                                         <div>
+                                             <span>点赞（{{ sub.digg_count }}）</span>
+                                             <span @click="sub_comment_set_placeholder($event, '{{ sub.user.username }}', '{{ sub.nid }}')">回复</span>
+                                             <span class="delete">删除</span>
+                                         </div>
                                      </div>
-                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="sub_comment_list">
-                        <div class="sub_comment_item"> 
-                            <div class="left">
-                                <img src="/static/my/img/img_head/1.webp" alt="">
-                            </div>
-                            <div class="right">
-                                <h4>张山@李四</h4>
-                                <div class="sub_comment_content">
-                                    你好
                                 </div>
-                                 <div class="sub_comment_info">
-                                     <span>1 秒前</span>
-                                     <div>
-                                         <span>点赞（1）</span>
-                                         <span>回复（1）</span>
-                                         <span class="delete">删除</span>
-                                     </div>
-                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </li>
-        </ul>
-    </div>
+                        {% endfor %}
+                        <div class="sub_comment_textarea">
+                            <textarea name="" id="" cols="30" rows="10" ref="sub_comment_content" placeholder="@zzz">
 
-    <div class="comment_list">
-        <ul>
-            <li>
-                <div class="left">
-                    <img src="/static/my/img/img_head/1.webp" alt=""> 
-                </div>
-                <div class="right">
-                    <h4>Mr_zhang</h4>
-                    <div class="comment_content">
-                        <p>你好呀</p>
-                        <div>
-                            <img src="/static/my/img/img_head/1.webp" alt="">
-                            <img src="/static/my/img/img_head/1.webp" alt="">
-                            <img src="/static/my/img/img_head/1.webp" alt="">
-                        </div>
-                        <div>
-                            <img src="/static/my/img/img_head/1.webp" alt="">
-                            <img src="/static/my/img/img_head/1.webp" alt="">
-                            <img src="/static/my/img/img_head/1.webp" alt="">
-                        </div>
-                    </div>
-                    <div class="comment_info">
-                        <span>刚刚</span>
-                        <div>
-                            <span>点赞（0）</span>
-                            <span>评论云（0）</span>
-                            <span class ="delete">删除</span>
-                        </div>
-                    </div>
-                    <div class="sub_comment_list">
-                        <div class="sub_comment_item"> 
-                            <div class="left">
-                                <img src="/static/my/img/img_head/1.webp" alt="">
-                            </div>
-                            <div class="right">
-                                <h4>张山@李四</h4>
-                                <div class="sub_comment_content">
-                                    你好
-                                </div>
-                                 <div class="sub_comment_info">
-                                     <span>1 秒前</span>
-                                     <div>
-                                         <span>点赞（1）</span>
-                                         <span>回复（1）</span>
-                                         <span class="delete">删除</span>
-                                     </div>
-                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="sub_comment_list">
-                        <div class="sub_comment_item"> 
-                            <div class="left">
-                                <img src="/static/my/img/img_head/1.webp" alt="">
-                            </div>
-                            <div class="right">
-                                <h4>张山@李四</h4>
-                                <div class="sub_comment_content">
-                                    你好
-                                </div>
-                                 <div class="sub_comment_info">
-                                     <span>1 秒前</span>
-                                     <div>
-                                         <span>点赞（1）</span>
-                                         <span>回复（1）</span>
-                                         <span class="delete">删除</span>
-                                     </div>
-                                 </div>
-                            </div>
+                            </textarea>
+                            <button @click="add_sub_comment($event, '{{ article.nid }}',)">回复</button>
                         </div>
                     </div>
                 </div>
             </li>
+            {% endfor %}
         </ul>
     </div>
 </div>
@@ -230,4 +132,4 @@
             })
         })
     </script>
-{% endblock %}
+{% endblock %}8
