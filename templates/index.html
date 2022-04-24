@@ -311,7 +311,7 @@
         <script>
             axios.interceptors.request.use(
                 request=>{
-                    if (request.method === 'post'){
+                    if (request.method !== 'get'){
                         let csrftoken = document.querySelector('input[name="csrfmiddlewaretoken"]').value
                         request.headers[ 'X-CSRFToken'] = csrftoken
                     }
@@ -403,6 +403,34 @@
                                 location.reload()
                             }, 500)
                         })
+                    },
+                    // 删除子评论
+                    delete_sub_comment(nid, aid, root_comment_id){
+                        this.$confirm('此操作将永久删除该评论, 是否继续?', '提示', {
+                            confirmButtonText: '确定',
+                            cancelButtonText: '取消',
+                            type: 'warning'
+                            }).then(() => {
+                                axios.delete(`/api/article/comment/${nid}/`, {data: {
+                                    aid,
+                                    pid: root_comment_id,
+                                    }}).then(res => {
+                                    if(res.code){
+                                        this.$message.error(res.msg)
+                                        return
+                                    }
+                                    this.$message.success(res.msg)
+                                    setTimeout(() =>{
+                                        location.reload()
+                                    },500)
+                                })
+                            }).catch(() => {
+                                this.$message({
+                                type: 'info',
+                                message: '取消删除'
+                            });
+                        });
+
                     },
                 }
             })

@@ -91,6 +91,7 @@ class ArticleView(View):
             'code': 412,
             'data': None,
         }
+
         article_query = Articles.objects.filter(nid=nid)
         if not article_query:
             res['msg'] = '请求错误'
