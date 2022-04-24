@@ -67,7 +67,7 @@ class CommentView(View):
             # 删除的是根评论
             lis = []
             find_root_sub_comment(comment_query.first(), lis)
-            Articles.objects.filter(nid=aid).update(comment_count=F('comment_count') - len(lis) 1)
+            Articles.objects.filter(nid=aid).update(comment_count=F('comment_count') - len(lis) - 1)
         else:
             # 根评论数量减
             Comment.objects.filter(nid=pid).update(comment_count=F('comment_count') - 1)

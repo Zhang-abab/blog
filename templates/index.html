@@ -40,25 +40,24 @@
                         @click="setTheme('light')"
                         alt="">
                     {% if request.user.username %}
-                    <el-dropdown>
-                    <el-dropdown>
-                        <span class="el-dropdown-link">
-                          {{ request.user.username }}
-                          <i class="el-icon-arrow-down el-icon--right"></i>
-                        </span>
-                        <el-dropdown-menu slot="dropdown">
-                          <el-dropdown-item><a href="/backend/">个人中心</a></el-dropdown-item>
-                          <el-dropdown-item><a href="/backend/edit_avatar/">修改头像</a></el-dropdown-item>
-                          <el-dropdown-item><a href="/backend/add_article/">发布文章</a></el-dropdown-item>
-                          <el-dropdown-item><a href="/admin/">后台管理</a></el-dropdown-item>
-                          <el-dropdown-item><a href="/logout/">注销退出</a></el-dropdown-item>
-                        </el-dropdown-menu>
-                      </el-dropdown>
+                        <el-dropdown>
+                            <span class="el-dropdown-link">
+                              {{ request.user.username }}
+                              <i class="el-icon-arrow-down el-icon--right"></i>
+                            </span>
+                            <el-dropdown-menu slot="dropdown">
+                              <el-dropdown-item><a href="/backend/">个人中心</a></el-dropdown-item>
+                              <el-dropdown-item><a href="/backend/edit_avatar/">修改头像</a></el-dropdown-item>
+                              <el-dropdown-item><a href="/backend/add_article/">发布文章</a></el-dropdown-item>
+                              <el-dropdown-item><a href="/admin/">后台管理</a></el-dropdown-item>
+                              <el-dropdown-item><a href="/logout/">注销退出</a></el-dropdown-item>
+                            </el-dropdown-menu>
+                        </el-dropdown>
                     {% else %}
                         <a href="/login">登录</a>
                         <a href="/sign">注册</a>
                     {% endif %}
-                    </el-dropdown>
+                    <!--/el-dropdown-->
                 </div>
             </nav>
             {% block banner %}
