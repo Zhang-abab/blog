@@ -6,6 +6,7 @@ from pyquery import PyQuery
 from app01.models import Tags, Articles, Cover
 from api.views.login import clean_form
 import random
+from django.db.models import F
 
 
 class AddArticleForm(forms.Form):
@@ -65,7 +66,7 @@ class ArticleView(View):
             'code': 412,
             'data': None,
         }
-        data = request.data
+        data=request.data
         data['status'] = 1
 
         form = AddArticleForm(data)
@@ -77,7 +78,7 @@ class ArticleView(View):
         form.cleaned_data['source'] = 'Blog'
         article_obj = Articles.objects.create(**form.cleaned_data)
         tags = data.get('tags')
-        #添加标签
+        # 添加标签
         add_article_tags(tags, article_obj)
         res['code'] = 0
         res['data'] = article_obj.nid
@@ -116,6 +117,58 @@ class ArticleView(View):
         res['code'] = 0
         res['data'] = article_query.first().nid
         return JsonResponse(res)
+
+
+# 文章点赞
+class ArticleDiggView(View):
+    # 点赞
+    def post(self, request, nid):
+        res = {
+            'msg': '点赞成功',
+            'code': 412,
+            'data': 0
+        }
+        comment_query = Articles.objects.filter(nid=nid)
+        comment_query.update(digg_count=F('digg_count') + 1)
+        digg_count = comment_query.first().digg_count
+
+        res['code'] = 0
+        res['data'] = digg_count
+        return JsonResponse(res)
+
+
+class ArticleCollectsView(View):
+    # 一个用户在哪收藏一次
+    def post(self, request, nid):
+        res = {
+            'msg': '文章收藏成功',
+            'code': 412,
+            'isCollects': True,
+            'data': 0,
+        }
+        if not request.user.username:
+            res['msg'] = '请登录'
+            return JsonResponse(res)
+        # 判断是否已经收藏
+        flag = request.user.collects.filter(nid=nid)
+        num = 1
+        res['code'] = 0
+        if flag:
+            # 用户已经收藏了该文章，取消收藏.
+            res['msg'] = '文章取消收藏!'
+            res['isCollects'] = False
+            request.user.collects.remove(nid)
+            num = -1
+        else:
+            request.user.collects.add(nid)
+
+        article_query = Articles.objects.filter(nid=nid)
+        article_query.update(collects_count=F('collects_count') + num)
+        collects_count = article_query.first().collects_count
+
+        res['data'] = collects_count
+        return JsonResponse(res)
+
 
 
 

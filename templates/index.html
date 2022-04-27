@@ -5,10 +5,9 @@
         <title>Hello</title>
         <link rel="stylesheet" href="/static/my/css/base.css">
         {% block CSS %}
-        <link rel="stylesheet" href="/static/my/css/index.css">
+            <link rel="stylesheet" href="/static/my/css/index.css">
         {% endblock %}
         <link rel="stylesheet" href="/static/my/css/reset.css">
-
         <link rel="stylesheet" href="/static/fontawesome-free-5/css/all.min.css">
         <link rel="stylesheet" href="/static/elementui/theme-chalk/index.css">
         <script src="/static/vue/vue.js"></script>
@@ -18,7 +17,7 @@
     <body>
         <div id="app">
             <link rel="stylesheet" :href="'/static/my/css/theme/' + theme +'.css'">
-            <nav>
+            <nav class="nav_bg">
                 <div class="left">
                     <a href="/">首页</a>
                     <a href="/news">新闻</a>
@@ -431,6 +430,59 @@
                         });
 
                     },
+                    // 评论点赞
+                    comment_digg(nid){
+                        axios.post(`/api/comment/digg/${nid}/`).then(res =>{
+                            if(res.code){
+                                this.$message.error(res.msg)
+                                return
+                            }
+                            e.target.innerHTML = `点赞（${res.data}）`
+                            this.$message.success(res.msg)
+                        })
+                    },
+                    // 文章点赞
+                    article_digg(e, nid){
+                        let dom = e.target
+                        axios.post(`/api/article/digg/${nid}/`).then(res =>{
+                            if(res.code){
+                                this.$message.error(res.msg)
+                                return
+                            }
+                            $(dom).next().text(res.data)
+                            this.$message.success(res.msg)
+                        })
+                        dom.classList.add('show')
+                        let timer = null
+                        timer = setTimeout(() => {
+                            dom.classList.remove('show')
+                        },1000)
+                    },
+                    // 文章收藏
+                    article_collects(e, nid){
+                        let dom = e.target
+                        axios.post(`/api/article/collects/${nid}/`).then(res =>{
+                            if(res.code){
+                                this.$message.error(res.msg)
+                                return
+                            }
+                            this.$message.success(res.msg)
+                            $(dom).next().text(res.data)
+                            if(res.isCollects){
+                                dom.classList.add('show')
+                                console.log(res)
+                                return
+                            }
+                            console.log(res)
+                            dom.classList.remove('show')
+                        })
+                    },
+                    // 回到顶部
+                    go_to_top(){
+                        $('html, body').animate({
+                            scrollTop: 0
+                        }, 1000)
+                    },
                 }
             })
 
@@ -448,7 +500,17 @@
                     i.style.opacity = 0
                 }
                 menu_img[index].style.opacity = 1
-            }, 2000)
+            }, 5000)
+
+            let nav = document.querySelector('.nav_bg')
+            window.onscroll = function (){
+                let top = document.documentElement.scrollTop
+                if(top >= 650){
+                    nav.classList.add('show')
+                }else{
+                    nav.classList.remove('show')
+                }
+            }
         </script>
         {% block js %}
         

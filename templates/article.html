@@ -1,5 +1,5 @@
 {% extends 'index.html' %}
-{% load my_tag %}
+{% load my_tag my_filter %}
 {% block CSS %}
     <link rel="stylesheet" href="/static/editor-md/css/editormd.css">
     <link rel="stylesheet" href="/static/my/css/article.css">
@@ -12,6 +12,19 @@
 {% block main %}
 <div class="article">
     <div class="slider_bar">
+    <div class="article_actions">
+        <div class="item" title="文章点赞">
+            <i @click="article_digg($event, '{{ article.nid }}')" class="fas fa-thumbs-up"></i>
+            <span>{{ article.digg_count }}</span>
+        </div>
+        <div class="item" title="文章收藏">
+            <i @click="article_collects($event, '{{ article.nid }}')" class="fas fa-star {{ article|in_user_collects:request }} "></i>
+            <span>{{ article.collects_count }}</span>
+        </div>
+        <div class="item" title="回到顶部">
+            <i class="fa fa-angle-double-up" @click="go_to_top"></i>
+        </div>
+    </div>
         <div class="title">
             悬浮目录
         </div>
@@ -76,9 +89,11 @@
                     <div class="comment_info">
                         <span>{{ comment.create_time }}</span>
                         <div>
-                            <span>点赞（{{ comment.digg_count }}）</span>
+                            <span  @click="comment_digg('{{ comment.nid }}')" >点赞（{{ comment.digg_count }}）</span>
                             <span @click="show_sub_comment_list($event, '{{ comment.user.username }}', '{{ comment.nid }}')">回复（{{ comment.comment_count }}）</span>
-                            <span class ="delete" @click="delete_sub_comment('{{ comment.nid }}','{{ article.nid }}', null)">删除</span>
+                            {% if sub_user == request.user or request.user.is_superuser%}
+                                <span class ="delete" @click="delete_sub_comment('{{ comment.nid }}','{{ article.nid }}', null)">删除</span>
+                            {% endif %}
                         </div>
                     </div>
                     <div class="sub_comment_list">
@@ -95,7 +110,7 @@
                                      <div class="sub_comment_info">
                                          <span>{{ sub.create_time}}</span>
                                          <div>
-                                             <span>点赞（{{ sub.digg_count }}）</span>
+                                             <span @click="comment_digg('{{ sub.nid }}')">点赞（{{ sub.digg_count }}）</span>
                                              <span @click="sub_comment_set_placeholder($event, '{{ sub.user.username }}', '{{ sub.nid }}')">回复</span>
                                              {% if sub_user == request.user or request.user.is_superuser%}
                                                   <span class="delete" @click="delete_sub_comment('{{ sub.nid }}','{{ article.nid }}','{{ comment.nid }}')">删除</span>
@@ -129,7 +144,7 @@
         $(function(){
             let editor = editormd.markdownToHTML("article_content",{
                 width:"100%",
-                heighr:"100%",
+                height:"100%",
                 path: "/static/editor-md/lib",
             })
         })

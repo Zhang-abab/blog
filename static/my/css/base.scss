@@ -10,6 +10,7 @@ nav {
     z-index: 100;
     top: 0;
     left: 0;
+    transition: all 0.3s;
 
     .left {
         width: 60%;
@@ -40,6 +41,17 @@ nav {
             margin-right: 0;
 
         }
+    }
+}
+
+nav.show{
+    background-color: white;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+    a{
+        color: #333333;
+    }
+    .el-dropdown{
+        color: #333333;
     }
 }
 
@@ -116,7 +128,7 @@ footer {
     }
     .site_info {
         display: flex;
-        align-items: 10px;
+        align-items:center;
     }
     span {
         margin-left: 10px;
@@ -138,7 +150,7 @@ footer {
             color: white;
             background-color: #000;
             height: 30px;
-            widows: 60px;
+            width: 60px;
 
             &:nth-child(1) {
                 background: #ff9800;
