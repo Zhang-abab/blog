@@ -2,7 +2,7 @@
 <html lang="en">
     {% load my_tag %}
     <head>
-        <title>Hello</title>
+        <title>{% block title %}无名小站{% endblock %}</title>
         <link rel="stylesheet" href="/static/my/css/base.css">
         {% block CSS %}
             <link rel="stylesheet" href="/static/my/css/index.css">
@@ -327,10 +327,20 @@
                 data: {
                     theme: 'light',//默认主题
                     this_category: 'qianduan',
-                    comment_content: ''
+                    comment_content: '',
+                    isShowSlider: false,
+                    slide_list:[],
+                    slide_text:'显示悬浮目录',
                 },
                 created() {
                     this.init_theme()
+                    let path = location.pathname
+                    if(path.indexOf('article') !== -1){
+                        this.init_slider()
+                    }
+                    setTimeout(() =>{
+                        this.get_sidebar()
+                    },1000)
                 },
                 methods: {
                     //初始化主题信息
@@ -483,6 +493,64 @@
                             scrollTop: 0
                         }, 1000)
                     },
+                    //
+                    init_slider(){
+                        let flag = localStorage.getItem('isShowSlider')
+                        if(flag){
+                            flag = eval(flag)
+                            if(flag){
+                                this.isShowSlider=true
+                                this.$nextTick(() =>{
+                                    this.sliderChange(true)
+                                })
+                            }
+                            return
+                        }
+                    },
+                    // 浮动目录是否显示
+                    sliderChange(val){
+                        let dom = this.$refs.slider
+                        localStorage.setItem('isShowSlider', val)
+                        if(val){
+                            dom.classList.add('show')
+                            this.slide_text = '关闭悬浮目录'
+                            return
+                        }
+                        dom.classList.remove('show')
+                        this.slide_text = '显示悬浮目录'
+                    },
+                    // 悬浮目录
+                    get_sidebar(){
+                        let content = $('#article_content')
+                        let h_list= content.children('h1,h2,h3,h4')
+                        let lis=[]
+                        for(let i = 0;i<h_list.length;i++){
+                            let c = h_list[i].innerText
+                            let tagName = h_list[i].tagName
+                            let tagId = h_list[i].id
+                            let ele = {
+                                tagName,
+                                c,
+                                pos:'#' + tagId
+                            }
+                            lis.push(ele)
+                        }
+                        lis.push({
+                            tagName: 'H1',
+                            c:'去评论吧！',
+                            pos: '.comment_submit'
+                        })
+                        this.slide_list = lis
+                    },
+                    //
+                    go_side_bar(selector, e){
+                        $('.slider_bar .body>p').css('color','')
+                        e.target.style.color='#ff9800'
+                        let box = $(selector)
+                        let pos = box.offset()
+                        pos.top = pos.top - 80
+                        $('html,body').animate({scrollTop: pos.top}, 600)
+                    },
                 }
             })
 
@@ -503,6 +571,16 @@
             }, 5000)
 
             let nav = document.querySelector('.nav_bg')
+            let path = location.pathname
+
+            let slider;
+            slider = document.querySelector('.slider_bar')
+            let top1 = 0;
+
+            if(path.indexOf('article') !== -1 ){
+                top1 = $(slider).offset().top - 80
+            }
+
             window.onscroll = function (){
                 let top = document.documentElement.scrollTop
                 if(top >= 650){
@@ -510,6 +588,14 @@
                 }else{
                     nav.classList.remove('show')
                 }
+                if(slider){
+                    if(top >= top1){
+                    slider.classList.add('fixed')
+                    }else {
+                        slider.classList.remove('fixed')
+                    }
+                }
+
             }
         </script>
         {% block js %}

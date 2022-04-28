@@ -1,5 +1,8 @@
 {% extends 'index.html' %}
 {% load my_tag my_filter %}
+{% block title %}
+    无名小站｜文章
+{% endblock %}
 {% block CSS %}
     <link rel="stylesheet" href="/static/editor-md/css/editormd.css">
     <link rel="stylesheet" href="/static/my/css/article.css">
@@ -10,8 +13,24 @@
 {% endblock %}
 
 {% block main %}
+<div class="slider_bar" ref="slider">
+        <div class="title">
+            <span>[[ slide_text ]]</span>
+                <el-switch
+                    v-model="isShowSlider"
+                    active-color="#13ce66"
+                    @change="sliderChange"
+                    inactive-color="#ff4949">
+                </el-switch>
+        </div>
+        <div class="body">
+            <p :tagName="item.tagName" @click="go_side_bar(item.pos, $event)" v-for="(item, index) in slide_list" :key="index">
+                [[ item.c ]]
+            </p>
+        </div>
+</div>
 <div class="article">
-    <div class="slider_bar">
+
     <div class="article_actions">
         <div class="item" title="文章点赞">
             <i @click="article_digg($event, '{{ article.nid }}')" class="fas fa-thumbs-up"></i>
@@ -23,18 +42,6 @@
         </div>
         <div class="item" title="回到顶部">
             <i class="fa fa-angle-double-up" @click="go_to_top"></i>
-        </div>
-    </div>
-        <div class="title">
-            悬浮目录
-        </div>
-        <div class="body">
-            <p class="h1">什么是反向解析什么是反向解析什么是反向解析什么是反向解析什么是反向解析什么是反向解析</p>
-            <p class="h2">名称空间</p>
-            <p class="h4">名称空间</p>
-            <p class="h5">名称空间</p>
-            <p class="h6">名称空间</p>
-            <p class="h6">名称空间</p>
         </div>
     </div>
     <div class="article_title">
@@ -149,4 +156,4 @@
             })
         })
     </script>
-{% endblock %}8
+{% endblock %}
