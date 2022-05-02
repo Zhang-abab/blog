@@ -113,7 +113,7 @@
 
                             <div class="hotList card">
                                 <div class="title">
-                                    <h2>今日新闻</h2>
+                                    <h2 id="pos">今日新闻</h2>
                                     <div>
                                         <a href="">查看更多</a>
                                     </div>
@@ -165,49 +165,11 @@
                                                 </li>
                                         {% endfor %}
                                     </ul>
-                                    </div>
-
-                                <div class="body">
-                                        <ul>
-                                            <li>
-                                                <div class="left">
-                                                    <div>
-                                                        <img src="/static/shuffl/1.jpeg" alt="">
-                                                    </div>
-                                                </div>
-                                                <div class="right">
-                                                    <h2>
-                                                        <a href="">React基本使用</a>
-                                                    </h2>
-                                                    <p>
-                                                        安装react包 Python npm i react react-dom 使用react ‘’‘html React基本使用安装react包 Python
-                                                        npm i react react-dom 使用react ‘’‘html React基本使用安装react包 Python npm i react
-                                                        react-dom 使用react ‘’‘html React基本使用
-                                                    </p>
-                                                    <div class="article_info">
-                                                        <span>
-                                                            <i class="far fa-clock"></i>2021-12-12
-                                                        </span>
-                                                        <span>
-                                                            <i class="fas fa-thumbs-up"></i>123
-                                                        </span>
-                                                        <span>
-                                                            <i class="far fa-eye"></i>
-                                                        </span>
-                                                        <span>
-                                                            <i class="fas fa-comment"></i>
-                                                        </span>
-                                                        <span>
-                                                            <i class="fas fa-star-half-alt"></i>
-                                                        </span>
-                                                        <a href="">查看标签</a>
-                                                    </div>
-                                                </div>
-                                                </li>
-                                            </ul>
-                                        </div>
+                                     <lu class="pager">
+                                         {{ pager.page_html|safe }}
+                                     </lu>
+                                </div>
                             </div>
-
                         </div>
 
                         <div class="right">

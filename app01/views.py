@@ -2,9 +2,9 @@ from django.shortcuts import render, HttpResponse, redirect
 from app01.utils.random_code import random_code
 from django.contrib import auth
 from app01.utils.mqtt import led
-from app01.models import UserInfo
 from app01.models import Articles, Tags, Cover
 from app01.utils.sub_comment import sub_comment_list
+from app01.utils.pagination import Pagination
 # Create your views here.
 
 
@@ -12,11 +12,22 @@ def index(request):
     article_list = Articles.objects.filter(status=1).order_by('-change_date')
     frontend_list = article_list.filter(category=1)[:6]
     backend_list = article_list.filter(category=2)[:6]
+    query_params = request.GET.copy()
+    pager = Pagination(
+        current_page=request.GET.get('page'),
+        all_count=article_list.count(),
+        base_url=request.path_info,
+        query_params=query_params,
+        per_page=1,
+        pager_page_count=7,
+    )
+    # print(pager.start, pager.end, pager.page_html())
+    article_list = article_list[pager.start:pager.end]
     return render(request, 'index.html', locals())
 
 
 def article(request, nid):
-    article_query = Articles.objects.filter(nid=nid).order_by('create_date')
+    article_query = Articles.objects.filter(nid=nid)
     if not article_query:
         return redirect('/')
     article = article_query.first()
