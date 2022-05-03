@@ -25,6 +25,10 @@
                     <a href="">回忆录</a>
                     <a href="#">关于</a>
                     <a href="">导航</a>
+                    <div class="search">
+                        <input type="text" class="search_box" placeholder="搜索你想要的内容">
+                        <button @click="search"><i class="fa fa-search"></i></button>
+                    </div>
                 </div>
 
                 <div class="right">
@@ -513,55 +517,69 @@
                         pos.top = pos.top - 80
                         $('html,body').animate({scrollTop: pos.top}, 600)
                     },
+
+                    //点击搜索
+                    search(){
+                        let box = document.querySelector('.search')
+                        if(! box.classList.contains('show_search')){
+                            box.classList.add('show_search')
+                            return
+                        }
+                        box.classList.remove('show_search')
+                    }
                 }
             })
 
-            let menu_img = document.querySelectorAll('.dynamic_shuffl')
-            let menu_length = menu_img.length
-            let index = 0
-            let timer = null;
-            clearInterval(timer)
-            timer = setInterval(() => {
-                index++
-                if (index == menu_length) {
-                    index = 0
-                }
-                for (let i of menu_img) {
-                    i.style.opacity = 0
-                }
-                menu_img[index].style.opacity = 1
-            }, 5000)
 
-            let nav = document.querySelector('.nav_bg')
-            let path = location.pathname
-
-            let slider;
-            slider = document.querySelector('.slider_bar')
-            let top1 = 0;
-
-            if(path.indexOf('article') !== -1 ){
-                top1 = $(slider).offset().top - 80
-            }
-
-            window.onscroll = function (){
-                let top = document.documentElement.scrollTop
-                if(top >= 650){
-                    nav.classList.add('show')
-                }else{
-                    nav.classList.remove('show')
-                }
-                if(slider){
-                    if(top >= top1){
-                    slider.classList.add('fixed')
-                    }else {
-                        slider.classList.remove('fixed')
-                    }
-                }
-
-            }
         </script>
         {% block js %}
-        
+            <script>
+                let menu_img = document.querySelectorAll('.dynamic_shuffl')
+                let menu_length = menu_img.length
+                let index = 0
+                let timer = null;
+                clearInterval(timer)
+                timer = setInterval(() => {
+                    index++
+                    if (index == menu_length) {
+                        index = 0
+                    }
+                    for (let i of menu_img) {
+                        i.style.opacity = 0
+                    }
+                    menu_img[index].style.opacity = 1
+                }, 5000)
+
+                let nav = document.querySelector('.nav_bg')
+                let path = location.pathname
+
+                let slider;
+                slider = document.querySelector('.slider_bar')
+                let top1 = 0;
+
+                if(path.indexOf('article') !== -1 ){
+                    top1 = $(slider).offset().top - 80
+                }
+
+                window.onscroll = function (){
+                    let top = document.documentElement.scrollTop
+                    if(top >= 650){
+                        nav.classList.add('show')
+                    }else{
+                        nav.classList.remove('show')
+                    }
+                    if(slider){
+                        if(top >= top1){
+                        slider.classList.add('fixed')
+                        }else {
+                            slider.classList.remove('fixed')
+                        }
+                    }
+
+                }
+            </script>
+        {% endblock %}
+        {% block article_js %}
         {% endblock %}
     </body>
 </html>

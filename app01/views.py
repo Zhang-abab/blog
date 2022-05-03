@@ -26,6 +26,10 @@ def index(request):
     return render(request, 'index.html', locals())
 
 
+def search(request):
+    return render(request, 'search.html', locals())
+
+
 def article(request, nid):
     article_query = Articles.objects.filter(nid=nid)
     if not article_query:

@@ -92,7 +92,8 @@ footer {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center; }
+    align-items: center;
+    margin-top: 30px; }
   footer .thank {
     color: #26c6e1;
     font-size: 20px; }
@@ -156,5 +157,43 @@ footer {
 
 .delete {
   color: red; }
+
+nav .search {
+  display: inline-flex; }
+  nav .search input {
+    width: 0;
+    transition: all 0.3s;
+    height: 40px;
+    border: none;
+    outline: none;
+    padding: 0; }
+  nav .search button {
+    color: white;
+    border: none;
+    background-color: transparent;
+    transition: all 0.3s;
+    cursor: pointer; }
+
+nav.show .search button {
+  color: #333; }
+
+nav .show_search input {
+  width: 200px;
+  border-radius: 5px 0 0 5px;
+  padding-left: 10px;
+  background-color: rgba(255, 255, 255, 0.5); }
+nav .show_search button {
+  width: 40px;
+  background-color: white;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 0 5px 5px 0;
+  color: #333; }
+
+nav.show .show_search input {
+  border: 1px solid #e5e9ef; }
+nav.show .show_search button {
+  border-color: #e5e9ef;
+  border-style: solid;
+  border-width: 1px 1px 1px 0; }
 
 /*# sourceMappingURL=base.css.map */
