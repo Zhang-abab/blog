@@ -26,7 +26,8 @@
       border-radius: 5px;
       height: 40px;
       color: white;
-      border: none; }
+      border: none;
+      cursor: pointer; }
   .mian .search_criteria {
     margin: 20px 0;
     width: 100%;
@@ -48,7 +49,8 @@
     .mian .search_criteria > ul {
       display: flex;
       list-style: none;
-      margin: 10px 0; }
+      margin: 10px 0;
+      flex-wrap: wrap; }
       .mian .search_criteria > ul > li {
         padding: 3px 8px;
         margin-right: 10px; }
@@ -87,7 +89,8 @@
       .mian .search_content > li .info {
         padding: 8px; }
         .mian .search_content > li .info .title {
-          margin-bottom: 5px; }
+          margin-bottom: 5px;
+          height: 43px; }
         .mian .search_content > li .info a {
           color: #333;
           font-size: 14px; }

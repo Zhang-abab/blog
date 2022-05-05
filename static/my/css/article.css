@@ -207,6 +207,18 @@ main {
       .article .article_actions .item i.show {
         color: #ff9800; }
 
+pre {
+  position: relative; }
+  pre:hover .code-copy {
+    opacity: 1; }
+  pre .code-copy {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    opacity: 0;
+    cursor: pointer;
+    transition: all 0.3s; }
+
 .slider_bar {
   width: 180px;
   position: absolute;

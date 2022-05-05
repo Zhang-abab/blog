@@ -26,7 +26,7 @@
                     <a href="#">关于</a>
                     <a href="">导航</a>
                     <div class="search">
-                        <input type="text" class="search_box" placeholder="搜索你想要的内容">
+                        <input type="text" @keydown.enter="search" v-model="search_key" class="search_box" placeholder="搜索你想要的内容">
                         <button @click="search"><i class="fa fa-search"></i></button>
                     </div>
                 </div>
@@ -297,16 +297,22 @@
                     isShowSlider: false,
                     slide_list:[],
                     slide_text:'显示悬浮目录',
+                    search_key:'',
                 },
                 created() {
                     this.init_theme()
                     let path = location.pathname
                     if(path.indexOf('article') !== -1){
                         this.init_slider()
+
+                    }
+                    if(path.indexOf('search') !== -1){
+                        this.init_search_key()
                     }
                     setTimeout(() =>{
                         this.get_sidebar()
-                    },1000)
+                        this.code_copy()
+                    },200)
                 },
                 methods: {
                     //初始化主题信息
@@ -446,10 +452,8 @@
                             $(dom).next().text(res.data)
                             if(res.isCollects){
                                 dom.classList.add('show')
-                                console.log(res)
                                 return
                             }
-                            console.log(res)
                             dom.classList.remove('show')
                         })
                     },
@@ -518,6 +522,27 @@
                         $('html,body').animate({scrollTop: pos.top}, 600)
                     },
 
+                    // 代码一键复制
+                    code_copy(){
+                        $('pre').each(function (){
+                            let copy = $('<i title="copy" class="el-icon-document-copy code-copy"></i>')
+                            $(this).append(copy)
+                        })
+                        $('pre i.code-copy').click(e =>{
+                            let text_list = $(e.target).prev().find('code')
+                            let text = ''
+                            text_list.each(function (){
+                              text += $(this).text() + '\n'
+                            })
+                            let element = $('<textarea>' + text + '</textarea>')
+                            $('body').append(element)
+                            element[0].select()
+                            document.execCommand('Copy')
+                            element.remove()
+                            this.$message.success('复制成功')
+                        })
+                    },
+
                     //点击搜索
                     search(){
                         let box = document.querySelector('.search')
@@ -525,8 +550,21 @@
                             box.classList.add('show_search')
                             return
                         }
-                        box.classList.remove('show_search')
-                    }
+                        if(!this.search_key){
+                            box.classList.remove('show_search')
+                            return;
+                        }
+                        window.open('/search/?key='+this.search_key, name='_blank')
+                    },
+
+                    //初始化搜索词
+                    init_search_key(){
+                        let dom = document.querySelector('.search_key_input')
+                        let key = dom.getAttribute('data')
+                        this.search_key = key
+
+
+                    },
                 }
             })
 

@@ -36,7 +36,7 @@ class AddArticleForm(forms.Form):
             return abstract
         content = self.cleaned_data.get('content')
         if content:
-            abstract = PyQuery(markdown(content)).text()[:30]
+            abstract = PyQuery(markdown(content)).text()[:905]
             return abstract
 
     def clean_cover_id(self):

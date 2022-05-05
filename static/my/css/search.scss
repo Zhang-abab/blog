@@ -30,6 +30,7 @@
       height: 40px;
       color: white;
       border: none;
+      cursor: pointer;
     }
   }
   .search_criteria{
@@ -56,6 +57,7 @@
       display: flex;
       list-style: none;
       margin: 10px 0;
+      flex-wrap: wrap;
       >li{
         padding: 3px 8px;
         margin-right: 10px;
@@ -107,6 +109,7 @@
         padding: 8px;
         .title{
           margin-bottom: 5px;
+          height: 43px;
         }
         a{
           color: #333;

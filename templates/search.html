@@ -1,4 +1,5 @@
 {% extends 'index.html' %}
+{% load my_tag %}
 {% block banner %}
 
 {% endblock %}
@@ -8,12 +9,12 @@
 {% endblock %}
 {% block main %}
     <div class="mian">
-        <div class="search_box">
+        <form action="" class="search_box">
             <div>
                 无名小站｜搜索
             </div>
             <div>
-                <input tyep="text" placeholder="搜索你想要的内容">
+                <input name="key" class="search_key_input" tyep="text" placeholder="搜索你想要的内容" data="{{ search_key }}" v-model="search_key" >
             </div>
             <div>
                 <button>
@@ -21,194 +22,42 @@
                     搜索
                 </button>
             </div>
-        </div>
+        </form>
         <div class="search_criteria">
             <ul>
-                <li class="active"><a href="">综合排序</a> </li>
-                <li><a href="">最多点赞</a> </li>
-                <li><a href="">最新发布</a> </li>
-                <li><a href="">最多收藏</a> </li>
-                <li><a href="">最多评论</a> </li>
+                {% generate_order request 'order'%}
             </ul>
             <ul>
-                <li class="active"><a href="">全部字长</a> </li>
-                <li><a href="">100字左右</a> </li>
-                <li><a href="">500字左右</a> </li>
-                <li><a href="">2000字左右</a> </li>
-                <li><a href="">300字左右</a> </li>
+                {% generate_order request 'word'%}
             </ul>
             <ul>
-                <li class="active"><a href="">全部标签</a> </li>
-                <li><a href="">Django</a> </li>
-                <li><a href="">Python</a> </li>
-                <li><a href="">Vue</a> </li>
-                <li><a href="">JavaScript</a> </li>
-                <li><a href="">PHP</a> </li>
-                <li><a href="">Java</a> </li>
-                <li><a href="">Flask</a> </li>
+                {% generate_order request 'tag'%}
             </ul>
         </div>
         <ul class="search_content">
-            <li>
-                <a href="" class="img">
-                    <img src='/static/shuffl/1.jpeg'>
-                </a>
-                <div class="info">
-                    <div class="title">
-                        <a href="">[小站项目]</a>
+            {% for article in article_list %}
+                <li>
+                    <a href="/article/{{ article.nid }}" target="_blank" class="img">
+                        <img src="{{ article.cover.url.url }}">
+                    </a>
+                    <div class="info">
+                        <div class="title">
+                            <a href="/article/{{ article.nid }}" target="_blank">{{ article.title }}</a>
+                        </div>
+                        <div class="icon">
+                            <span><i class="fa fa-eye"></i>
+                                {{ article.look_count }}
+                            </span>
+                            <span><i class="fa fa-clock"></i>
+                                {{ article.create_date|date:'Y-m-d' }}
+                            </span>
+                        </div>
                     </div>
-                    <div class="icon">
-                        <span><i class="fa fa-lock"></i>4554</span>
-                        <span><i class="fa fa-clock"></i>2022-4-14</span>
-                    </div>
-                </div>
-            </li>
-            <li>
-                <a href="" class="img">
-                    <img src='/static/shuffl/1.jpeg'>
-                </a>
-                <div class="info">
-                    <div class="title">
-                        <a href="">[小站项目]</a>
-                    </div>
-                    <div class="icon">
-                        <span><i class="fa fa-lock"></i>4554</span>
-                        <span><i class="fa fa-clock"></i>2022-4-14</span>
-                    </div>
-                </div>
-            </li>
-            <li>
-                <a href="" class="img">
-                    <img src='/static/shuffl/1.jpeg'>
-                </a>
-                <div class="info">
-                    <div class="title">
-                        <a href="">[小站项目]</a>
-                    </div>
-                    <div class="icon">
-                        <span><i class="fa fa-lock"></i>4554</span>
-                        <span><i class="fa fa-clock"></i>2022-4-14</span>
-                    </div>
-                </div>
-            </li>
-            <li>
-                <a href="" class="img">
-                    <img src='/static/shuffl/1.jpeg'>
-                </a>
-                <div class="info">
-                    <div class="title">
-                        <a href="">[小站项目]</a>
-                    </div>
-                    <div class="icon">
-                        <span><i class="fa fa-lock"></i>4554</span>
-                        <span><i class="fa fa-clock"></i>2022-4-14</span>
-                    </div>
-                </div>
-            </li>
-            <li>
-                <a href="" class="img">
-                    <img src='/static/shuffl/1.jpeg'>
-                </a>
-                <div class="info">
-                    <div class="title">
-                        <a href="">[小站项目]</a>
-                    </div>
-                    <div class="icon">
-                        <span><i class="fa fa-lock"></i>4554</span>
-                        <span><i class="fa fa-clock"></i>2022-4-14</span>
-                    </div>
-                </div>
-            </li>
-            <li>
-                <a href="" class="img">
-                    <img src='/static/shuffl/1.jpeg'>
-                </a>
-                <div class="info">
-                    <div class="title">
-                        <a href="">[小站项目]</a>
-                    </div>
-                    <div class="icon">
-                        <span><i class="fa fa-lock"></i>4554</span>
-                        <span><i class="fa fa-clock"></i>2022-4-14</span>
-                    </div>
-                </div>
-            </li>
-            <li>
-                <a href="" class="img">
-                    <img src='/static/shuffl/1.jpeg'>
-                </a>
-                <div class="info">
-                    <div class="title">
-                        <a href="">[小站项目]</a>
-                    </div>
-                    <div class="icon">
-                        <span><i class="fa fa-lock"></i>4554</span>
-                        <span><i class="fa fa-clock"></i>2022-4-14</span>
-                    </div>
-                </div>
-            </li>
-            <li>
-                <a href="" class="img">
-                    <img src='/static/shuffl/1.jpeg'>
-                </a>
-                <div class="info">
-                    <div class="title">
-                        <a href="">[小站项目]</a>
-                    </div>
-                    <div class="icon">
-                        <span><i class="fa fa-lock"></i>4554</span>
-                        <span><i class="fa fa-clock"></i>2022-4-14</span>
-                    </div>
-                </div>
-            </li>
-            <li>
-                <a href="" class="img">
-                    <img src='/static/shuffl/1.jpeg'>
-                </a>
-                <div class="info">
-                    <div class="title">
-                        <a href="">[小站项目]</a>
-                    </div>
-                    <div class="icon">
-                        <span><i class="fa fa-lock"></i>4554</span>
-                        <span><i class="fa fa-clock"></i>2022-4-14</span>
-                    </div>
-                </div>
-            </li>
-            <li>
-                <a href="" class="img">
-                    <img src='/static/shuffl/1.jpeg'>
-                </a>
-                <div class="info">
-                    <div class="title">
-                        <a href="">[小站项目]</a>
-                    </div>
-                    <div class="icon">
-                        <span><i class="fa fa-lock"></i>4554</span>
-                        <span><i class="fa fa-clock"></i>2022-4-14</span>
-                    </div>
-                </div>
-            </li>
+                </li>
+            {% endfor %}
         </ul>
         <ul class="pager">
-                <li>
-                    <a href="">上一页</a>
-                </li>
-                <li class="active">
-                    <a href="">3</a>
-                </li>
-                <li>
-                    <a href="">4</a>
-                </li>
-                <li>
-                    <a href="">5</a>
-                </li>
-                <li>
-                    <a href="">6</a>
-                </li>
-                <li>
-                    <a href="">下一页</a>
-                </li>
+                {{ pager.page_html|safe }}
         </ul>
     </div>
 {% endblock %}

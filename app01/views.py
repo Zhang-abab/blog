@@ -5,6 +5,8 @@ from app01.utils.mqtt import led
 from app01.models import Articles, Tags, Cover
 from app01.utils.sub_comment import sub_comment_list
 from app01.utils.pagination import Pagination
+from django.db.models import F
+
 # Create your views here.
 
 
@@ -12,13 +14,14 @@ def index(request):
     article_list = Articles.objects.filter(status=1).order_by('-change_date')
     frontend_list = article_list.filter(category=1)[:6]
     backend_list = article_list.filter(category=2)[:6]
+    # 分页器。
     query_params = request.GET.copy()
     pager = Pagination(
         current_page=request.GET.get('page'),
         all_count=article_list.count(),
         base_url=request.path_info,
         query_params=query_params,
-        per_page=1,
+        per_page=3,
         pager_page_count=7,
     )
     # print(pager.start, pager.end, pager.page_html())
@@ -27,11 +30,42 @@ def index(request):
 
 
 def search(request):
+    search_key = request.GET.get('key', '')
+    order = request.GET.get('order', '')
+    word = request.GET.getlist('word')
+    tag = request.GET.get('tag', '')
+    query_params = request.GET.copy()
+    article_list = Articles.objects.filter(title__contains=search_key)
+    if len(word) == 2:
+        article_list = article_list.filter(word__range=word)
+    if tag:
+        article_list = article_list.filter(tag__title=tag)
+    if order:
+        try:
+            article_list = article_list.order_by(order)
+        except Exception:
+            pass
+    # 分页器
+
+    pager = Pagination(
+        current_page=request.GET.get('page'),
+        all_count=article_list.count(),
+        base_url=request.path_info,
+        query_params=query_params,
+        per_page=5,
+        pager_page_count=7,
+    )
+    # print(pager.start, pager.end, pager.page_html())
+    article_list = article_list[pager.start:pager.end]
+
+    # 文章搜索条件
+    query_params.urlencode()
     return render(request, 'search.html', locals())
 
 
 def article(request, nid):
     article_query = Articles.objects.filter(nid=nid)
+    article_query.update(look_count=F('look_count')+1)
     if not article_query:
         return redirect('/')
     article = article_query.first()
