@@ -306,6 +306,14 @@
                     slide_list:[],
                     slide_text:'显示悬浮目录',
                     search_key:'',
+                    news_list:[],
+                    news_init:[
+                        {name: '微博', id: 'KqndgxeLl9', url: 'https://file.ipadown.com/tophub/assets/imges/media/s.weibo.com.png_50x50.png'},
+                        {name: '知乎', id: 'mproPpoq6O', url: 'https://file.ipadown.com/tophub/assets/imges/media/s.weibo.com.png_50x50.png'},
+                        {name: '微信', id: 'WnBe01o371', url: 'https://file.ipadown.com/tophub/assets/imges/media/s.weibo.com.png_50x50.png'},
+                    ],
+                    news_active:'微博',
+                    news_active_url:'https://file.ipadown.com/tophub/assets/imges/media/s.weibo.com.png_50x50.png',
                 },
                 created() {
                     this.init_theme()
@@ -316,6 +324,9 @@
                     }
                     if(path.indexOf('search') !== -1){
                         this.init_search_key()
+                    }
+                    if(path.indexOf('news') !== -1){
+                        this.news_init_method()
                     }
                     setTimeout(() =>{
                         this.get_sidebar()
@@ -570,8 +581,22 @@
                         let dom = document.querySelector('.search_key_input')
                         let key = dom.getAttribute('data')
                         this.search_key = key
+                    },
 
-
+                    // 获取热搜数据
+                    get_new_list(id, name, url, flag){
+                        if(name === this.news_active && !flag){
+                            return
+                        }
+                        this.news_active = name
+                        this.news_active_url = url
+                        axios.post('https://api.codelife.cc/api/top/list', {id}).then(res =>{
+                            console.log(res.data)
+                            this.news_list = res.data
+                        })
+                    },
+                    news_init_method(){
+                        this.get_new_list('KqndgxeLl9', '微博','https://file.ipadown.com/tophub/assets/imges/media/s.weibo.com.png_50x50.png' ,true)
                     },
                 }
             })
