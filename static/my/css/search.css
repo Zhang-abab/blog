@@ -1,3 +1,6 @@
+main {
+  min-height: 0; }
+
 .mian {
   width: 1080px;
   margin-top: 80px;
@@ -63,6 +66,10 @@
         border-radius: 5px; }
         .mian .search_criteria > ul > li.active a {
           color: white; }
+  .mian .no_content {
+    width: 100%;
+    background: url("/static/my/img/search/no_content.png") no-repeat center;
+    height: 300px; }
   .mian .search_content {
     width: 100%;
     list-style: none;

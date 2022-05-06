@@ -31,13 +31,14 @@ ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
+    'simpleui',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #自定义应用
+    # 自定义应用
     'app01.apps.App01Config',
     'api.apps.ApiConfig'
 ]
@@ -144,5 +145,16 @@ MEDIA_URL = '/media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-#用户亏扩展表
+# 用户亏扩展表
 AUTH_USER_MODEL = 'app01.UserInfo'
+
+# simpleui关闭默认主页
+SIMPLEUI_HOME_INFO = False
+SIMPLEUI_HOME_QUICK = False
+SIMPLEUI_HOME_ACTION = False
+
+# 自定义主页
+SIMPLEUI_HOME = True
+SIMPLEUI_HOME_PAGE = '/admin_home/'
+SIMPLEUI_HOME_TITLE = '首页'
+SIMPLEUI_HOME_ICON = 'fa fa-user'

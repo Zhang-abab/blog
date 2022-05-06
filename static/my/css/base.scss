@@ -42,6 +42,9 @@ nav {
 
         }
     }
+    a.active{
+        color: #ff9800;
+    }
 }
 
 nav.show{
@@ -50,6 +53,7 @@ nav.show{
     a{
         color: #333333;
     }
+
     .el-dropdown{
         color: #333333;
     }
@@ -236,6 +240,7 @@ nav .search{
         cursor: pointer;
     }
 }
+
 nav.show .search{
     button{
         color: #333;

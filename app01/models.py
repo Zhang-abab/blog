@@ -127,7 +127,7 @@ class Articles(models.Model):
     pwd = models.CharField(max_length=32, verbose_name='文章密码', null=True, blank=True)
     author = models.CharField(max_length=16, verbose_name='作者', null=True, blank=True)
     source = models.CharField(max_length=32, verbose_name='来源', null=True, blank=True)
-    word = models.IntegerField(verbose_name='文字字数',default=0)
+    word = models.IntegerField(verbose_name='文字字数', default=0)
     link = models.URLField(verbose_name='文章链接', null=True, blank=True)
 
     def __str__(self):

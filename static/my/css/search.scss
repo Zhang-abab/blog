@@ -1,3 +1,6 @@
+main{
+  min-height: 0;
+}
 .mian{
   width: 1080px;
   margin-top: 80px;
@@ -78,6 +81,11 @@
         }
       }
     }
+  }
+  .no_content{
+    width: 100%;
+    background: url("/static/my/img/search/no_content.png") no-repeat center;
+    height: 300px;
   }
   .search_content{
     width: 100%;

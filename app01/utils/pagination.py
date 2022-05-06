@@ -75,6 +75,8 @@ class Pagination:
         if self.current_page != self.current_count and len(page_list) > 0:
             self.query_params['page'] = self.current_page + 1
             page_list.append(f'<li><a href="{self.base_url}?{self.query_encode}#{self.position}">下一页</a></li>')
+        if len(page_list) == 1:
+            page_list = []
         return ''.join(page_list)
 
     @property

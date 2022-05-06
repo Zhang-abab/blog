@@ -18,13 +18,8 @@
         <div id="app">
             <link rel="stylesheet" :href="'/static/my/css/theme/' + theme +'.css'">
             <nav class="nav_bg">
-                <div class="left">
-                    <a href="/">首页</a>
-                    <a href="/news">新闻</a>
-                    <a href="/Led">Mqtt</a>
-                    <a href="">回忆录</a>
-                    <a href="#">关于</a>
-                    <a href="">导航</a>
+                <div class="left" id="dynamic_nav">
+                    {% dynamic_navigation request %}
                     <div class="search">
                         <input type="text" @keydown.enter="search" v-model="search_key" class="search_box" placeholder="搜索你想要的内容">
                         <button @click="search"><i class="fa fa-search"></i></button>
@@ -177,7 +172,8 @@
                         </div>
 
                         <div class="right">
-                            <div class="advertisement card">
+                            {% if advert_list.count %}
+                                <div class="advertisement card">
                                 <div class="title">
                                     <h2>独家广告</h2>
                                     <div>
@@ -185,10 +181,10 @@
                                     </div>
                                 </div>
                                 <div class="body">
-                                    主要内容区
+                                    {% generate_advert advert_list %}
                                 </div>
                             </div>
-
+                            {% endif %}
                             <div class="tags card">
                                 <div class="title">
                                     <h2>标签云</h2>
@@ -285,6 +281,18 @@
                     response=>{
                     return response.data
                 })
+            /*  动态导航选中
+                function dynamic_navigation(){
+                    let a_list = document.querySelectorAll('#dynamic_nav>a')
+                    let path = location.pathname
+                    for(const a of a_list){
+                        let a_href = a.getAttribute('href')
+                        if(a_href === path || a_href + '/' === path){
+                            a.classList.add('active')
+                        }
+                    }
+                }
+                */
             new Vue({
                 el: '#app',
                 delimiters: [
@@ -554,7 +562,7 @@
                             box.classList.remove('show_search')
                             return;
                         }
-                        window.open('/search/?key='+this.search_key, name='_blank')
+                        window.open('/search/?key='+this.search_key+'&word=', name='_blank')
                     },
 
                     //初始化搜索词

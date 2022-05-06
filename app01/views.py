@@ -2,7 +2,7 @@ from django.shortcuts import render, HttpResponse, redirect
 from app01.utils.random_code import random_code
 from django.contrib import auth
 from app01.utils.mqtt import led
-from app01.models import Articles, Tags, Cover
+from app01.models import *
 from app01.utils.sub_comment import sub_comment_list
 from app01.utils.pagination import Pagination
 from django.db.models import F
@@ -26,6 +26,7 @@ def index(request):
     )
     # print(pager.start, pager.end, pager.page_html())
     article_list = article_list[pager.start:pager.end]
+    advert_list = Advert.objects.filter(is_show=True)
     return render(request, 'index.html', locals())
 
 
@@ -76,6 +77,21 @@ def article(request, nid):
 def news(request):
 
     return render(request, 'news.html')
+
+
+def about(request):
+
+    return render(request, 'about.html')
+
+
+def history(request):
+
+    return render(request, 'history.html')
+
+
+def sites(request):
+
+    return render(request, 'sites.html')
 
 
 def login(request):
@@ -151,3 +167,7 @@ def edit_article(request, nid):
         })
     category_list = Articles.category_choice
     return render(request, 'backend/edit_article.html', locals())
+
+
+def admin_home(request):
+    return render(request, 'admin_home.html')

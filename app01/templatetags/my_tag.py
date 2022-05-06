@@ -58,3 +58,43 @@ def generate_order(request, key):
     )
 
     return mark_safe(order.order_html())
+
+
+# 动态导航栏
+@register.simple_tag
+def dynamic_navigation(request):
+    path = request.path_info
+    path_dict = {
+        '/': '首页',
+        '/news/': '新闻',
+        '/Led/': 'Mqtt',
+        '/history/': '回忆录',
+        '/about/': '关于',
+        '/sites/': '导航',
+    }
+    nav_list = []
+    for k, v in path_dict.items():
+        if k == path:
+            nav_list.append(f'<a href="{k}" class="active">{v}</a>')
+            continue
+        nav_list.append(f'<a href="{k}">{v}</a>')
+    return mark_safe(''.join(nav_list))
+
+
+# 生成广告
+@register.simple_tag
+def generate_advert(advert_list):
+    html_list = []
+    for i in advert_list:
+        if i.img:
+            # 用户上传
+            html_list.append(f'<div><a href="{i.href}" title="{i.title}" target="_blank"><img src="{i.img.url}"></a></div>')
+            continue
+        html_s: str = i.img_list
+        html_new = html_s.replace('；', ';').replace('\n', ';')
+        img_list = html_new.split(';')
+        for url in img_list:
+            html_list.append(
+                f'<div><a href="{i.href}" title="{i.title}" target="_blank"><img src="{url}"></a></div>'
+            )
+    return mark_safe(''.join(html_list))

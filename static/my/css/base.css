@@ -28,6 +28,8 @@ nav {
     color: white; }
     nav a:last-child {
       margin-right: 0; }
+  nav a.active {
+    color: #ff9800; }
 
 nav.show {
   background-color: white;

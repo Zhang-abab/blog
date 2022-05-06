@@ -278,6 +278,36 @@
                 }
 
             }
+            .advertisement > .body{
+                padding: 0;
+                background: none;
+                >div{
+                    width: 100%;
+                    padding: 10px;
+                    background-color: white;
+                    margin-bottom: 10px;
+                    border-radius: 5px;
+                    box-sizing: border-box;
+                    &:first-child{
+                        border-radius: 0 0 5px 5px;
+                    }
+                    >a{
+                        width: 100%;
+                        height: 100%;
+                        display: block;
+                        overflow: hidden;
+                        img{
+                            width: 100%;
+                            transition: all 0.3s;
+                            &:hover{
+                                transform: scale(1.1);
+                            }
+                        }
+                    }
+
+                }
+            }
+
         }
     }
 }
