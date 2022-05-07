@@ -8,7 +8,7 @@
             {% csrf_token %}
             <div class="left">
                 <ul>
-                    <li :class="item.name === news_active ? 'active' : ''" v-for="item in news_init" :key="item.id" @click="get_new_list(item.id, item.name, item.url, false)">
+                    <li :class="item.name === news_active ? 'active' : ''" v-for="item in news_init" :key="item.id" @click="get_new_list(item.id, item.name, item.url, false, 0)">
                         <img :src="item.url">[[ item.name ]]
                     </li>
                 </ul>
@@ -29,5 +29,6 @@
                 </div>
             </div>
         </div>
+        <div class="thank"><a href="https://go.itab.link/">灵感与API来源于itab</a></div>
     </div>
 {% endblock main %}

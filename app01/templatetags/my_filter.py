@@ -1,3 +1,5 @@
+import datetime
+import pendulum
 from django import template
 
 register = template.Library()
@@ -18,3 +20,12 @@ def is_article_list(article_list):
     if len(article_list):
         return 'search_content'
     return 'no_content'
+
+
+# 时间格式化
+@register.filter
+def date_humaniz(date: datetime.datetime):
+    pendulum.set_locale('zh')
+    tz = pendulum.now().tz
+    time_difference = pendulum.parse(date.strftime('%Y-%m-%d %H:%M:%S'), tz=tz).diff_for_humans()
+    return time_difference

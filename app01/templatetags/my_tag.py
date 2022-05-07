@@ -67,6 +67,7 @@ def dynamic_navigation(request):
     path_dict = {
         '/': '首页',
         '/news/': '新闻',
+        # '/moods/': '心情',
         '/Led/': 'Mqtt',
         '/history/': '回忆录',
         '/about/': '关于',

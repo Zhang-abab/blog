@@ -1,0 +1,88 @@
+{% extends 'index.html' %}
+{% load my_tag my_filter %}
+{% block title %}无名小站｜心情发布{% endblock %}
+{% block CSS %}
+    <link rel="stylesheet" href="/static/my/css/moods.css">
+{% endblock %}
+{% block main %}
+    <div class="main">
+        <el-button class="add_mood">发布心情</el-button>
+        <div class="mood">
+            <div class="left">
+                <img src="https://i0.hdslb.com/bfs/face/6ffdc16280d9ce239c8099a23a94a9fde6945f10.jpg@240w_240h_1c_1s.webp">
+            </div>
+            <div class="right">
+                <h3 class="name">zhangao</h3>
+                <p class="content">欢迎大家来到</p>
+                <div class="info">
+                    <span class="date">
+                        5小时前
+                    </span>
+                    <span class="three">
+                        <span>点赞（1）</span>
+                        <span>评论（1）</span>
+                        <span class="delete">删除</span>
+                    </span>
+                </div>
+                <ul class="sub_comment_list">
+                    <li>
+                        <div class="left">
+                            <img src="https://i0.hdslb.com/bfs/face/6ffdc16280d9ce239c8099a23a94a9fde6945f10.jpg@240w_240h_1c_1s.webp">
+                        </div>
+                        <div class="right">
+                            <h4 class="name">zhangao</h4>
+                            <p class="content">回复你的</p>
+                            <div class="info">
+                        <span class="date">
+                            5小时前
+                        </span>
+                        <span class="three">
+                            <span>点赞（1）</span>
+                            <span class="delete">删除</span>
+                        </span>
+                    </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="mood">
+                <div class="left">
+                    <img src="https://i0.hdslb.com/bfs/face/6ffdc16280d9ce239c8099a23a94a9fde6945f10.jpg@240w_240h_1c_1s.webp">
+                </div>
+                <div class="right">
+                    <h3 class="name">zhangao</h3>
+                    <p class="content">欢迎大家来到</p>
+                    <div class="info">
+                        <span class="date">
+                            5小时前
+                        </span>
+                        <span class="three">
+                            <span>点赞（1）</span>
+                            <span>评论（1）</span>
+                            <span class="delete">删除</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        <div class="mood">
+                <div class="left">
+                    <img src="https://i0.hdslb.com/bfs/face/6ffdc16280d9ce239c8099a23a94a9fde6945f10.jpg@240w_240h_1c_1s.webp">
+                </div>
+                <div class="right">
+                    <h3 class="name">zhangao</h3>
+                    <p class="content">欢迎大家来到</p>
+                    <div class="info">
+                        <span class="date">
+                            5小时前
+                        </span>
+                        <span class="three">
+                            <span>点赞（1）</span>
+                            <span>评论（1）</span>
+                            <span class="delete">删除</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+    </div>
+{% endblock %}

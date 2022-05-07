@@ -110,6 +110,22 @@
               #app .main .left .boutique_card > .body > ul > li .right span {
                 font-size: 14px;
                 color: #555; }
+      #app .main .left .hotList > .body > div {
+        display: flex;
+        font-size: 14px; }
+        #app .main .left .hotList > .body > div .index {
+          width: 20px;
+          color: #333;
+          border-radius: 5px;
+          display: flex;
+          margin-right: 20px; }
+        #app .main .left .hotList > .body > div a {
+          width: 77%;
+          color: #3a8ee6; }
+        #app .main .left .hotList > .body > div .num {
+          width: 20%;
+          display: flex;
+          justify-content: right; }
       #app .main .left .all_article > .body {
         background-color: transparent;
         padding: 0; }

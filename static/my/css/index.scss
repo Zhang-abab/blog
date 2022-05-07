@@ -124,6 +124,28 @@
                     }
                 }
             }
+            .hotList > .body{
+                >div{
+                    display: flex;
+                    font-size: 14px;
+                    .index {
+                        width: 20px;
+                        color: #333;
+                        border-radius: 5px;
+                        display: flex;
+                        margin-right: 20px;
+                      }
+                      a{
+                        width: 77%;
+                        color: #3a8ee6;
+                      }
+                      .num{
+                        width: 20%;
+                        display: flex;
+                        justify-content: right;
+                      }
+                        }
+                    }
             .all_article > .body {
                 background-color: transparent;
                 padding: 0;

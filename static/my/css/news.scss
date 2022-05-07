@@ -111,4 +111,14 @@
        }
      }
    }
+   .thank{
+     width: 100%;
+     display: flex;
+     justify-content: center;
+     margin-top: 10px;
+     a{
+       font-size: 14px;
+       color: #333;
+     }
+   }
  }

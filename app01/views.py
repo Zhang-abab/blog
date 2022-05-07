@@ -104,6 +104,9 @@ def sign(request):
     return render(request, 'sign.html')
 
 
+def moods(request):
+    return render(request, 'moods.html')
+
 def logout(request):
     auth.logout(request)
     return redirect('/')

@@ -80,5 +80,13 @@
               width: 20%;
               display: flex;
               justify-content: right; }
+  .main .thank {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 10px; }
+    .main .thank a {
+      font-size: 14px;
+      color: #333; }
 
 /*# sourceMappingURL=news.css.map */
