@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path, re_path
-from api.views import login, article, comment
+from api.views import login, article, comment, user, file
 
 urlpatterns = [
     path('login/', login.LoginView.as_view()),
@@ -25,4 +25,11 @@ urlpatterns = [
     re_path(r'comment/digg/(?P<nid>\d+)/', comment.CommentDiggView.as_view()),
     re_path(r'article/digg/(?P<nid>\d+)/', article.ArticleDiggView.as_view()),
     re_path(r'article/collects/(?P<nid>\d+)/', article.ArticleCollectsView.as_view()),
+    path('edit_password/', user.EditPasswordView.as_view()),
+    path('edit_avatar/', user.EditAvatarView.as_view()),
+    path('upload/avatar/', file.AvatarView.as_view()),
+    re_path(r'delete/avatar/(?P<nid>\d+)/', file.AvatarView.as_view()),
+    path('upload/cover/', file.CoverView.as_view()),
+    re_path(r'delete/cover/(?P<nid>\d+)/', file.CoverView.as_view()),
+
 ]

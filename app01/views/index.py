@@ -107,6 +107,7 @@ def sign(request):
 def moods(request):
     return render(request, 'moods.html')
 
+
 def logout(request):
     auth.logout(request)
     return redirect('/')
@@ -128,49 +129,3 @@ def mqtt_led(request,pin):
         led(1)
     return render(request, 'Led.html')
 
-
-def backend(request):
-    if not request.user.username:
-        return redirect('/')
-    return render(request, 'backend/backend.html', locals())
-
-
-def add_article(request):
-    tag_list = Tags.objects.all()
-    cover_list = Cover.objects.all()
-    c_l = []
-    for cover in cover_list:
-        c_l.append({
-            "url": cover.url.url,
-            "nid": cover.nid
-        })
-    category_list = Articles.category_choice
-    return render(request, 'backend/add_article.html', locals())
-
-
-def edit_avatar(request):
-    return render(request, 'backend/edit_avatar.html', locals())
-
-
-def reset_password(request):
-    return render(request, 'backend/reset_password.html', locals())
-
-
-def edit_article(request, nid):
-    article_obj = Articles.objects.get(nid=nid)
-    tags = [str(tag.nid) for tag in article_obj.tag.all()]
-
-    tag_list = Tags.objects.all()
-    cover_list = Cover.objects.all()
-    c_l = []
-    for cover in cover_list:
-        c_l.append({
-            "url": cover.url.url,
-            "nid": cover.nid
-        })
-    category_list = Articles.category_choice
-    return render(request, 'backend/edit_article.html', locals())
-
-
-def admin_home(request):
-    return render(request, 'admin_home.html')

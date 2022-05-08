@@ -1,0 +1,46 @@
+.active_list{
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  >li{
+    margin-bottom: 20px;
+    margin-right: 20px;
+    position: relative;
+    border-radius: 5px;
+    overflow: hidden;
+    img{
+      height: 70px;
+      width: 70px;
+      display: block;
+    }
+    .delete_icon{
+      display: none;
+      height: 20px;
+      background-color: rgba(0, 0, 0, 0.3);
+      width: 100%;
+      position: absolute;
+      justify-content: center;
+      align-items: center;
+      bottom: 0;
+      i{
+        color: white;
+        cursor: pointer;
+      }
+    }
+  }
+  >li.no_avatar{
+    opacity: 0.6;
+
+    .delete_icon{
+      display: flex;
+      transition: all 0.3s;
+      opacity: 0;
+    }
+    &:hover{
+      .delete_icon{
+        opacity: 1;
+      }
+    }
+  }
+}

@@ -52,6 +52,7 @@ main{
             align-items: center;
             img{
                 width: 80px;
+                height: 80px;
                 border-radius: 50%;
             }
         }
@@ -76,6 +77,15 @@ main{
         display: flex;
         justify-content: space-around;
         align-items: center;
+    }
+    .edit_info{
+        > div{
+            margin-top: 10px;
+            label{
+                display: block;
+                margin-bottom: 5px;
+            }
+        }
     }
     .collection_all{
         margin-top: 20px;

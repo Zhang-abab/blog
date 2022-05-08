@@ -5,8 +5,8 @@
     <title>{% block title %}无名小站｜后台{% endblock %}</title>
     <link rel="stylesheet" href="/static/my/css/reset.css">
     <link rel="stylesheet" href="/static/my/css/backend/backend_base.css">
-    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
-    {% block css %}
+    <link rel="stylesheet" href="/static/elementui/theme-chalk/index.css">
+    {% block CSS %}
     
     {% endblock %}
 </head>
@@ -23,6 +23,9 @@
             <li><a href="/backend/reset_password/">修改密码</a></li>
             {% if request.user.is_superuser %}
                 <li><a href="/backend/add_article/">添加文章</a></li>
+                <li><a href="/backend/avatar_list/">头像列表</a></li>
+                <li><a href="/backend/cover_list/">文章封面</a></li>
+                <li><a href="/admin/">后台系统</a></li>
             {% endif %}
             <li><a href="/logout/">注销退出</a></li>
         </ul>
@@ -32,33 +35,62 @@
         {% block main %}
             <div class="user_info">
             <div class="left">
-                <img src="/static/my/img/img_head/1.webp" alt="">
+                <img src="{{ request.user.avatar_url }}" alt="">
             </div>
             <div class="right">
                 <div class="item">
-                    <span><b>用户名</b>zzzz</span>
+                    <span><b>用户名：</b>{{ request.user.username }}</span>
                 </div>
                 <div class="item">
-                    <span><b>注册时间</b>2022-1-5</span>
+                    <span><b>注册时间：</b>{{ request.user.date_joined }}</span>
                 </div>
                 <div class="item">
-                    <span><b>上次登陆时间</b>2022-4-5</span>
+                    <span><b>上次登陆时间：</b>{{ request.user.last_login }}</span>
                 </div>
                 <div class="item">
-                    <span><b>积分</b>20</span>
+                    <span><b>注册来源：</b>{{ request.user.get_sign_status_display }}</span>
                 </div>
                 <div class="item">
-                    <span><b>邮箱</b>312313134@qq.com</span>
+                    <span><b>账号状态：</b>{{ request.user.get_account_status_display }}</span>
                 </div>
                 <div class="item">
-                    <span><b>手机号码</b>1848182222</span>
+                    <span><b>邮箱：</b>
+                    {% if request.user.email %}
+                        {{  request.user.email }}
+                    {% else %}
+                        <a href="javascript:void (0)">绑定邮箱</a>
+                    {% endif %}
+                    </span>
                 </div>
             </div>
         </div>
             <div class="actions">
             <div class="item"><el-button type="primary">完善信息</el-button></div>
             <div class="item"><el-button type="info">修改头像</el-button></div>
-            <div class="item"><el-button type="warning">修改密码</el-button></div>
+                <el-dialog
+                    title="修改密码"
+                    :visible.sync="edit_password_dialogVisible"
+                    width="30%">
+                    <div class="edit_info">
+                        <div>
+                            <label for="edit_password_old_pwd">之前的密码</label>
+                            <el-input id="edit_password_old_pwd" type="password" v-model="edit_password.old_pwd" placeholder="请输入旧密码"></el-input>
+                        </div>
+                        <div>
+                            <label for="edit_password_pwd">新密码</label>
+                            <el-input id="edit_password_pwd" type="password" v-model="edit_password.pwd" placeholder="请输入新密码"></el-input>
+                        </div>
+                        <div>
+                            <label for="edit_password_re_pwd">重复新密码</label>
+                            <el-input id="edit_password_re_pwd" type="password" v-model="edit_password.re_pwd" placeholder="请重复新密码"></el-input>
+                        </div>
+                    </div>
+                    <span slot="footer" class="dialog-footer">
+                        <el-button @click="edit_password_dialogVisible=false">取消</el-button>
+                        <el-button type="primary" @click="edit_password_method">确定</el-button>
+                    </span>
+                </el-dialog>
+            <div class="item"><el-button type="warning" @click="edit_password_dialogVisible=true">修改密码</el-button></div>
             <div class="item"><el-button type="danger">注销退出</el-button></div>
         </div>
             {% block content %}
@@ -115,7 +147,8 @@
 
 <script src="/static/axios/axios.min.js"></script>
 <script src="/static/vue/vue.js"></script>
-<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script src="/static/jquery/jquery.min.js"></script>
+<script src="/static/elementui/index.js"></script>
 {% block js %}
 
 {% endblock %}
@@ -146,17 +179,29 @@
             cover_id:'',
             title:'',
             abstract:'',
+            edit_password_dialogVisible:false,
+            edit_password: {
+                old_pwd:'',
+                pwd:'',
+                re_pwd:'',
+            },
+            edit_avatar_id:'',
+            avatar_list_headers:{},
         },
         created(){
             let path = location.pathname
-            let index = path.indexOf('add_article')
             let img = document.getElementById('cover_img')
-            if(index !== -1){
-                //添加文章
-                this.init_add_article(img)
-            }else {
-                //编辑文章
-                this.init_edit_article(img)
+            let path_dict={
+                "add_article":this.init_add_article,
+                "edit_article":this.init_edit_article,
+                "edit_avatar":this.init_edit_avatar,
+            }
+            for(const key in path_dict){
+                let index = path.indexOf(key)
+                if(index !== -1){
+                    path_dict[key](img)
+                    break
+                }
             }
         },
         methods: {
@@ -259,6 +304,76 @@
                  })
             },
 
+            // 修改密码
+            edit_password_method(){
+                axios.post('/api/edit_password/', this.edit_password).then(res =>{
+                    if(res.code){
+                        this.$message.error(res.msg)
+                        console.log(res.self)
+                        $(`#edit_password_${res.self}`)[0].focus()
+                        return
+                    }
+                    this.$message.success(res.msg)
+                })
+            },
+
+            // 修改头像
+            edit_avatar_method(){
+                axios.put('/api/edit_avatar/',{
+                        avatar_id: this.edit_avatar_id
+                }).then(res =>{
+                    if(res.code){
+                        this.$message.error(res.msg)
+                        return
+                    }
+                    this.$message.success(res.msg)
+                    $('.user_info img').attr('src',res.data)
+                })
+            },
+
+            // 初始化头像
+            init_edit_avatar(img){
+                let nid = eval($('.avatar_list').attr('avatar_nid'))
+                console.log(nid)
+                this.edit_avatar_id = nid
+            },
+
+            // 文件列表上传
+            avatar_list_upload(){
+                let csrftoken = document.querySelector('input[name="csrfmiddlewaretoken"]').value
+                this.avatar_list_headers[ 'X-CSRFToken'] = csrftoken
+            },
+
+            // 文件上传成功回调
+            avatar_list_success(res){
+                console.log(res)
+                if(!res.code){
+                    return
+                }
+                this.$message.error(res.msg)
+            },
+
+            // 删除图片
+            avatar_cover_delete(nid, url){
+                this.$confirm('此操作将永久删除该图片, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    axios.delete(`/api/delete/${url}/${nid}/`).then(res =>{
+                        if (res.code){
+                            this.$message.error(res.msg)
+                            return
+                        }
+                        this.$message.success(res.msg)
+                    })
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
+            },
         },
     })
 </script>

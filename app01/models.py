@@ -52,6 +52,8 @@ class UserInfo(AbstractUser):
     )
     nick_name = models.CharField(max_length=16, verbose_name='昵称')
     sign_status = models.IntegerField(default=0, choices=sign_choice, verbose_name='注册方式')
+    avatar_url = models.URLField(verbose_name='用户头像', help_text='可能是其他平台的头像', null=True)
+    a_unique_id = models.CharField(verbose_name='id', help_text='其他平台的唯一登陆id', max_length=64, null=True, blank=True)
     tel = models.CharField(verbose_name='手机号', max_length=12, null=True, blank=True)
     integral = models.IntegerField(default=20, verbose_name='用户积分')
     token = models.CharField(verbose_name="TOKEN", max_length=64, null=True, blank=True)
@@ -62,6 +64,12 @@ class UserInfo(AbstractUser):
         verbose_name='用户头像',
         null=True
     )
+    account_status_choice = (
+        (0, '账号正常'),
+        (1, '账号异常'),
+        (2, '账号被封禁')
+    )
+    account_status = models.IntegerField(default=0, choices=account_status_choice, verbose_name='账号状态')
     collects = models.ManyToManyField(
         to='Articles',
         verbose_name='收藏的文章'
@@ -84,8 +92,8 @@ class Avatars(models.Model):
 
 
 @receiver(pre_delete, sender=Avatars)  # sender=你要删除或修改文件字段所在的类**
-def download_delete(instance, **kwargs):  # 函数名随意
-    # print('进入文件删除方法，删的是', instance.url)  # 用于测试
+def avatar_delete(instance, **kwargs):  # 函数名随意
+    #print('进入文件删除方法，删的是', instance.url)  # 用于测试
     instance.url.delete(False)  # file是保存文件或图片的字段名**
 
 

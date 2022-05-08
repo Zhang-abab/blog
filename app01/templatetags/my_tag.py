@@ -1,7 +1,7 @@
 from django import template
 from app01.utils.search import Search
 from django.utils.safestring import mark_safe
-from app01.models import Tags
+from app01.models import Tags, Avatars
 register = template.Library()
 
 
@@ -99,3 +99,6 @@ def generate_advert(advert_list):
                 f'<div><a href="{i.href}" title="{i.title}" target="_blank"><img src="{url}"></a></div>'
             )
     return mark_safe(''.join(html_list))
+
+
+
