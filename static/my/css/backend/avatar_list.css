@@ -1,5 +1,4 @@
 .active_list {
-  margin-top: 20px;
   display: flex;
   flex-wrap: wrap;
   list-style: none; }
@@ -33,5 +32,8 @@
       opacity: 0; }
     .active_list > li.no_avatar:hover .delete_icon {
       opacity: 1; }
+
+.el-scrollbar__wrap {
+  overflow-x: hidden !important; }
 
 /*# sourceMappingURL=avatar_list.css.map */

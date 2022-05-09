@@ -5,16 +5,18 @@
     <link rel="stylesheet" href="/static/my/css/backend/avatar_list.css">
 {% endblock %}
 {% block content %}
-    <ul class="active_list">
+    <el-scrollbar style="margin-top: 20px;">
+        <ul class="active_list">
         {% for avatar in avatar_query %}
             <li class="{{ avatar|to_calculate_avatar }}">
             <div class="delete_icon">
-                <i @click="avatar_cover_delete('{{ avatar.nid }}', 'avatar')" class="el-icon-delete-solid"></i>
+                <i @click="avatar_cover_delete('{{ avatar.nid }}', 'avatar', $event)" class="el-icon-delete-solid"></i>
             </div>
                 <img src="{{ avatar.url.url }}" alt="">
             </li>
         {% endfor %}
     </ul>
+    </el-scrollbar>
     <el-upload
         class="upload-demo"
         action="/api/upload/avatar/"

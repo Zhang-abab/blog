@@ -1,8 +1,9 @@
 from django.views import View
 from django.http import JsonResponse
-from app01.models import Avatars, Cover
+from app01.models import Avatars, Cover, UserInfo
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from app01.models import avatar_delete, cover_delete
+from django.db.models import Q
 
 
 class AvatarView(View):
@@ -37,7 +38,17 @@ class AvatarView(View):
             res['msg'] = '没有该权限'
             return JsonResponse(res)
         avatar_query = Avatars.objects.filter(nid=nid)
-        avatar_delete(avatar_query.first())
+        if not avatar_query:
+            res['msg'] = '该图片已被删除'
+            return JsonResponse(res)
+        # 判断图片使用
+        obj: Avatars = avatar_query.first()
+        user_query = UserInfo.objects.filter(Q(sign_status=3) | Q(sign_status=4))
+        for user in user_query:
+            if obj.url.url == user.avatar_url:
+                res['msg'] = '该图片已被使用！'
+                return JsonResponse(res)
+        avatar_delete(obj)
         avatar_query.delete()
         res['code'] = 0
         return JsonResponse(res)
@@ -75,6 +86,9 @@ class CoverView(View):
             res['msg'] = '没有该权限'
             return JsonResponse(res)
         cover_query = Cover.objects.filter(nid=nid)
+        if not cover_query:
+            res['msg'] = '该图片已被删除'
+            return JsonResponse(res)
         cover_delete(cover_query.first())
         cover_query.delete()
         res['code'] = 0

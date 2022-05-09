@@ -5,9 +5,10 @@
     <link rel="stylesheet" href="/static/my/css/backend/cover_list.css">
 {% endblock %}
 {% block content %}
-    <ul class="cover_list">
+    <el-scrollbar style="margin-top: 20px;">
+        <ul class="cover_list">
         {% for cover in cover_query %}
-            <li class="{{ cover| to_calculate_cover }}"  @click="avatar_cover_delete('{{ cover.nid }}', 'cover')" >
+            <li class="{{ cover| to_calculate_cover }}"  @click="avatar_cover_delete('{{ cover.nid }}', 'cover', $event)" >
             <div class="delete_icon">
                 <i class="el-icon-delete-solid "></i>
             </div>
@@ -15,6 +16,7 @@
             </li>
         {% endfor %}
     </ul>
+    </el-scrollbar>
     <el-upload
         class="upload-demo"
         action="/api/upload/cover/"

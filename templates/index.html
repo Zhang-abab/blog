@@ -135,6 +135,9 @@
                                     <ul>
                                         {% for article in article_list %}
                                             <li>
+                                                <div class="category_flag" len="{{ article.get_category_display|length }}" type="{{ article.get_category_display }}">
+                                                    {{ article.get_category_display }}
+                                                </div>
                                                 <div class="left">
                                                     <div>
                                                         <img src="{{ article.cover.url.url }}" alt="">
@@ -166,7 +169,7 @@
                                                         <a href="/article/{{ article.nid }}/" target="_blank">查看详情</a>
                                                     </div>
                                                 </div>
-                                                </li>
+                                            </li>
                                         {% endfor %}
                                     </ul>
                                      <lu class="pager">

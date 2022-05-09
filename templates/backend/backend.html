@@ -16,19 +16,19 @@
         <div class="slogan">
             <img src="/static/my/img/backend/slogan.png" alt="">
         </div>
-        <ul>
-            <li><a href="/">首页</a></li>
-            <li><a href="/backend/">个人中心</a></li>
-            <li><a href="/backend/edit_avatar/">修改头像</a></li>
-            <li><a href="/backend/reset_password/">修改密码</a></li>
+        <div id="dynamic_menu">
+            <a href="/">首页</a>
+            <a href="/backend/">个人中心</a>
+            <a href="/backend/edit_avatar/">修改头像</a>
+            <a href="/backend/reset_password/">修改密码</a>
             {% if request.user.is_superuser %}
-                <li><a href="/backend/add_article/">添加文章</a></li>
-                <li><a href="/backend/avatar_list/">头像列表</a></li>
-                <li><a href="/backend/cover_list/">文章封面</a></li>
-                <li><a href="/admin/">后台系统</a></li>
+                <a href="/backend/add_article/">添加文章</a>
+                <a href="/backend/avatar_list/">头像列表</a>
+                <a href="/backend/cover_list/">文章封面</a>
+                <a href="/admin/">后台系统</a>
             {% endif %}
-            <li><a href="/logout/">注销退出</a></li>
-        </ul>
+            <a href="/logout/">注销退出</a>
+        </div>
     </aside>
     <main>
     {% csrf_token %}
@@ -166,7 +166,7 @@
                 return response.data
             }),
 
-    new Vue({
+     new Vue({
         el: '#app',
         data:{
             add_drawer: false,
@@ -195,6 +195,8 @@
                 "add_article":this.init_add_article,
                 "edit_article":this.init_edit_article,
                 "edit_avatar":this.init_edit_avatar,
+                'cover_list':this.init_cover_list,
+                'avatar_list':this.init_avatar_list,
             }
             for(const key in path_dict){
                 let index = path.indexOf(key)
@@ -203,6 +205,19 @@
                     break
                 }
             }
+        },
+        mounted(){
+            // 动态导航栏
+            let dynamic_menu = document.getElementById('dynamic_menu')
+            let a_list = dynamic_menu.querySelectorAll('a')
+            let path = location.pathname
+            for (const a of a_list){
+                let a_href = a.getAttribute('href')
+                if (a_href === path || a_href + '/' === path){
+                    a.classList.add('active')
+                }
+            }
+
         },
         methods: {
 
@@ -354,7 +369,7 @@
             },
 
             // 删除图片
-            avatar_cover_delete(nid, url){
+            avatar_cover_delete(nid, url, e){
                 this.$confirm('此操作将永久删除该图片, 是否继续?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
@@ -366,6 +381,7 @@
                             return
                         }
                         this.$message.success(res.msg)
+                        $(e.target).parent().parent().remove()
                     })
                 }).catch(() => {
                     this.$message({
@@ -374,6 +390,28 @@
                     });
                 });
             },
+
+            // 背景列表高度初始化
+            init_cover_list(img){
+                setTimeout(() =>{
+                    let cover_height = document.querySelector('.cover_list').offsetHeight
+                    if (cover_height > 360){
+                        cover_height = 360
+                    }
+                    document.querySelector('.el-scrollbar').style.height=cover_height + 'px'
+                },1)
+            },
+
+            // 头像列表高度初始化
+            init_avatar_list(){
+                setTimeout(() =>{
+                    let avatar_height = document.querySelector('.active_list').offsetHeight
+                    if (avatar_height > 360){
+                        avatar_height = 360
+                    }
+                    document.querySelector('.el-scrollbar').style.height=avatar_height + 'px'
+                },1)
+            }
         },
     })
 </script>

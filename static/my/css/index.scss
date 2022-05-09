@@ -157,6 +157,9 @@
                         background-color: #fff;
                         margin-bottom: 20px;
                         border-radius: 5px;
+                        transition: all 0.3s;
+                        position: relative;
+                        overflow: hidden;
                         &:first-child {
                             border-radius: 0 0 5px 5px;
                             .left {
@@ -165,6 +168,10 @@
                             .right {
                                 padding: 10px 20px 20px 10px;
                             }
+                        }
+                        &:not(&:first-child):hover{
+                            transform: translateY(-10px);
+                            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
                         }
                         .left {
                             width: 30%;
@@ -226,6 +233,26 @@
                                     border-radius: 5px;
                                     font-size: 14px;
                                 }
+                            }
+                        }
+                        .category_flag{
+                            display: flex;
+                            position: absolute;
+                            top:10px;
+                            right: -80px;
+                            width: 200px;
+                            height: 20px;
+                            font-size: 14px;
+                            background-color: red;
+                            color: white;
+                            justify-content: center;
+                            align-items: center;
+                            transform: rotate(45deg);
+                            &[len='4']{
+                                font-size: 12px;
+                            }
+                            &[type='None']{
+                                background-color: #26c6da;
                             }
                         }
                     }

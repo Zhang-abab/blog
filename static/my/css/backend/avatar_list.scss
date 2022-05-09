@@ -1,5 +1,4 @@
 .active_list{
-  margin-top: 20px;
   display: flex;
   flex-wrap: wrap;
   list-style: none;
@@ -43,4 +42,7 @@
       }
     }
   }
+}
+.el-scrollbar__wrap{
+  overflow-x: hidden !important;
 }

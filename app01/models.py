@@ -49,6 +49,7 @@ class UserInfo(AbstractUser):
         (1, '手机号注册'),
         (2, '邮箱注册'),
         (3, 'QQ注册'),
+        (4, 'gitee登陆')
     )
     nick_name = models.CharField(max_length=16, verbose_name='昵称')
     sign_status = models.IntegerField(default=0, choices=sign_choice, verbose_name='注册方式')
