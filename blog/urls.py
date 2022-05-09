@@ -47,4 +47,5 @@ urlpatterns = [
     re_path(r'^article/(?P<nid>\d+)/', index.article),
     re_path(r'^backend/edit_article/(?P<nid>\d+)/', backend.edit_article),
     re_path(r'media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
+
 ]

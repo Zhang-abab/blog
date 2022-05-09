@@ -65,9 +65,36 @@
             </div>
         </div>
             <div class="actions">
-            <div class="item"><el-button type="primary">完善信息</el-button></div>
-            <div class="item"><el-button type="info">修改头像</el-button></div>
-                <el-dialog
+            <el-dialog
+                    title="完善信息"
+                    :visible.sync="perfect_information_dialogVisible"
+                    width="30%">
+                    <div class="edit_info">
+                        <div>
+                            <label for="edit_password_old_pwd">邮箱</label>
+                            <el-input id="" v-model="perfect_information.email" placeholder="请输入邮箱"></el-input>
+                        </div>
+                        <div>
+                            <label for="">请输入验证码</label>
+                            <div style="display: flex;">
+                                <el-input id="" v-model="perfect_information.code" placeholder="请输入验证码"></el-input>
+                                <el-button @click="send_email">发送邮箱验证码</el-button>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="edit_password_re_pwd">请输入密码</label>
+                            <el-input id="" v-model="perfect_information.pwd" placeholder="请输入密码"></el-input>
+                        </div>
+                        <p>绑定邮箱之后可以用邮箱加密码登陆</p>
+                    </div>
+                    <span slot="footer" class="dialog-footer">
+                        <el-button @click="perfect_information_dialogVisible=false">取消</el-button>
+                        <el-button type="primary" @click="send_email">确定</el-button>
+                    </span>
+                </el-dialog>
+            <div class="item"><el-button @click="perfect_information_dialogVisible=true" type="primary">完善信息</el-button></div>
+            <div class="item"><el-button type="info"><a href="/backend/edit_avatar/" style="color: white">修改头像</a></el-button></div>
+            <el-dialog
                     title="修改密码"
                     :visible.sync="edit_password_dialogVisible"
                     width="30%">
@@ -187,6 +214,12 @@
             },
             edit_avatar_id:'',
             avatar_list_headers:{},
+            perfect_information_dialogVisible: false,
+            perfect_information:{
+                email:'',
+                pwd:'',
+                code:'',
+            }
         },
         created(){
             let path = location.pathname
@@ -349,7 +382,6 @@
             // 初始化头像
             init_edit_avatar(img){
                 let nid = eval($('.avatar_list').attr('avatar_nid'))
-                console.log(nid)
                 this.edit_avatar_id = nid
             },
 
@@ -411,7 +443,14 @@
                     }
                     document.querySelector('.el-scrollbar').style.height=avatar_height + 'px'
                 },1)
-            }
+            },
+
+            // 邮箱发送
+            send_email(){
+                axios.post('/api/send_email/', this.perfect_information).then(res =>{
+                    console.log(1)
+                })
+            },
         },
     })
 </script>
