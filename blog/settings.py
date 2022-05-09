@@ -160,10 +160,10 @@ SIMPLEUI_HOME_TITLE = '首页'
 SIMPLEUI_HOME_ICON = 'fa fa-user'
 
 # 发送邮件
-EMAIL_HO = 'smtp.qq.com'
+EMAIL_HOST = 'smtp.qq.com'
 EMAIL_PORT = 465
 EMAIL_HOST_USER = '2411358676@qq.com'
-EMAIL_HOST_PASSWORD = 'vqeivcfeymhfdiff'
+EMAIL_HOST_PASSWORD = 'soxkbsostjwrdifg'
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 EMAIL_USE_SSL = True
 EMAIL_USE_TLS = False

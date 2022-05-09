@@ -71,6 +71,10 @@ main {
     main .edit_info > div label {
       display: block;
       margin-bottom: 5px; }
+    main .edit_info > div .send_email {
+      display: flex; }
+      main .edit_info > div .send_email .el-button {
+        width: 150px; }
   main .collection_all {
     margin-top: 20px;
     background-color: #808595;

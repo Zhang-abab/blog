@@ -86,6 +86,12 @@ main{
                 display: block;
                 margin-bottom: 5px;
             }
+            .send_email{
+                display: flex;
+                .el-button{
+                    width: 150px;
+                }
+            }
         }
     }
     .collection_all{

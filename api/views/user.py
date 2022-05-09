@@ -1,9 +1,12 @@
+import time
+
 from django.views import View
 from django.http import JsonResponse
 from api.views.login import clean_form
 from django import forms
 from django.contrib import auth
 from app01.models import Avatars
+
 
 
 class EditPasswordForm(forms.Form):
@@ -70,5 +73,66 @@ class EditAvatarView(View):
             user.avatar_url = avatar_url
         user.save()
         res['data'] = avatar.url.url
+        res['code'] = 0
+        return JsonResponse(res)
+
+
+class EditUserInfoForm(forms.Form):
+    email = forms.EmailField(error_messages={'required': '请输入邮箱', 'invalid': '请输入正确邮箱'})
+    pwd = forms.CharField(error_messages={'required': '请输如密码'})
+    code = forms.CharField(error_messages={'required': '请输入验证码'})
+
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
+        super().__init__(*args, **kwargs)
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        # 判断是否和self里面的相同
+        if email == self.request.session.get('valid_email_obj')['email']:
+            return email
+        self.add_error('email', '邮箱不一致')
+
+    def clean_pwd(self):
+        pwd = self.cleaned_data.get('pwd')
+        user = auth.authenticate(username=self.request.user.username, password=pwd)
+        if user:
+            return pwd
+        self.add_error('pwd', '密码错误')
+
+    def clean_code(self):
+        code = self.cleaned_data.get('code')
+        print(self.request.session.get('valid_email_obj')['code'])
+        if code == self.request.session.get('valid_email_obj')['code']:
+            return code
+        self.add_error('code', '验证码错误')
+
+
+class EditUserInfoView(View):
+    def put(self, request):
+        res = {
+            'code': 414,
+            'msg': '信息绑定成功',
+            'self': None,
+        }
+        # 校验时间
+        valid_email_obj = request.session.get('valid_email_obj')
+        if not valid_email_obj:
+            res['msg'] = '请先获取验证码'
+            return JsonResponse(res)
+        time_stamp = valid_email_obj['time_stamp']
+        now = time.time()
+        if(now - time_stamp) > 300:
+            res['msg'] = '验证码超时，请重新获取'
+            return JsonResponse(res)
+        form = EditUserInfoForm(request.data, request=request)
+        if not form.is_valid():
+            res['self'], res['msg'] = clean_form(form)
+            return JsonResponse(res)
+        # 绑定信息
+        user = request.user
+        user.email = form.cleaned_data['email']
+        user.save()
+
         res['code'] = 0
         return JsonResponse(res)
