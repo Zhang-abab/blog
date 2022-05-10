@@ -124,45 +124,34 @@
                 <div class="collection_all">
                 <p>我收藏的文章</p>
                 <div class="article_list">
-                    <div class="item">
-                        <div class="left">
-                            <img src="/media/article_img/1.webp" alt="">
-                        </div>
-                        <div class="right">
-                            <h4>路由分发</h4>
-                            <p>路由分发路由分发路由由分发路由分发路由分发路由分发路由分发路由分发路由分发路由分发路由分发路由分发</p>
-                        </div>
-                    </div>
-
-                    <div class="item">
-                        <div class="left">
-                            <img src="/media/article_img/1.webp" alt="">
-                        </div>
-                        <div class="right">
-                            <h4>路由分发</h4>
-                            <p>路由分发路由分发路由由分发路由分发路由分发路由分发路由分发路由分发路由分发路由分发路由分发路由分发</p>
-                        </div>
-                    </div>
-
-                    <div class="item">
-                        <div class="left">
-                            <img src="/media/article_img/1.webp" alt="">
-                        </div>
-                        <div class="right">
-                            <h4>路由分发</h4>
-                            <p>路由分发路由分发路由由分发路由分发路由分发路由分发路由分发路由分发路由分发路由分发路由分发路由分发</p>
-                        </div>
-                    </div>
-
-                    <div class="item">
-                        <div class="left">
-                            <img src="/media/article_img/1.webp" alt="">
-                        </div>
-                        <div class="right">
-                            <h4>路由分发</h4>
-                            <p>路由分发路由分发路由由分发路由分发路由分发路由分发路由分发路由分发路由分发路由分发路由分发路由分发</p>
-                        </div>
-                    </div>
+                    <table class="collection_table">
+                        <thead>
+                            <tr>
+                            <th>选择</th>
+                            <th>标题</th>
+                            <th>分类</th>
+                            <th>标签</th>
+                            <th>阅读</th>
+                            <th>收藏</th>
+                            <th>发布时间</th>
+                            <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for col in collects_query %}
+                                <tr>
+                                <td>{{ col.nid }}</td>
+                                <td>{{ col.title }}</td>
+                                <td>{{ col.get_category_display }}</td>
+                                <td>广告</td>
+                                <td>{{ col.look_count }}</td>
+                                <td>{{ col.collects_count }}</td>
+                                <td>{{ col.create_date }}</td>
+                                <td>{{ col.title }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
 
             </div>

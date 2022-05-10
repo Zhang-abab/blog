@@ -136,3 +136,24 @@ main{
         }
     }
 }
+.collection_table{
+    width: 100%;
+    margin-top: 20px;
+    thead{
+        background-color: #2c4b9e;
+        tr{
+            color: white;
+            th{
+
+            }
+        }
+    }
+    tbody{
+        tr{
+            height: 30px;
+            td{
+
+            }
+        }
+    }
+}

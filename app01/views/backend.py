@@ -1,9 +1,13 @@
 from django.shortcuts import render, redirect
 from app01.models import *
 
+
 def backend(request):
     if not request.user.username:
         return redirect('/')
+    user = request.user
+    collects_query = user.collects.all()
+    print(collects_query)
     return render(request, 'backend/backend.html', locals())
 
 
@@ -64,5 +68,4 @@ def avatar_list(request):
 # 头像列表
 def cover_list(request):
     cover_query = Cover.objects.all()
-    print(cover_query)
     return render(request, 'backend/cover_list.html', locals())
