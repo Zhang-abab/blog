@@ -2,6 +2,7 @@ import datetime
 import pendulum
 from django import template
 from app01.models import Avatars, Cover
+from django.utils.safestring import mark_safe
 
 register = template.Library()
 
@@ -48,3 +49,15 @@ def to_calculate_cover(cover: Cover):
     if count:
         return ''
     return 'no_cover'
+
+
+# 渲染标签
+@register.filter
+def get_tags(tag_list):
+    return mark_safe(''.join([f"<i>{i.title}</i>" for i in tag_list]))
+
+
+# 获取所有的nid
+@register.filter
+def get_coll_nid(lis):
+    return [i.nid for i in lis]

@@ -1,3 +1,4 @@
+{% load my_filter %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -121,13 +122,17 @@
             <div class="item"><el-button type="danger">注销退出</el-button></div>
         </div>
             {% block content %}
-                <div class="collection_all">
-                <p>我收藏的文章</p>
+            {% if collects_query.count %}
+            <form method="post" action="/api/cancel_collection/" class="collection_all">
+                {% csrf_token %}
+                <p>共收藏文章{{ collects_query.count }}篇,选择[[ select_list.length ]]篇。</p>
                 <div class="article_list">
                     <table class="collection_table">
                         <thead>
                             <tr>
-                            <th>选择</th>
+                            <th>
+                                <input type="checkbox" @click="select_all" data="{{ collects_query|get_coll_nid }}">
+                            </th>
                             <th>标题</th>
                             <th>分类</th>
                             <th>标签</th>
@@ -140,10 +145,10 @@
                         <tbody>
                             {% for col in collects_query %}
                                 <tr>
-                                <td>{{ col.nid }}</td>
+                                <td class="select"><input v-model="select_list" type="checkbox" name="nid" value="{{ col.nid }}"></td>
                                 <td>{{ col.title }}</td>
                                 <td>{{ col.get_category_display }}</td>
-                                <td>广告</td>
+                                <td class="tags">{{ col.tag.all|get_tags}}</td>
                                 <td>{{ col.look_count }}</td>
                                 <td>{{ col.collects_count }}</td>
                                 <td>{{ col.create_date }}</td>
@@ -153,8 +158,12 @@
                         </tbody>
                     </table>
                 </div>
+                <input v-show="select_list.length" type="submit" value="取消收藏" class="cancel_btn">
+            </form>
+            {% else %}
+            <p class="no_article">还没有收藏文章，快去收藏文章吧</p>
+            {% endif %}
 
-            </div>
             {% endblock %}
         {% endblock %}
 
@@ -184,6 +193,9 @@
 
      new Vue({
         el: '#app',
+        delimiters: [
+                    "[[", "]]"
+                ],
         data:{
             add_drawer: false,
             add_article_activeNames:['1'],
@@ -211,6 +223,8 @@
             },
             perfect_information_email_disable:false,
             perfect_information_method_disable:true,
+            select_list:[],
+
         },
         created(){
             let path = location.pathname
@@ -472,6 +486,17 @@
                 this.$message.success(res.msg)
                 this.perfect_information_dialogVisible = false
               })
+            },
+
+            select_all(e){
+                if(this.select_all.flag){
+                    this.select_list = []
+                    this.select_all.flag = false
+                    return
+                }
+                this.select_all.flag = true
+                let div = e.target.getAttribute('data')
+                this.select_list = eval(div)
             },
         },
     })

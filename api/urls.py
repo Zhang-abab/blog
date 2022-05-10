@@ -32,6 +32,7 @@ urlpatterns = [
     path('upload/cover/', file.CoverView.as_view()),
     re_path(r'delete/cover/(?P<nid>\d+)/', file.CoverView.as_view()),
     path('send_email/', api_email.ApiEmail.as_view()),
-    path('perfect_information/', user.EditUserInfoView.as_view())
+    path('perfect_information/', user.EditUserInfoView.as_view()),
+    path('cancel_collection/', user.CancelCollectionView.as_view()),
 
 ]

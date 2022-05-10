@@ -1,12 +1,11 @@
 import time
-
 from django.views import View
 from django.http import JsonResponse
 from api.views.login import clean_form
 from django import forms
 from django.contrib import auth
 from app01.models import Avatars
-
+from django.shortcuts import redirect
 
 
 class EditPasswordForm(forms.Form):
@@ -102,7 +101,6 @@ class EditUserInfoForm(forms.Form):
 
     def clean_code(self):
         code = self.cleaned_data.get('code')
-        print(self.request.session.get('valid_email_obj')['code'])
         if code == self.request.session.get('valid_email_obj')['code']:
             return code
         self.add_error('code', '验证码错误')
@@ -136,3 +134,10 @@ class EditUserInfoView(View):
 
         res['code'] = 0
         return JsonResponse(res)
+
+
+class CancelCollectionView(View):
+    def post(self, request):
+        nid_list = request.POST.getlist('nid')
+        request.user.collects.remove(*nid_list)
+        return redirect('/backend/')
