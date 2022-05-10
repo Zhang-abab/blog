@@ -1,4 +1,8 @@
 {% extends 'index.html' %}
+{% load my_filter my_tag %}
+{% block banner %}
+    {% banner 'news'%}
+{% endblock %}
 {% block CSS %}
     <link rel="stylesheet" href="/static/my/css/news.css">
 {% endblock %}

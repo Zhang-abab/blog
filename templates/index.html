@@ -276,7 +276,7 @@
             </footer>
         </div>
         <script src="/static/axios/axios.min.js"></script>
-        <script>
+        <script >
             axios.interceptors.request.use(
                 request=>{
                     if (request.method !== 'get'){
@@ -623,20 +623,44 @@
         {% block js %}
             <script>
                 let menu_img = document.querySelectorAll('.dynamic_shuffl')
+                let banner = document.getElementById('banner_box')
+                let banner_time = Number(banner.getAttribute('banner_time'))
                 let menu_length = menu_img.length
                 let index = 0
                 let timer = null;
                 clearInterval(timer)
                 timer = setInterval(() => {
                     index++
-                    if (index == menu_length) {
+                    if (index === menu_length) {
                         index = 0
                     }
                     for (let i of menu_img) {
                         i.style.opacity = 0
                     }
                     menu_img[index].style.opacity = 1
-                }, 5000)
+                    if(!banner_time){
+                        clearInterval(timer)
+                    }
+                }, banner_time*1000)
+                console.log(1)
+                let banner_slogan = document.getElementById('banner_slogan')
+                let slogan_list = eval(banner_slogan.getAttribute('list'))
+                let slogan_time = Number(banner_slogan.getAttribute('slogan_time'))
+
+                let slogan_index = 0;
+                let slogan_timer =null
+                slogan_timer = setInterval(() =>{
+                    slogan_index++
+                    if (slogan_index === slogan_list.length){
+                        slogan_index = 0
+                    }
+                    if(!slogan_time){
+                        clearInterval(slogan_timer)
+                    }else {
+                        banner_slogan.innerText = slogan_list[slogan_index]
+                    }
+
+                },slogan_time*1000)
 
                 let nav = document.querySelector('.nav_bg')
                 let path = location.pathname

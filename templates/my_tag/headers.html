@@ -1,7 +1,7 @@
 <header>
-    <div class="title">
-        <h1>ZZZ</h1>
-        <p>关于ZZZZ</p>
+    <div id="banner_box" class="title" banner_time="{{ menu_time }}">
+        <h1>{{ title }}</h1>
+        <p id="banner_slogan" slogan_time = '{{ slogan_time }}' list = "{{ slogan_list }}">关于ZZZZ</p>
     </div>
     {% for img in img_list %}
         <div class="dynamic_shuffl">

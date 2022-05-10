@@ -67,13 +67,39 @@ class AdvertAdmin(admin.ModelAdmin):
     list_display = ['title', get_img, 'is_show', 'author', get_img_list, get_href]
 
 
+class MenuAdmin(admin.ModelAdmin):
+    def get_menu_url(self: Menu):
+        lis = [f'<img src="{i.url.url}" style="height:60px; border-radius:5px;margin-right:5px;margin-bottom:5px;">' for i in self.menu_url.all()]
+        return mark_safe(''.join(lis))
+    get_menu_url.short_description = '图片组'
+    list_display = ['menu_title', 'menu_title_en',
+                    'title', 'abstract',
+                    'rotation', 'abstract_time',
+                    'menu_rotation', 'menu_time', get_menu_url]
+
+
+class MenuImgAdmin(admin.ModelAdmin):
+    def get_img(self):
+        if self.url:
+            return mark_safe(f"""
+            '<img src="{self.url.url}" style="height:60px; border-radius:5px; margin-right:10px">'
+            """)
+
+    get_img.short_description = '背景图片'
+    list_display = ['url', get_img]
+
+
 admin.site.register(Articles, ArticlesAdmin)
 admin.site.register(Advert, AdvertAdmin)
+admin.site.register(Menu, MenuAdmin)
+admin.site.register(MenuImg, MenuImgAdmin)
 admin.site.register(Tags)
 admin.site.register(Cover)
 admin.site.register(Comment)
 admin.site.register(Avatars)
 admin.site.register(UserInfo)
+
+
 
 
 # Register your models here.

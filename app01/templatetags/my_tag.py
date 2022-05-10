@@ -1,24 +1,34 @@
 from django import template
 from app01.utils.search import Search
 from django.utils.safestring import mark_safe
-from app01.models import Tags, Avatars
+from app01.models import Tags, Avatars, Menu
 register = template.Library()
 
 
 @register.inclusion_tag('my_tag/headers.html')
-def banner(menu_name, article = None):
-    img_list = [
-        "/static/shuffl/1.jpeg",
-        "/static/shuffl/2.jpeg",
-        "/static/shuffl/3.jpeg",
-        "/static/shuffl/4.jpeg",
-    ]
+def banner(menu_name, article=None):
     if article:
-        # 文章详情页面 
+        # 文章详情页面
         cover = article.cover.url.url
         img_list = [cover]
-        pass
-    return {'img_list': img_list}
+        title = article.title
+        slogan_list = [article.abstract[:30]]
+        slogan_time = 0
+        return locals()
+
+    menu_obj = Menu.objects.get(menu_title_en=menu_name)
+    menu_time = menu_obj.menu_time
+    img_list = [i.url.url for i in menu_obj.menu_url.all()]
+    title = menu_obj.title
+    slogan_list = menu_obj.abstract.replace('；', ';').replace('\r\n', ';').split(';')
+    slogan_time = menu_obj.abstract_time
+    if not menu_obj.menu_rotation:
+        img_list = img_list[0:1]
+        menu_time = 0
+    if not menu_obj.rotation:
+        slogan_list = slogan_list[0:1]
+        slogan_time = 0
+    return locals()
 
 
 @register.simple_tag
