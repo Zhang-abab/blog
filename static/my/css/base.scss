@@ -273,3 +273,7 @@ nav.show .show_search{
         border-width: 1px 1px 1px 0;
     }
 }
+
+.el-scrollbar__view{
+    overflow-x: hidden !important;
+}

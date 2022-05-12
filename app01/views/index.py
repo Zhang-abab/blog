@@ -90,8 +90,10 @@ def history(request):
 
 
 def sites(request):
+    tag_all = NavTags.objects.all()
+    tag_list = tag_all.exclude(navs__isnull=True)
 
-    return render(request, 'sites.html')
+    return render(request, 'sites.html', locals())
 
 
 def login(request):

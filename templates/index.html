@@ -17,6 +17,7 @@
     <body>
         <div id="app">
             <link rel="stylesheet" :href="'/static/my/css/theme/' + theme +'.css'">
+            <el-scrollbar ref="scrollbar" style="height: 100vh">
             <nav class="nav_bg">
                 <div class="left" id="dynamic_nav">
                     {% dynamic_navigation request %}
@@ -241,7 +242,6 @@
                     </div>
                 {% endblock main %}
             </main>
-
             <footer>
                 <div class="left">
                     <p class="thank">Thank For</p>
@@ -274,6 +274,7 @@
                     <p>2411358676@qq.com</p>
                 </div>
             </footer>
+            </el-scrollbar>
         </div>
         <script src="/static/axios/axios.min.js"></script>
         <script >
@@ -322,6 +323,22 @@
                     ],
                     news_active:'微博',
                     news_active_url:'https://file.ipadown.com/tophub/assets/imges/media/s.weibo.com.png_50x50.png',
+                    site_title:{
+                        title:''
+                    },
+                    site_dialogVisible: false,
+                    site_tag_add:false,
+                    site_tab_tag: '教程',
+                    site_list:[],
+                    site_add_dialogVisible:false,
+                    site:{
+                        title:'',
+                        abstract:'',
+                        href:'',
+                        icon_href:'',
+                        tag: [],
+                    },
+                    site_add_edit:'',
                 },
                 created() {
                     this.init_theme()
@@ -336,6 +353,9 @@
                     if(path.indexOf('news') !== -1){
                         this.news_init_method(0)
                     }
+                    if(path.indexOf('sites') !== -1){
+                        this.init_site()
+                    }
                     if(path.indexOf('/') !== -1){
                         this.news_init_method(1)
                     }
@@ -345,7 +365,36 @@
                         this.code_copy()
                     },200)
                 },
+                mounted(){
+                    this.init_scrollbar()
+                },
                 methods: {
+                    // 初始化滚动条
+                    init_scrollbar(){
+                        let bar = this.$refs.scrollbar.wrap
+                        let slider = document.querySelector('.slider_bar')
+                        let nav = document.querySelector('.nav_bg')
+                        let top1 = 0
+                        let path = location.pathname
+                        if (path.indexOf('article') !== -1){
+                            top1 = $(slider).offset().top - 80
+                        }
+                        bar.onscroll = () =>{
+                            let top = bar.scrollTop
+                            if(top >= 200){
+                                nav.classList.add('show')
+                            }else {
+                                nav.classList.remove('show')
+                            }
+                            if(slider){
+                                if(top >= top1){
+                                    slider.classList.add('fixed')
+                                }else {
+                                    slider.classList.remove('fixed')
+                                }
+                            }
+                        }
+                    },
                     //初始化主题信息
                     init_theme() {
                         let theme = localStorage.getItem('theme')
@@ -497,12 +546,23 @@
                     //
                     init_slider(){
                         let flag = localStorage.getItem('isShowSlider')
+                        setTimeout(() =>{
+                            let box = document.querySelectorAll('.el-scrollbar__view')[1]
+                            console.log(box)
+                            let height = box.offsetHeight
+                            if(height > 500){
+                                height = 500
+                            }else if(height === 0){
+                                height = 200
+                            }
+                            document.getElementById('el-scrollbar').style.height = height + 'px'
+                        },300)
                         if(flag){
                             flag = eval(flag)
                             if(flag){
-                                this.isShowSlider=true
+                                this.isShowSplider=flag
                                 this.$nextTick(() =>{
-                                    this.sliderChange(true)
+                                    this.sliderChange(flag)
                                 })
                             }
                             return
@@ -612,8 +672,153 @@
                             this.news_list = res.data
                         })
                     },
+
                     news_init_method(size ){
                         this.get_new_list('KqndgxeLl9', '微博','https://file.ipadown.com/tophub/assets/imges/media/s.weibo.com.png_50x50.png' ,true, 1)
+                    },
+
+                    //添加标签
+                    site_add_edit_tag_method(nid){
+                        axios.post('/api/site_tag/' + nid, this.site_title).then(res =>{
+                            if(res.code){
+                                this.$message.error(res.msg)
+                                return
+                            }
+                            this.$message.success(res.msg)
+                            location.reload()
+                        })
+                    },
+
+                    //
+                    site_add_tag(nid){
+                        if(!nid){
+                            this.site_add_edit_tag_method('')
+                            return
+                        }
+                        this.site_add_edit_tag_method(nid + '/')
+                    },
+
+                    //
+                    site_tag_edit_show(title, nid){
+                        this.site_title.title = title
+                        this.site_dialogVisible = true
+                        this.site_tag_add = nid
+                    },
+
+                    //
+                    site_tag_handleClos(done){
+                        this.site_title.title = ''
+                        this.site_dialogVisible = false
+                        done()
+                    },
+
+                    //
+                    site_tag_remove(e, nid){
+                        this.$confirm('此操作将会删除标签是否继续?','提示',{
+                            confirmButtonText: '确定',
+                            cancelButtonText: '取消',
+                            type: 'warning',
+                        }).then(() =>{
+                            axios.delete(`/api/site_tag/${nid}/`).then(res => {
+                                if(res.code){
+                                    this.$message.error(res.msg)
+                                    return
+                                }
+                                $(e.target).remove()
+                            })
+                        }).catch(() =>{
+                            this.$message({
+                                type:'info',
+                                message:'已删除该标签'
+                            });
+                        });
+                    },
+
+                    //
+                    site_tag_tab_show(title){
+                        this.site_tab_tag =  title
+                        this.site_get_list(title)
+                    },
+
+                    site_get_list(title){
+                        axios.get('/api/sites/?title=' + title).then(res =>{
+                            this.site_list = res
+                        })
+                    },
+                    init_site(){
+                        this.site_get_list(this.site_tab_tag)
+                    },
+                    site_add(nid){
+                        if(!nid){
+                            axios.post('/api/sites/', this.site).then(res =>{
+                            if(res.code){
+                                this.$message.error(res.msg)
+                                $(`#site_add__${res.self}`)[0].focus()
+                                return
+                            }
+                            this.$message.success(res.msg)
+                            this.site_add_dialogVisible = false
+                            this.init_site()
+                        })
+                        }else {
+                            axios.put(`/api/sites/${nid}/`, this.site).then(res =>{
+                            if(res.code){
+                                this.$message.error(res.msg)
+                                $(`#site_add__${res.self}`)[0].focus()
+                                return
+                            }
+                            this.$message.success(res.msg)
+                            this.site_add_dialogVisible = false
+                            this.init_site()
+                        })
+                        }
+
+                    },
+                    site_edit_show(item){
+                        let tag = []
+                        for (const itemElement of item.tags) {
+                            tag.push(itemElement.nid)
+                        }
+                        this.site = {
+                            title:item.title,
+                            abstract:item.abstract,
+                            href:item.href,
+                            icon_href:item.icon_href,
+                            tag,
+                        }
+                        this.site_add_edit = item.nid
+                        this.site_add_dialogVisible = true
+                    },
+                    site_edit_close(done){
+                        done()
+                        this.site_add_edit = false
+                        this.site = {
+                            title:'',
+                            abstract: '',
+                            href:'',
+                            icon_href: '',
+                            tag: [],
+                        }
+                    },
+                    site_remove(e, nid){
+                        this.$confirm('此操作将会删除标签是否继续?','提示',{
+                            confirmButtonText: '确定',
+                            cancelButtonText: '取消',
+                            type: 'warning',
+                        }).then(() =>{
+                            axios.delete(`/api/sites/${nid}/`).then(res => {
+                                if(res.code){
+                                    this.$message.error(res.msg)
+                                    return
+                                }
+                                $(e.target).parent().parent().remove()
+                            })
+                        }).catch(() =>{
+                            this.$message({
+                                type:'info',
+                                message:'已删除该标签'
+                            });
+                        });
                     },
                 }
             })
@@ -642,7 +847,6 @@
                         clearInterval(timer)
                     }
                 }, banner_time*1000)
-                console.log(1)
                 let banner_slogan = document.getElementById('banner_slogan')
                 let slogan_list = eval(banner_slogan.getAttribute('list'))
                 let slogan_time = Number(banner_slogan.getAttribute('slogan_time'))
@@ -661,34 +865,6 @@
                     }
 
                 },slogan_time*1000)
-
-                let nav = document.querySelector('.nav_bg')
-                let path = location.pathname
-
-                let slider;
-                slider = document.querySelector('.slider_bar')
-                let top1 = 0;
-
-                if(path.indexOf('article') !== -1 ){
-                    top1 = $(slider).offset().top - 80
-                }
-
-                window.onscroll = function (){
-                    let top = document.documentElement.scrollTop
-                    if(top >= 650){
-                        nav.classList.add('show')
-                    }else{
-                        nav.classList.remove('show')
-                    }
-                    if(slider){
-                        if(top >= top1){
-                        slider.classList.add('fixed')
-                        }else {
-                            slider.classList.remove('fixed')
-                        }
-                    }
-
-                }
             </script>
         {% endblock %}
         {% block article_js %}

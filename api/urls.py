@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path, re_path
-from api.views import login, article, comment, user, file, api_email
+from api.views import login, article, comment, user, file, api_email, sites
 
 urlpatterns = [
     path('login/', login.LoginView.as_view()),
@@ -34,5 +34,9 @@ urlpatterns = [
     path('send_email/', api_email.ApiEmail.as_view()),
     path('perfect_information/', user.EditUserInfoView.as_view()),
     path('cancel_collection/', user.CancelCollectionView.as_view()),
+    path('site_tag/', sites.NavTagsView.as_view()),
+    re_path(r'site_tag/(?P<nid>\d+)/', sites.NavTagsView.as_view()),
+    path('sites/', sites.NavView.as_view()),
+    re_path(r'sites/(?P<nid>\d+)/', sites.NavView.as_view()),
 
 ]

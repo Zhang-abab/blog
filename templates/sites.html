@@ -1,5 +1,148 @@
 {% extends 'index.html' %}
-
+{% load my_tag my_filter %}
+{% block CSS %}
+    <link rel="stylesheet" href="/static/my/css/sites.css">
+{% endblock %}
 {% block main %}
-    导航
+    <div class="main">
+    <el-dialog
+      :title="site_add_edit? '网站编辑':'添加网站'"
+      :visible.sync="site_dialogVisible"
+      :before-close="site_add_edit? site_tag_handleClos : null"
+      width="30%">
+        <div class="dialog_content">
+            <div>
+                <label for="">标签名</label>
+                <el-input
+                    placeholder="请输入标签名"
+                    v-model="site_title.title">
+                </el-input>
+            </div>
+        </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="site_dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="site_add_tag(site_tag_add)">确 定</el-button>
+      </span>
+    </el-dialog>
+    <el-dialog
+      title="添加网站"
+      :visible.sync="site_add_dialogVisible"
+      :before-close="site_add_edit? site_edit_close : null"
+      width="40%">
+        <div class="dialog_content">
+            <div>
+                <label for="site_add__title">网站标题</label>
+                <el-input
+                    id="site_add__title"
+                    placeholder="请输入网站标题"
+                    v-model="site.title">
+                </el-input>
+            </div>
+            <div>
+                <label for="site_add__href">网站链接</label>
+                <el-input
+                    id="site_add__href"
+                    placeholder="请输入网站链接"
+                    v-model="site.href">
+                </el-input>
+            </div>
+            <div>
+                <label for="site_add__abstract">网站描述</label>
+                <el-input
+                    id="site_add__abstract"
+                    placeholder="请输入网站描述"
+                    type='textarea'
+                    :rows="4"
+                    resize="none"
+                    v-model="site.abstract">
+                </el-input>
+            </div>
+            <div>
+                <label for="site_add__icon_href">网站图标</label>
+                <div style="display: flex;">
+                    <el-input
+                        id="site_add__icon_href"
+                        placeholder="请输入网站图标链接"
+                        class="icon_href"
+                        v-model="site.icon_href">
+                    </el-input>
+                     <div class="icon_img">
+                         <img :src="site.icon_href" alt="">
+                     </div>
+                </div>
+            </div>
+            <label for="">网站标签</label>
+              <el-select v-model="site.tag" multiple placeholder="请选择">
+                  {% for tag in tag_all %}
+                    <el-option
+                      label="{{ tag.title }}"
+                      :value="{{ tag.nid }}">
+                    </el-option>
+                  {% endfor %}
+              </el-select>
+        </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="site_add_dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="site_add(site_add_edit)">确 定</el-button>
+      </span>
+    </el-dialog>
+        <div class="actions">
+            {% for tag in tag_list %}
+                <dic    @click="site_tag_tab_show('{{ tag.title }}')"
+                        class="tag_item"
+                        :flag="site_tab_tag === '{{ tag.title }}' ? 'show' : ''"
+                        @contextmenu.ctrl.prevent="site_tag_remove($event, '{{ tag.nid }}')"
+                        @click.ctrl="site_tag_edit_show('{{ tag.title }}', '{{ tag.nid }}')">
+                    {{ tag.title }}
+                </dic>
+            {% endfor %}
+            <dic class="tag_item super" @click="site_dialogVisible = true">添加标签</dic>
+        </div>
+        <div class="now_actions">
+            <h2>[[ site_tab_tag ]]</h2>
+            <div class="actions">
+                <span class="btn add" @click="site_add_dialogVisible=true">去添加</span>
+                <span class="btn">推荐</span>
+                <span class="btn">最新</span>
+                <span class="btn">最多点赞</span>
+                <span class="btn">最多收藏</span>
+            </div>
+        </div>
+        <ul class="site_list" >
+            <li v-for="item in site_list" :key="item.nid">
+                <div class="top">
+                    <i class="fa fa-edit site_edit"
+                       @contextmenu.ctrl.prevent="site_remove($event, item.nid)"
+                       @click="site_edit_show(item)"></i>
+                    <div class="content">
+                        <a class="cover cursor" :href="item.href">
+                            <img :src="item.icon_href">
+                        </a>
+                        <div class="right">
+                            <a class="title cursor" :href="item.href">
+                                [[ item.title ]]
+                            </a>
+                            <div class="abstract">
+                                [[ item.abstract ]]
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tags">
+                        <span v-for="tag in item.tags" :key="tag.nid">[[ tag.title ]]</span>
+                    </div>
+                </div>
+                <div class="bottom">
+                    <div class="item"><i class="fa fa-heart cursor"></i><span>[[ item.digg_count ]]</span></div>
+                    <div class="item"><i class="fa fa-star cursor"></i><span>[[ item.collects_count ]]</span></div>
+                    <div class="item">
+                        <a class="cursor" :href="item.href">
+                            <i class="fa fa-location-arrow"></i>
+                        </a>
+                    </div>
+                </div>
+
+            </li>
+
+        </ul>
+    </div>
 {% endblock main %}

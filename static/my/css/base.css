@@ -198,4 +198,7 @@ nav.show .show_search button {
   border-style: solid;
   border-width: 1px 1px 1px 0; }
 
+.el-scrollbar__view {
+  overflow-x: hidden !important; }
+
 /*# sourceMappingURL=base.css.map */

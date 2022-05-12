@@ -274,25 +274,28 @@ class MoodComment(models.Model):
 # 网站导航
 class Navs(models.Model):
     nid = models.AutoField(primary_key=True)
-    nav_category = models.ForeignKey(
-        to='NavCategory',
-        to_field='nid',
-        on_delete=models.SET_NULL,
-        verbose_name='网站导航的分类',
-        null=True
-    )
+    title = models.CharField(max_length=32, verbose_name='网站标题')
+    abstract = models.CharField(max_length=128, verbose_name='网站简介', null=True)
+    # nav_category = models.ForeignKey(
+    #     to='NavCategory',
+    #     to_field='nid',
+    #     on_delete=models.SET_NULL,
+    #     verbose_name='网站导航的分类',
+    #     null=True
+    # )
     icon_href = models.URLField(
         verbose_name='图标链接', help_text='在线链接', null=True, blank=True
     )
-    icon = models.FileField(
-        verbose_name='网站图标', null=True, blank=True,
-        upload_to='site_icon/', help_text='文件优先级大于在线链接'
-    )
-    title = models.CharField(max_length=32, verbose_name='网站标题')
-    abstract = models.CharField(max_length=128, verbose_name='网站简介', null=True)
+    # icon = models.FileField(
+    #     verbose_name='网站图标', null=True, blank=True,
+    #     upload_to='site_icon/', help_text='文件优先级大于在线链接'
+    # )
+
     create_date = models.DateTimeField(
         verbose_name='创建时间', auto_now=True
     )
+    digg_count = models.IntegerField(verbose_name='点赞数', default=0)
+    collects_count = models.IntegerField(verbose_name='收藏数', default=0)
     href = models.URLField(verbose_name='网站链接')
     status_choice = (
         (0, '待审核'),
@@ -319,6 +322,11 @@ class Navs(models.Model):
 
     color_state.short_description = '导航状态'
 
+    tag = models.ManyToManyField(
+        to='NavTags',
+        verbose_name='网站标签',
+    )
+
     def __str__(self):
         return self.title
 
@@ -326,18 +334,15 @@ class Navs(models.Model):
         verbose_name_plural = '网站导航'
 
 
-# 导航分类
-class NavCategory(models.Model):
+class NavTags(models.Model):
     nid = models.AutoField(primary_key=True)
-    title = models.CharField(verbose_name='分类标题', max_length=16)
-    icon = models.CharField(verbose_name='分类图标', max_length=32)
+    title = models.CharField(verbose_name='网络标签名称', max_length=16, null=True)
 
     def __str__(self):
         return self.title
 
     class Meta:
-        verbose_name_plural = '导航分类'
-
+        verbose_name_plural = '网站标签'
 
 # 站点背景
 class Menu(models.Model):

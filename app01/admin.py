@@ -89,10 +89,16 @@ class MenuImgAdmin(admin.ModelAdmin):
     list_display = ['url', get_img]
 
 
+class NavsAdmin(admin.ModelAdmin):
+
+    list_display = ['title']
+
+
 admin.site.register(Articles, ArticlesAdmin)
 admin.site.register(Advert, AdvertAdmin)
 admin.site.register(Menu, MenuAdmin)
 admin.site.register(MenuImg, MenuImgAdmin)
+admin.site.register(Navs, NavsAdmin)
 admin.site.register(Tags)
 admin.site.register(Cover)
 admin.site.register(Comment)
