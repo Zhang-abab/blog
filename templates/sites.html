@@ -88,13 +88,22 @@
     </el-dialog>
         <div class="actions">
             {% for tag in tag_list %}
-                <dic    @click="site_tag_tab_show('{{ tag.title }}')"
-                        class="tag_item"
-                        :flag="site_tab_tag === '{{ tag.title }}' ? 'show' : ''"
-                        @contextmenu.ctrl.prevent="site_tag_remove($event, '{{ tag.nid }}')"
-                        @click.ctrl="site_tag_edit_show('{{ tag.title }}', '{{ tag.nid }}')">
-                    {{ tag.title }}
-                </dic>
+                {% if request.user.is_superuser %}
+                    <dic    @click="site_tag_tab_show('{{ tag.title }}')"
+                            class="tag_item"
+                            :flag="site_tab_tag === '{{ tag.title }}' ? 'show' : ''"
+                            @contextmenu.ctrl.prevent="site_tag_remove($event, '{{ tag.nid }}')"
+                            @click.ctrl="site_tag_edit_show('{{ tag.title }}', '{{ tag.nid }}')">
+                        {{ tag.title }}
+                    </dic>
+                    {% else %}
+                    <dic    @click="site_tag_tab_show('{{ tag.title }}')"
+                            class="tag_item"
+                            :flag="site_tab_tag === '{{ tag.title }}' ? 'show' : ''"
+                           >
+                        {{ tag.title }}
+                    </dic>
+                {% endif %}
             {% endfor %}
             <dic class="tag_item super" @click="site_dialogVisible = true">添加标签</dic>
         </div>
@@ -102,18 +111,25 @@
             <h2>[[ site_tab_tag ]]</h2>
             <div class="actions">
                 <span class="btn add" @click="site_add_dialogVisible=true">去添加</span>
-                <span class="btn">推荐</span>
-                <span class="btn">最新</span>
-                <span class="btn">最多点赞</span>
-                <span class="btn">最多收藏</span>
+                <span class="btn"
+                      :flag="site_order === 'create_date' ? 'show' : ''"
+                      @click="site_order_method('create_date')">最新</span>
+                <span class="btn"
+                      :flag="site_order === 'digg_count' ? 'show' : ''"
+                      @click="site_order_method('digg_count')">最多点赞</span>
+                <span class="btn"
+                      :flag="site_order === 'collects_count' ? 'show' : ''"
+                      @click="site_order_method('collects_count')">最多收藏</span>
             </div>
         </div>
         <ul class="site_list" >
             <li v-for="item in site_list" :key="item.nid">
                 <div class="top">
+                    {% if request.user.is_superuser %}
                     <i class="fa fa-edit site_edit"
                        @contextmenu.ctrl.prevent="site_remove($event, item.nid)"
                        @click="site_edit_show(item)"></i>
+                    {% endif %}
                     <div class="content">
                         <a class="cover cursor" :href="item.href">
                             <img :src="item.icon_href">
@@ -132,8 +148,8 @@
                     </div>
                 </div>
                 <div class="bottom">
-                    <div class="item"><i class="fa fa-heart cursor"></i><span>[[ item.digg_count ]]</span></div>
-                    <div class="item"><i class="fa fa-star cursor"></i><span>[[ item.collects_count ]]</span></div>
+                    <div class="item"><i @click="site_digg($event, item)" class="fa fa-heart cursor"></i><span>[[ item.digg_count ]]</span></div>
+                    <div class="item"><i @click="site_coll($event, item)" class="fa fa-star cursor"></i><span>[[ item.collects_count ]]</span></div>
                     <div class="item">
                         <a class="cursor" :href="item.href">
                             <i class="fa fa-location-arrow"></i>

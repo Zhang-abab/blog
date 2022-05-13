@@ -75,6 +75,11 @@ class UserInfo(AbstractUser):
         to='Articles',
         verbose_name='收藏的文章'
     )
+    navs = models.ManyToManyField(
+        to='Navs',
+        verbose_name='收藏的网站',
+        blank=True,
+    )
 
     class Meta:
         verbose_name_plural = '用户'

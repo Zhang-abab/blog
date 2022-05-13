@@ -339,6 +339,7 @@
                         tag: [],
                     },
                     site_add_edit:'',
+                    site_order:'create_date',
                 },
                 created() {
                     this.init_theme()
@@ -737,17 +738,24 @@
                     //
                     site_tag_tab_show(title){
                         this.site_tab_tag =  title
-                        this.site_get_list(title)
+                        this.site_get_list(title, this.site_order)
                     },
 
-                    site_get_list(title){
-                        axios.get('/api/sites/?title=' + title).then(res =>{
+                    site_get_list(title, order){
+                        axios.get('/api/sites/',{
+                        params : {
+                            title,
+                            order,
+                        }
+                        }).then(res =>{
                             this.site_list = res
                         })
                     },
+
                     init_site(){
-                        this.site_get_list(this.site_tab_tag)
+                        this.site_get_list(this.site_tab_tag, this.site_order)
                     },
+
                     site_add(nid){
                         if(!nid){
                             axios.post('/api/sites/', this.site).then(res =>{
@@ -774,6 +782,7 @@
                         }
 
                     },
+
                     site_edit_show(item){
                         let tag = []
                         for (const itemElement of item.tags) {
@@ -789,6 +798,7 @@
                         this.site_add_edit = item.nid
                         this.site_add_dialogVisible = true
                     },
+
                     site_edit_close(done){
                         done()
                         this.site_add_edit = false
@@ -800,6 +810,7 @@
                             tag: [],
                         }
                     },
+
                     site_remove(e, nid){
                         this.$confirm('此操作将会删除标签是否继续?','提示',{
                             confirmButtonText: '确定',
@@ -820,6 +831,45 @@
                             });
                         });
                     },
+
+                    //
+                    site_order_method(order){
+                        this.site_order = order
+                        this.site_get_list(this.site_tab_tag, this.site_order)
+                    },
+
+                    //
+                    site_digg(e, item){
+                        axios.post(`/api/site_digg/${item.nid}/`).then(res=>{
+                            if(res.code){
+                                this.$message.error(res.msg)
+                                return
+                            }
+                            this.$message.success(res.msg)
+                            item.digg_count += 1
+                            $(e.target).parent().addClass('show')
+                            setTimeout(() =>{
+                                $(e.target).parent().removeClass('show')
+                            },2000)
+                        })
+                    },
+
+                    //
+                    site_coll(e, item){
+                        axios.post(`/api/site_coll/${item.nid}/`).then(res=>{
+                            if(res.code){
+                                this.$message.error(res.msg)
+                                return
+                            }
+                            this.$message.success(res.msg)
+                            if(res.data === 1){
+                                $(e.target).parent().addClass('show')
+                            }else {
+                                $(e.target).parent().removeClass('show')
+                            }
+                            item.collects_count += res.data
+                        })
+                    }
                 }
             })
 

@@ -38,6 +38,10 @@
       border-color: #3e8ee6;
       color: #3a8ee6;
     }
+    &[flag='show']{
+      border-color: #3e8ee6;
+      color: #3a8ee6;
+    }
   }
   .add{
     margin-right: 10px;
@@ -147,6 +151,9 @@
         justify-content: center;
         align-items: center;
         font-size: 14px;
+        &.show{
+          color: red;
+        }
         a{
           color: #9a9a9a;
         }

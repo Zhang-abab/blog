@@ -38,5 +38,7 @@ urlpatterns = [
     re_path(r'site_tag/(?P<nid>\d+)/', sites.NavTagsView.as_view()),
     path('sites/', sites.NavView.as_view()),
     re_path(r'sites/(?P<nid>\d+)/', sites.NavView.as_view()),
+    re_path(r'site_digg/(?P<nid>\d+)/', sites.NavDiggView.as_view()),
+    re_path(r'site_coll/(?P<nid>\d+)/', sites.NavCollectsView.as_view()),
 
 ]

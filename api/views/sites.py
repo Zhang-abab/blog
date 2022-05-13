@@ -3,7 +3,9 @@ from django.http import JsonResponse
 from app01.models import NavTags, Navs
 from django import forms
 from api.views.login import clean_form
+from django.db.models import F
 import datetime
+import time
 
 
 class NavTagsView(View):
@@ -83,8 +85,13 @@ class NavForm(forms.Form):
 class NavView(View):
     def get(self, request):
         title = request.GET.get('title')
+        order = request.GET.get('order')
+        if request.user.is_superuser:
+            nav_coll_list = request.user.navs.all()
+        else:
+            nav_coll_list = []
         data = []
-        nav_list = Navs.objects.filter(tag__title=title, status=1)
+        nav_list = Navs.objects.filter(tag__title=title, status=1).order_by(f'-{order}')
         for nav in nav_list:
             data.append({
                 'nid': nav.nid,
@@ -98,7 +105,8 @@ class NavView(View):
                 'tags': [{
                     'nid': tag.nid,
                     'title': tag.title,
-                } for tag in nav.tag.all()]
+                } for tag in nav.tag.all()],
+                'is_coll':'show' if nav in nav_coll_list else '',
             })
         return JsonResponse(data, safe=False)
 
@@ -117,6 +125,8 @@ class NavView(View):
         tag = data.get('tag')
         if tag:
             obj.tag.add(*tag)
+        if not request.user.is_superuser:
+            res['msg'] = '感谢添加管理员正在审核'
         res['code'] = 0
         return JsonResponse(res)
 
@@ -158,3 +168,48 @@ class NavView(View):
         res['code'] = 0
         return JsonResponse(res)
 
+
+class NavDiggView(View):
+    def post(self, request, nid):
+        res = {
+            'code': 414,
+            'msg': '点赞成功',
+        }
+        before_time = request.session.get(f'site_{nid}', 0)
+        now = int(time.time())
+        if (now - before_time) < 5:
+            res['msg'] = '点赞过于频繁'
+            return JsonResponse(res)
+        request.session[f'site_{nid}'] = now
+        Navs.objects.filter(nid=nid).update(digg_count=F('digg_count')+1)
+        res['code'] = 0
+        return JsonResponse(res)
+
+
+class NavCollectsView(View):
+    # 一个用户在哪收藏一次
+    def post(self, request, nid):
+        res = {
+            'msg': '网站收藏成功',
+            'code': 412,
+            'isCollects': True,
+        }
+        if not request.user.username:
+            res['msg'] = '请登录'
+            return JsonResponse(res)
+        # 判断是否已经收藏
+        flag = request.user.navs.filter(nid=nid)
+        num = 1
+        res['code'] = 0
+        if flag:
+            # 用户已经收藏了该文章，取消收藏.
+            res['msg'] = '文章取消收藏!'
+            res['isCollects'] = False
+            request.user.navs.remove(nid)
+            num = -1
+        else:
+            request.user.navs.add(nid)
+        res['data'] = num
+        nav_query = Navs.objects.filter(nid=nid)
+        nav_query.update(collects_count=F('collects_count') + num)
+        return JsonResponse(res)

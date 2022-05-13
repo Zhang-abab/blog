@@ -34,6 +34,9 @@
     .actions .btn:hover {
       border-color: #3e8ee6;
       color: #3a8ee6; }
+    .actions .btn[flag='show'] {
+      border-color: #3e8ee6;
+      color: #3a8ee6; }
   .actions .add {
     margin-right: 10px; }
 
@@ -125,6 +128,8 @@
         justify-content: center;
         align-items: center;
         font-size: 14px; }
+        .site_list > li .bottom .item.show {
+          color: red; }
         .site_list > li .bottom .item a {
           color: #9a9a9a; }
         .site_list > li .bottom .item span {
