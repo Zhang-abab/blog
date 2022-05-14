@@ -86,12 +86,15 @@ class NavView(View):
     def get(self, request):
         title = request.GET.get('title')
         order = request.GET.get('order')
+        data = []
         if request.user.is_superuser:
             nav_coll_list = request.user.navs.all()
         else:
             nav_coll_list = []
-        data = []
-        nav_list = Navs.objects.filter(tag__title=title, status=1).order_by(f'-{order}')
+        if title == '我的收藏' and request.user.is_superuser:
+            nav_list = request.user.navs.all().order_by(f'-{order}')
+        else:
+            nav_list = Navs.objects.filter(tag__title=title, status=1).order_by(f'-{order}')
         for nav in nav_list:
             data.append({
                 'nid': nav.nid,
@@ -212,4 +215,26 @@ class NavCollectsView(View):
         res['data'] = num
         nav_query = Navs.objects.filter(nid=nid)
         nav_query.update(collects_count=F('collects_count') + num)
+        return JsonResponse(res)
+
+
+class FriendLinksView(View):
+    def post(self, request):
+        res = {
+            'code': 414,
+            'msg': '友链添加成功',
+            'self': None,
+        }
+
+        data = request.data
+        form = NavForm(data, request=request)
+        if not form.is_valid():
+            res['self'], res['msg'] = clean_form(form)
+            return JsonResponse(res)
+        obj = Navs.objects.create(**form.cleaned_data)
+        nav_tag = NavTags.objects.get(title='博客')
+        obj.tag.add(nav_tag.nid)
+        if not request.user.is_superuser:
+            res['msg'] = '友链添加成功，管理员正在审核!'
+        res['code'] = 0
         return JsonResponse(res)

@@ -21,12 +21,13 @@ def index(request):
         all_count=article_list.count(),
         base_url=request.path_info,
         query_params=query_params,
-        per_page=3,
+        per_page=15,
         pager_page_count=7,
     )
     # print(pager.start, pager.end, pager.page_html())
     article_list = article_list[pager.start:pager.end]
     advert_list = Advert.objects.filter(is_show=True)
+    link_list = Navs.objects.filter(tag__title='博客')
     return render(request, 'index.html', locals())
 
 
@@ -69,8 +70,9 @@ def article(request, nid):
     article_query.update(look_count=F('look_count')+1)
     if not article_query:
         return redirect('/')
-    article = article_query.first()
+    article_obj: Articles = article_query.first()
     comment_list = sub_comment_list(nid)
+
     return render(request, 'article.html', locals())
 
 
@@ -125,7 +127,7 @@ def mqtt(request):
     return render(request, 'Led.html')
 
 
-def mqtt_led(request,pin):
+def mqtt_led(request, pin):
 
     if pin == 1:
         led(1)

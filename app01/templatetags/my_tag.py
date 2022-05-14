@@ -1,7 +1,7 @@
 from django import template
 from app01.utils.search import Search
 from django.utils.safestring import mark_safe
-from app01.models import Tags, Avatars, Menu
+from app01.models import Tags, Avatars, Menu, Articles
 register = template.Library()
 
 
@@ -111,4 +111,28 @@ def generate_advert(advert_list):
     return mark_safe(''.join(html_list))
 
 
+# 上一篇下一篇
+@register.simple_tag
+def generate_p_n(article: Articles):
+    article_list = list(Articles.objects.filter(category=article.category))
+    now_index = article_list.index(article)
+    max_index = len(article_list) - 1
+    if now_index == 0:
+        prev_index = '<a href="javascript:void(0)">已经是第一篇了</a>'
+    else:
+        prev_article = article_list[article_list.index(article) - 1]
+        prev_index = f'<a href="/article/{prev_article.nid}/">上一篇：{prev_article.title}</a>'
+    if now_index == max_index:
+        next_index = '<a href="javascript:void(0)">已经是最后一篇了</a>'
+    else:
+        next_article = article_list[article_list.index(article) + 1]
+        next_index = f'<a href="/article/{next_article.nid}/">下一篇：{next_article.title}</a>'
+    return mark_safe(prev_index + next_index)
+
+
+# 计算某个分类的文章数
+@register.simple_tag
+def calculation_category_count(cid):
+    article_query = Articles.objects.filter(category=cid)
+    return article_query.count()
 

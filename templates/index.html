@@ -136,9 +136,11 @@
                                     <ul>
                                         {% for article in article_list %}
                                             <li>
+                                            {% if article.category %}
                                                 <div class="category_flag" len="{{ article.get_category_display|length }}" type="{{ article.get_category_display }}">
                                                     {{ article.get_category_display }}
                                                 </div>
+                                            {% endif %}
                                                 <div class="left">
                                                     <div>
                                                         <img src="{{ article.cover.url.url }}" alt="">
@@ -225,19 +227,126 @@
                                     <h2>站点信息</h2>
                                 </div>
                                 <div class="body">
-                                    主要内容区
+                                    <div class="item">
+                                        <b>建设站时间:</b>
+                                        <span>2021年12月29日</span>
+                                    </div>
+                                    <div class="item">
+                                        <b>网站程序:</b>
+                                        <span>Django+Vue.js</span>
+                                    </div>
+                                    <div class="item">
+                                        <b>前端文章:</b>
+                                        <span>{% calculation_category_count 1 %}</span>
+                                    </div>
+                                    <div class="item">
+                                        <b>后端文章:</b>
+                                        <span>{% calculation_category_count 2 %}</span>
+                                    </div>
+                                    <div class="item">
+                                        <b>网站空间:</b>
+                                        <span>2021年12月29日</span>
+                                    </div>
+                                    <div class="item">
+                                        <b>订阅内容:</b>
+                                        <div class="images">
+                                            <div class="qq"><img src="http://127.0.0.1:8000/media/advert/IMG_5497.JPG" alt="我的qq">我的QQ</div>
+                                            <div class="qq"><img src="http://127.0.0.1:8000/media/advert/IMG_5497.JPG" alt="我的qq">我的微信</div>
+                                        </div>
+
+                                    </div>
                                 </div>
+
                             </div>
 
-                            <div class="links card">
+                            <div class="feedback card">
                                 <div class="title">
-                                    <h2>友情链接</h2>
+                                    <h2>意见反馈</h2>
                                 </div>
                                 <div class="body">
-                                    主要内容区
+                                    <el-input
+                                        id="feedback__email"
+                                        placeholder="用于接收反馈的邮箱"
+                                        v-model="feedback.email">
+                                    </el-input>
+                                    <el-input
+                                        id="feedback__content"
+                                        placeholder="请输入你对网站的建议"
+                                        type="textarea"
+                                        :rows="6"
+                                        resize="none"
+                                        v-model="feedback.content">
+                                    </el-input>
+                                    <el-button type="primary" @click="feedback_add">确定</el-button>
                                 </div>
                             </div>
-
+                            <div class="links card">
+                                <el-dialog
+                                title="申请友链"
+                                :visible.sync="friends_links_dialog"
+                                width="30%">
+                                <div class="dialog_content">
+                                    <div>
+                                        <label for="site_add__title">网站标题</label>
+                                        <el-input
+                                            id="site_add__title"
+                                            placeholder="请输入你的网站标题"
+                                            v-model="site.title">
+                                        </el-input>
+                                    </div>
+                                    <div>
+                                        <label for="site_add__href">网站链接</label>
+                                        <el-input
+                                            id="site_add__href"
+                                            placeholder="请输入你的网站链接"
+                                            v-model="site.href">
+                                        </el-input>
+                                    </div>
+                                    <div>
+                                        <label for="site_add__abstract">网站描述</label>
+                                        <el-input
+                                            id="site_add__abstract"
+                                            placeholder="请输入你的网站描述"
+                                            type='textarea'
+                                            :rows="4"
+                                            resize="none"
+                                            v-model="site.abstract">
+                                        </el-input>
+                                    </div>
+                                    <div>
+                                        <label for="site_add__icon_href">网站图标</label>
+                                        <div style="display: flex;">
+                                            <el-input
+                                                id="site_add__icon_href"
+                                                placeholder="请输入你的网站图标链接"
+                                                class="icon_href"
+                                                v-model="site.icon_href">
+                                            </el-input>
+                                             <div class="icon_img">
+                                                 <img :src="site.icon_href" alt="">
+                                             </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span slot="footer" class="dialog-footer">
+                                    <el-button @click="friends_links_dialog = false">取消</el-button>
+                                    <el-button @click="friend_link_add">确定</el-button>
+                                </span>
+                            </el-dialog>
+                                <div class="title">
+                                    <h2>友情链接</h2>
+                                    <div><a href="javascript:void(0)" @click="friends_links_dialog = true">[申请入口]</a></div>
+                                </div>
+                                <div class="body">
+                                    <ul>
+                                        {% for link in link_list %}
+                                        <li>
+                                            <a href="{{ link.href }}" target="_blank">{{ link.title }}</a>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 {% endblock main %}
@@ -340,6 +449,11 @@
                     },
                     site_add_edit:'',
                     site_order:'create_date',
+                    friends_links_dialog: false,
+                    feedback:{
+                        email: '',
+                        content: '',
+                    },
                 },
                 created() {
                     this.init_theme()
@@ -367,19 +481,35 @@
                     },200)
                 },
                 mounted(){
-                    this.init_scrollbar()
+                    this.keyDown()
+                    let path =location.pathname
+                    if(path.indexOf('search') === -1){
+                        setTimeout(() =>{
+                            this.init_scrollbar()
+                        },100)
+
+                    }
                 },
                 methods: {
                     // 初始化滚动条
                     init_scrollbar(){
-                        let bar = this.$refs.scrollbar.wrap
                         let slider = document.querySelector('.slider_bar')
                         let nav = document.querySelector('.nav_bg')
                         let top1 = 0
                         let path = location.pathname
-                        if (path.indexOf('article') !== -1){
+                        let bar = this.$refs.scrollbar.wrap
+                        let old_url = localStorage.getItem('current_url')
+                        let new_url = location.href
+                        if (path.indexOf('article') !== -1 || path.indexOf('about') !== -1){
                             top1 = $(slider).offset().top - 80
                         }
+                        if(old_url === new_url){
+                            let top = localStorage.getItem('current_top')
+                            localStorage.setItem('current_top', '0')
+                            let el_bar = document.querySelector('.el-scrollbar__warp')
+                            $(el_bar).animate({scrollTop:top}, 0)
+                        }
+
                         bar.onscroll = () =>{
                             let top = bar.scrollTop
                             if(top >= 200){
@@ -396,6 +526,21 @@
                             }
                         }
                     },
+
+                    //
+                    keyDown(){
+                        let el_bar = document.querySelector('.el_scrollbar__wrap')
+                        document.onkeydown = (e) =>{
+                            let e1 = e || event || window.event || arguments.callee.caller.arguments[0]
+                            let top = el_bar.scrollTop
+                            if(e1.code == 'ArrowDown'){
+                                $(el_bar).animate({scrollTop:top+20},0)
+                            }else if(e1.code == 'ArrowUp'){
+                                $(el_bar).animate({scrollTop:top-20},0)
+                            }
+                        }
+
+                    },
                     //初始化主题信息
                     init_theme() {
                         let theme = localStorage.getItem('theme')
@@ -403,6 +548,7 @@
                             this.theme = theme
                         }
                     },
+
                     //设置主题
                     setTheme(themeName) {
                         this.theme = themeName
@@ -869,9 +1015,48 @@
                             }
                             item.collects_count += res.data
                         })
-                    }
+                    },
+
+                    // 添加友链
+                    friend_link_add(){
+                        axios.post('/api/friends_links/', this.site).then(res =>{
+                            if(res.code){
+                                this.$message.error(res.msg)
+                                $(`#site_add__${res.self}`)[0].focus()
+                                return
+                            }
+                            this.$message.success(res.msg)
+                            this.friends_links_dialog = false
+                        })
+                    },
+
+                    // 用户建议
+                    feedback_add(){
+                        axios.post('/api/feedback/', this.feedback).then(res =>{
+                        if(res.code){
+                                this.$message.error(res.msg)
+                                $(`#feedback__${res.self}`)[0].focus()
+                                return
+                            }
+                            this.$message.success(res.msg)
+                            this.feedback.content = ''
+                        })
+                    },
                 }
             })
+            let w = true;
+            $('a').click(e =>{
+                w = false
+            })
+            window.onbeforeunload = e =>{
+                // 将滚动条位置写入url
+                if(w){
+                    let el_bar = document.querySelector('.sl_scrollbar__wrap')
+                    let url = location.href
+                    localStorage.setItem('top', el_bar.scrollTop)
+                    localStorage.setItem('current_url', url)
+                }
+            }
 
 
         </script>

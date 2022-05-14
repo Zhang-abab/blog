@@ -21,15 +21,6 @@ class AddArticleForm(forms.Form):
     recommend = forms.BooleanField(required=False)
     status = forms.IntegerField(required=False)
 
-    def clean(self):
-        category = self.cleaned_data['category']
-        if not category:
-            self.cleaned_data.pop('category')
-
-        pwd = self.cleaned_data['pwd']
-        if not pwd:
-            self.cleaned_data.pop('pwd')
-
     def clean_abstract(self):
         abstract = self.cleaned_data['abstract']
         if abstract:
@@ -46,6 +37,12 @@ class AddArticleForm(forms.Form):
         cover_set = Cover.objects.all().values('nid')
         cover_id = random.choice(cover_set)['nid']
         return cover_id
+
+    def clean_category(self):
+        category = self.cleaned_data['category']
+        if not category:
+            category = None
+        return category
 
 
 # 给文章添加标签

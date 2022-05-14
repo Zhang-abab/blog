@@ -288,5 +288,49 @@
               transition: all 0.3s; }
               #app .main .right .advertisement > .body > div > a img:hover {
                 transform: scale(1.1); }
+      #app .main .right .feedback > .body .el-input, #app .main .right .feedback > .body .el-textarea {
+        margin-bottom: 10px; }
+      #app .main .right .feedback > .body .el-button {
+        width: 100%; }
+      #app .main .right .links > .body ul {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap; }
+        #app .main .right .links > .body ul li {
+          width: 50%;
+          display: flex;
+          align-items: center;
+          height: 40px; }
+          #app .main .right .links > .body ul li a {
+            color: #333; }
+      #app .main .right .site_info > .body .item {
+        margin-bottom: 10px; }
+      #app .main .right .site_info > .body .images {
+        margin-top: 10px;
+        display: flex; }
+        #app .main .right .site_info > .body .images > div {
+          width: 50%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center; }
+        #app .main .right .site_info > .body .images img {
+          height: 100px;
+          border-radius: 5px; }
+
+.dialog_content > div {
+  margin-bottom: 10px; }
+  .dialog_content > div > label {
+    display: flex;
+    margin-bottom: 5px; }
+  .dialog_content > div .icon_href {
+    width: 70%; }
+  .dialog_content > div .icon_img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30%; }
+    .dialog_content > div .icon_img img {
+      height: 60px; }
 
 /*# sourceMappingURL=index.css.map */

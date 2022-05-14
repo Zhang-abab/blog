@@ -40,5 +40,6 @@ urlpatterns = [
     re_path(r'sites/(?P<nid>\d+)/', sites.NavView.as_view()),
     re_path(r'site_digg/(?P<nid>\d+)/', sites.NavDiggView.as_view()),
     re_path(r'site_coll/(?P<nid>\d+)/', sites.NavCollectsView.as_view()),
-
+    path('friends_links/', sites.FriendLinksView.as_view()),
+    path('feedback/', user.FeedBackView.as_view()),
 ]

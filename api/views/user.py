@@ -4,7 +4,7 @@ from django.http import JsonResponse
 from api.views.login import clean_form
 from django import forms
 from django.contrib import auth
-from app01.models import Avatars
+from app01.models import Avatars, UserInfo, Feedback
 from django.shortcuts import redirect
 
 
@@ -141,3 +141,28 @@ class CancelCollectionView(View):
         nid_list = request.POST.getlist('nid')
         request.user.collects.remove(*nid_list)
         return redirect('/backend/')
+
+
+# 意见反馈
+
+class FeedBackFormView(forms.Form):
+    email = forms.EmailField(error_messages={'required': '请输入邮箱', 'invalid': '请输入正确邮箱'})
+    content = forms.CharField(error_messages={'required': '请输入意见内容'})
+
+
+class FeedBackView(View):
+
+    def post(self, request):
+        print(1)
+        res = {
+            'msg': '反馈成功,小张正在认真阅读！',
+            'code': 414,
+            'self': None
+        }
+        form = FeedBackFormView(request.data)
+        if not form.is_valid():
+            res['self'], res['msg'] = clean_form(form)
+            return JsonResponse(res)
+        Feedback.objects.create(**form.cleaned_data)
+        res['code'] = 0
+        return JsonResponse(res)

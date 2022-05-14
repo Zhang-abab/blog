@@ -102,7 +102,7 @@
                 })
                 },
                 sign(){
-                    axios.post('/aip/sign/', this.sing_form).then(res=>{
+                    axios.post('/api/sign/', this.sing_form).then(res=>{
                         if (res.code){
                             //验证失败
                             this.$message.error(res.msg)

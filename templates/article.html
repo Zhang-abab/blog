@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block banner %}
-    {% banner 'article' article %}
+    {% banner 'article' article_obj %}
 {% endblock %}
 
 {% block main %}
@@ -33,51 +33,58 @@
 
     <div class="article_actions">
         <div class="item" title="文章点赞">
-            <i @click="article_digg($event, '{{ article.nid }}')" class="fas fa-thumbs-up"></i>
-            <span>{{ article.digg_count }}</span>
+            <i @click="article_digg($event, '{{ article_obj.nid }}')" class="fas fa-thumbs-up"></i>
+            <span>{{ article_obj.digg_count }}</span>
         </div>
         <div class="item" title="文章收藏">
-            <i @click="article_collects($event, '{{ article.nid }}')" class="fas fa-star {{ article|in_user_collects:request }} "></i>
-            <span>{{ article.collects_count }}</span>
+            <i @click="article_collects($event, '{{ article_obj.nid }}')" class="fas fa-star {{ article_obj|in_user_collects:request }} "></i>
+            <span>{{ article_obj.collects_count }}</span>
         </div>
         <div class="item" title="回到顶部">
             <i class="fa fa-angle-double-up" @click="go_to_top"></i>
         </div>
     </div>
     <div class="article_title">
-        <h2>{{ article.title }}
+        <h2>{{ article_obj.title }}
             {% if request.user.is_superuser %}
-            <a href="/backend/edit_article/{{ article.nid }}/"><i class="fas fa-edit"></i></a>
+            <a href="/backend/edit_article/{{ article_obj.nid }}/"><i class="fas fa-edit"></i></a>
             {% endif %}
          </h2>
         <p>
-            <span>发布时间:<i>{{ article.create_date|date:'Y-m-d' }}</i></span>
-            <span>作者:<i>{{ article.author }}</i></span>
-            <span>来源:<i>{{ article.source }}</i></span>
+            <span>发布时间:<i>{{ article_obj.create_date|date:'Y-m-d' }}</i></span>
+            <span>作者:<i>{{ article_obj.author }}</i></span>
+            <span>来源:<i>{{ article_obj.source }}</i></span>
         </p>
         <div>
-            {% if article.tag.all %}
+            {% if article_obj.tag.all %}
             <i title = "文章标签" class="fas fa-tags"></i>
-                {% for tag in article.tag.all %}
+                {% for tag in article_obj.tag.all %}
                     <i>{{ tag.title }}</i>
                 {% endfor %}
             {% endif %}
         </div>
     </div>
     <div class="article_content" id = "article_content">
-        <textarea style="display: none;">{{ article.content }}</textarea>
+        <textarea style="display: none;">{{ article_obj.content }}</textarea>
+    </div>
+    {% block prev_next %}
+    <div class="prev_next_article">
+        <div class="pn_content">
+            {% generate_p_n article_obj %}
+        </div>
+    {% endblock %}
     </div>
     <div class="comment_submit">
         <div class="title">你觉得文章怎么样</div>
         {% csrf_token %}
         <div class="body">
             <textarea name="" id="" ref="comment_content" cols="30" rows="10" v-model="comment_content" placeholder="写下你想说的话,开始我们的对话"></textarea>
-            <button class = 'submit_comment' @click="add_comment('{{ article.nid }}')">发布评论</button>
+            <button class = 'submit_comment' @click="add_comment('{{ article_obj.nid }}')">发布评论</button>
         </div>
         <div class="footer">
             <p>
-                <span>{{ article.look_count }}</span>人参与
-                <span>{{ article.comment_count }}</span>条评论
+                <span>{{ article_obj.look_count }}</span>人参与
+                <span>{{ article_obj.comment_count }}</span>条评论
             </p>
         </div>
     </div>
@@ -99,7 +106,7 @@
                             <span  @click="comment_digg('{{ comment.nid }}')" >点赞（{{ comment.digg_count }}）</span>
                             <span @click="show_sub_comment_list($event, '{{ comment.user.username }}', '{{ comment.nid }}')">回复（{{ comment.comment_count }}）</span>
                             {% if sub_user == request.user or request.user.is_superuser%}
-                                <span class ="delete" @click="delete_sub_comment('{{ comment.nid }}','{{ article.nid }}', null)">删除</span>
+                                <span class ="delete" @click="delete_sub_comment('{{ comment.nid }}','{{ article_obj.nid }}', null)">删除</span>
                             {% endif %}
                         </div>
                     </div>
@@ -120,7 +127,7 @@
                                              <span @click="comment_digg('{{ sub.nid }}')">点赞（{{ sub.digg_count }}）</span>
                                              <span @click="sub_comment_set_placeholder($event, '{{ sub.user.username }}', '{{ sub.nid }}')">回复</span>
                                              {% if sub_user == request.user or request.user.is_superuser%}
-                                                  <span class="delete" @click="delete_sub_comment('{{ sub.nid }}','{{ article.nid }}','{{ comment.nid }}')">删除</span>
+                                                  <span class="delete" @click="delete_sub_comment('{{ sub.nid }}','{{ article_obj.nid }}','{{ comment.nid }}')">删除</span>
                                              {% endif %}
                                          </div>
                                      </div>
@@ -131,7 +138,7 @@
                             <textarea name="" id="" cols="30" rows="10" ref="sub_comment_content" placeholder="@zzz">
 
                             </textarea>
-                            <button @click="add_sub_comment($event, '{{ article.nid }}')">回复</button>
+                            <button @click="add_sub_comment($event, '{{ article_obj.nid }}')">回复</button>
                         </div>
                     </div>
                 </div>

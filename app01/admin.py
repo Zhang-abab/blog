@@ -1,6 +1,9 @@
 from django.contrib import admin
 from app01.models import *
 from django.utils.safestring import mark_safe
+from django.core.mail import send_mail
+from threading import Thread
+from django.conf import settings
 
 
 class ArticlesAdmin(admin.ModelAdmin):
@@ -94,11 +97,37 @@ class NavsAdmin(admin.ModelAdmin):
     list_display = ['title']
 
 
+class FeedbackAdmin(admin.ModelAdmin):
+    list_display = ['email', 'content', 'status', 'processing_content']
+    readonly_fields = ['email', 'content', 'status']
+
+    def has_add_permission(self, request):
+        return False
+
+    def save_model(self, request, obj, form, change):
+        if not change:
+            return
+        email = obj.email
+        content = obj.content
+        obj.status = True
+        processing_content = form.data.get('processing_content')
+        print(email, content, processing_content)
+        Thread(target=send_mail, args=(
+            f'「无名小站」反馈的：{content}信息被小张回复了',
+            f'「{processing_content}」',
+            settings.EMAIL_HOST_USER,
+            [email, ],
+            False
+        )).start()
+        return super(FeedbackAdmin, self).save_model(request, obj, form, change)
+
+
 admin.site.register(Articles, ArticlesAdmin)
 admin.site.register(Advert, AdvertAdmin)
 admin.site.register(Menu, MenuAdmin)
 admin.site.register(MenuImg, MenuImgAdmin)
 admin.site.register(Navs, NavsAdmin)
+admin.site.register(Feedback, FeedbackAdmin)
 admin.site.register(Tags)
 admin.site.register(Cover)
 admin.site.register(Comment)
