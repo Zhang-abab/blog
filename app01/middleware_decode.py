@@ -1,7 +1,8 @@
-import json
-from ntpath import join
 from django.utils.deprecation import MiddlewareMixin
 import json
+
+
+
 
 class Md1(MiddlewareMixin):
     def process_request(self, request):

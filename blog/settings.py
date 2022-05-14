@@ -86,13 +86,19 @@ WSGI_APPLICATION = 'blog.wsgi.application'
 # }
 
 DATABASES = {
-    'default':{
+    'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'blog',
         'USER': 'zhang',
         'PASSWORD': 'zhang',
         'HOST': '127.0.0.1',
         "PORT": '3000',
+    }
+}
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-snowflake',
     }
 }
 
