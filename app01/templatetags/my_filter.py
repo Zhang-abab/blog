@@ -1,7 +1,7 @@
 import datetime
 import pendulum
 from django import template
-from app01.models import Avatars, Cover
+from app01.models import Avatars, Cover, Advert
 from django.utils.safestring import mark_safe
 
 register = template.Library()
@@ -61,3 +61,25 @@ def get_tags(tag_list):
 @register.filter
 def get_coll_nid(lis):
     return [i.nid for i in lis]
+
+
+@register.filter
+def generate_advert(adv_list):
+    lis = []
+    for i in adv_list:
+        item = {}
+        if i.img:
+            item['url'] = i.img.url
+            item['title'] = i.title
+            item['href'] = i.href
+            lis.append(item)
+        else:
+            html_s: str = i.img_list
+            html_new = html_s.replace('；', ';').replace('\n', ';')
+            img_list = html_new.split(';')
+            for u in img_list:
+                item['url'] = u
+                item['title'] = i.title
+                item['href'] = i.href
+                lis.append(item)
+    return lis

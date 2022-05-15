@@ -129,9 +129,9 @@
       #app .main .left .all_article > .body {
         background-color: transparent;
         padding: 0; }
-        #app .main .left .all_article > .body > ul {
+        #app .main .left .all_article > .body > .active_content {
           width: 100%; }
-          #app .main .left .all_article > .body > ul > li {
+          #app .main .left .all_article > .body > .active_content > li {
             width: 100%;
             display: flex;
             background-color: #fff;
@@ -140,51 +140,51 @@
             transition: all 0.3s;
             position: relative;
             overflow: hidden; }
-            #app .main .left .all_article > .body > ul > li:first-child {
+            #app .main .left .all_article > .body > .active_content > li:first-child {
               border-radius: 0 0 5px 5px; }
-              #app .main .left .all_article > .body > ul > li:first-child .left {
+              #app .main .left .all_article > .body > .active_content > li:first-child .left {
                 padding: 10px 10px 20px 20px; }
-              #app .main .left .all_article > .body > ul > li:first-child .right {
+              #app .main .left .all_article > .body > .active_content > li:first-child .right {
                 padding: 10px 20px 20px 10px; }
-            #app .main .left .all_article > .body > ul > li:not(#app .main .left .all_article > .body > ul > li:first-child):hover {
+            #app .main .left .all_article > .body > .active_content > li:not(#app .main .left .all_article > .body > .active_content > li:first-child):hover {
               transform: translateY(-10px);
               box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
-            #app .main .left .all_article > .body > ul > li .left {
+            #app .main .left .all_article > .body > .active_content > li .left {
               width: 30%;
               box-sizing: border-box;
               padding: 20px 10px 20px 20px; }
-              #app .main .left .all_article > .body > ul > li .left > div {
+              #app .main .left .all_article > .body > .active_content > li .left > div {
                 width: 100%;
                 height: 110px;
                 overflow: hidden; }
-                #app .main .left .all_article > .body > ul > li .left > div img {
+                #app .main .left .all_article > .body > .active_content > li .left > div img {
                   width: 100%;
                   transition: all 0.3s;
                   border-radius: 5px; }
-                  #app .main .left .all_article > .body > ul > li .left > div img:hover {
+                  #app .main .left .all_article > .body > .active_content > li .left > div img:hover {
                     transform: scale(1.1); }
-            #app .main .left .all_article > .body > ul > li .right {
+            #app .main .left .all_article > .body > .active_content > li .right {
               width: 70%;
               padding: 20px 20px 20px 10px;
               position: relative; }
-              #app .main .left .all_article > .body > ul > li .right > h2 {
+              #app .main .left .all_article > .body > .active_content > li .right > h2 {
                 font-size: 24px;
                 margin-bottom: 5px; }
-              #app .main .left .all_article > .body > ul > li .right p {
+              #app .main .left .all_article > .body > .active_content > li .right p {
                 display: -webkit-box;
                 -webkit-box-orient: vertical;
                 -webkit-line-clamp: 2;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 margin-bottom: 30px; }
-              #app .main .left .all_article > .body > ul > li .right .article_info {
+              #app .main .left .all_article > .body > .active_content > li .right .article_info {
                 font-size: 14px;
                 color: #555; }
-                #app .main .left .all_article > .body > ul > li .right .article_info > span {
+                #app .main .left .all_article > .body > .active_content > li .right .article_info > span {
                   margin-right: 10px; }
-                  #app .main .left .all_article > .body > ul > li .right .article_info > span i {
+                  #app .main .left .all_article > .body > .active_content > li .right .article_info > span i {
                     margin-right: 5px; }
-                #app .main .left .all_article > .body > ul > li .right .article_info > a {
+                #app .main .left .all_article > .body > .active_content > li .right .article_info > a {
                   position: absolute;
                   right: 20px;
                   bottom: 20px;
@@ -198,7 +198,7 @@
                   border: none;
                   border-radius: 5px;
                   font-size: 14px; }
-            #app .main .left .all_article > .body > ul > li .category_flag {
+            #app .main .left .all_article > .body > .active_content > li .category_flag {
               display: flex;
               position: absolute;
               top: 10px;
@@ -211,9 +211,9 @@
               justify-content: center;
               align-items: center;
               transform: rotate(45deg); }
-              #app .main .left .all_article > .body > ul > li .category_flag[len='4'] {
+              #app .main .left .all_article > .body > .active_content > li .category_flag[len='4'] {
                 font-size: 12px; }
-              #app .main .left .all_article > .body > ul > li .category_flag[type='None'] {
+              #app .main .left .all_article > .body > .active_content > li .category_flag[type='None'] {
                 background-color: #26c6da; }
     #app .main .right {
       width: 30%; }
@@ -267,27 +267,12 @@
             #app .main .right .tags > .body ul li:nth-child(3n+1), #app .main .right .tags > .body ul li:nth-child(3n+2) {
               border-right: 1px solid #f0eeee; }
       #app .main .right .advertisement > .body {
-        padding: 0;
-        background: none; }
-        #app .main .right .advertisement > .body > div {
+        padding: 20px;
+        height: 240px; }
+        #app .main .right .advertisement > .body .adv_img_list img {
           width: 100%;
-          padding: 10px;
-          background-color: white;
-          margin-bottom: 10px;
-          border-radius: 5px;
-          box-sizing: border-box; }
-          #app .main .right .advertisement > .body > div:first-child {
-            border-radius: 0 0 5px 5px; }
-          #app .main .right .advertisement > .body > div > a {
-            width: 100%;
-            height: 100%;
-            display: block;
-            overflow: hidden; }
-            #app .main .right .advertisement > .body > div > a img {
-              width: 100%;
-              transition: all 0.3s; }
-              #app .main .right .advertisement > .body > div > a img:hover {
-                transform: scale(1.1); }
+          height: 100%;
+          object-fit: cover; }
       #app .main .right .feedback > .body .el-input, #app .main .right .feedback > .body .el-textarea {
         margin-bottom: 10px; }
       #app .main .right .feedback > .body .el-button {
@@ -332,5 +317,17 @@
     width: 30%; }
     .dialog_content > div .icon_img img {
       height: 60px; }
+  .dialog_content > div .el-select {
+    width: 100%; }
+
+.el-select-dropdown__list li {
+  height: 60px;
+  display: flex;
+  align-items: center; }
+  .el-select-dropdown__list li img {
+    height: 55px;
+    border-radius: 5px; }
+.el-select-dropdown__list li.selected {
+  background-color: #7ccdda26; }
 
 /*# sourceMappingURL=index.css.map */

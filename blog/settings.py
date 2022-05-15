@@ -122,6 +122,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTHENTICATION_BACKENDS = {
+    'app01.valid.auth.CustomBackend'
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/

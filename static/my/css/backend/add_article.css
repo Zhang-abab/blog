@@ -33,4 +33,14 @@
     bottom: 20px;
     right: 20px; }
 
+.el-select-dropdown__list li {
+  height: 60px;
+  display: flex;
+  align-items: center; }
+  .el-select-dropdown__list li img {
+    height: 55px;
+    border-radius: 5px; }
+.el-select-dropdown__list li.selected {
+  background-color: #7ccdda26; }
+
 /*# sourceMappingURL=add_article.css.map */

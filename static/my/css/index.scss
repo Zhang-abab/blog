@@ -149,7 +149,7 @@
             .all_article > .body {
                 background-color: transparent;
                 padding: 0;
-                > ul {
+                > .active_content {
                     width: 100%;
                     > li {
                         width: 100%;
@@ -328,33 +328,16 @@
 
             }
             .advertisement > .body{
-                padding: 0;
-                background: none;
-                >div{
-                    width: 100%;
-                    padding: 10px;
-                    background-color: white;
-                    margin-bottom: 10px;
-                    border-radius: 5px;
-                    box-sizing: border-box;
-                    &:first-child{
-                        border-radius: 0 0 5px 5px;
-                    }
-                    >a{
+                padding: 20px;
+                height: 240px;
+                .adv_img_list{
+                    img{
                         width: 100%;
                         height: 100%;
-                        display: block;
-                        overflow: hidden;
-                        img{
-                            width: 100%;
-                            transition: all 0.3s;
-                            &:hover{
-                                transform: scale(1.1);
-                            }
-                        }
+                        object-fit: cover;
                     }
-
                 }
+
             }
             .feedback > .body{
                 .el-input, .el-textarea{
@@ -423,7 +406,25 @@
         height: 60px;
       }
     }
+    .el-select{
+        width: 100%;
+    }
   }
+}
+
+.el-select-dropdown__list{
+    li{
+        height: 60px;
+        display: flex;
+        align-items: center;
+        img{
+            height: 55px;
+            border-radius: 5px;
+        }
+    }
+    li.selected{
+            background-color: #7ccdda26;
+    }
 }
 
     

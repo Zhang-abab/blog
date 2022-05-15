@@ -167,6 +167,19 @@ class ArticleCollectsView(View):
         return JsonResponse(res)
 
 
+# 修改文章封面
+class EditArticleCoverView(View):
+    print(1)
+    def post(self, request, nid):
+        print(2)
+        if not request.user.is_superuser:
+            return JsonResponse({})
+        cid = request.data.get('nid')
+        Articles.objects.filter(nid=nid).update(cover_id=cid)
+        return JsonResponse({})
+
+
+
 
 
 

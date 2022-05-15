@@ -21,12 +21,13 @@ def index(request):
         all_count=article_list.count(),
         base_url=request.path_info,
         query_params=query_params,
-        per_page=15,
+        per_page=10,
         pager_page_count=7,
     )
     # print(pager.start, pager.end, pager.page_html())
     article_list = article_list[pager.start:pager.end]
     advert_list = Advert.objects.filter(is_show=True)
+    cover_list = Cover.objects.all()
     link_list = Navs.objects.filter(tag__title='博客')
     return render(request, 'index.html', locals())
 
@@ -120,6 +121,7 @@ def logout(request):
 def get_random_code(request):
     data, valid_code = random_code()
     request.session['valid_code'] = valid_code
+    request.session['error_count'] = 0
     return HttpResponse(data)
 
 

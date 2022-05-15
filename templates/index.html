@@ -133,7 +133,32 @@
                                     <h2>博客文章</h2>
                                 </div>
                                 <div class="body">
-                                    <ul>
+                                {% if request.user.is_superuser %}
+                                            <el-dialog
+                                              title="修改文章封面"
+                                              :visible.sync="edit_cover_dialog"
+                                              width="20%">
+                                                <div class="dialog_content">
+                                                    <div>
+                                                        <label for="">文章封面</label>
+                                                          <el-select v-model="edit_cover.nid" placeholder="请选择文章封面">
+                                                              {% for cover in cover_list %}
+                                                                  <el-option
+                                                                      label="{{ cover.url.url }}"
+                                                                      value="{{ cover.nid }}">
+                                                                  <img src="{{ cover.url.url }}">
+                                                                </el-option>
+                                                              {% endfor %}
+                                                          </el-select>
+                                                    </div>
+                                                </div>
+                                              <span slot="footer" class="dialog-footer">
+                                                <el-button @click="edit_cover_dialog = false">取 消</el-button>
+                                                <el-button type="primary" @click="edit_cover_method(edit_cover.aid)">确 定</el-button>
+                                              </span>
+                                            </el-dialog>
+                                        {% endif %}
+                                    <ul class="active_content">
                                         {% for article in article_list %}
                                             <li>
                                             {% if article.category %}
@@ -143,7 +168,13 @@
                                             {% endif %}
                                                 <div class="left">
                                                     <div>
-                                                        <img src="{{ article.cover.url.url }}" alt="">
+                                                        <el-image
+                                                            scroll-container=".el-scrollbar__wrap"
+                                                            @contextmenu.ctrl.prevent="show_edit_cover('{{ article.nid }}', '{{ article.cover.nid }}')"
+                                                            src="{{ article.cover.url.url }}" lazy alt="">
+                                                            <div slot="placeholder" class="image-slot">
+                                                            </div>加载中<spam class="dot">...</spam>
+                                                        </el-image>
                                                     </div>
                                                 </div>
                                                 <div class="right">
@@ -192,7 +223,15 @@
                                     </div>
                                 </div>
                                 <div class="body">
-                                    {% generate_advert advert_list %}
+                                    <el-carousel :interval="5000" trigger="click" class="adv_img_list" height="200px">
+                                    {% for advert in advert_list|generate_advert %}
+                                        <el-carousel-item>
+                                                <a title="{{ advert.title }}" href="{{ advert.href }}" target="_blank">
+                                                    <img src="{{ advert.url }}">
+                                                </a>
+                                        </el-carousel-item>
+                                    {% endfor %}
+                                    </el-carousel>
                                 </div>
                             </div>
                             {% endif %}
@@ -453,6 +492,11 @@
                     feedback:{
                         email: '',
                         content: '',
+                    },
+                    edit_cover_dialog:false,
+                    edit_cover:{
+                        nid: '',
+                        aid: '',
                     },
                 },
                 created() {
@@ -1042,6 +1086,19 @@
                             this.feedback.content = ''
                         })
                     },
+
+                    show_edit_cover(aid, nid){
+                        this.edit_cover.aid = aid
+                        this.edit_cover.nid = nid
+                        this.edit_cover_dialog = true
+                    },
+
+                    edit_cover_method(aid){
+                        let nid = this.edit_cover.nid
+                        axios.post(`/api/article/cover/${aid}/`, {nid}).then(res => {
+                            location.reload()
+                        })
+                    }
                 }
             })
             let w = true;

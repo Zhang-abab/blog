@@ -48,3 +48,17 @@
         right: 20px;
     }
 }
+.el-select-dropdown__list{
+    li{
+        height: 60px;
+        display: flex;
+        align-items: center;
+        img{
+            height: 55px;
+            border-radius: 5px;
+        }
+    }
+    li.selected{
+            background-color: #7ccdda26;
+    }
+}

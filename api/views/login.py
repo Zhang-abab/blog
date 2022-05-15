@@ -32,8 +32,16 @@ class LoginForm(LoginBaseForm):
         pwd = self.cleaned_data.get('pwd')
 
         user = auth.authenticate(username=name, password=pwd)
+        error_count = self.request.session.get('error_count', 0)
+
+        if error_count >= 3:
+            self.add_error('name', '密码错误过多，请重新获取验证码')
+            return None
+
         if not user:
             # 为字段添加错误信息
+            error_count += 1
+            self.request.session['error_count'] = error_count
             self.add_error('pwd', '用户名或密码错误')
             return self.cleaned_data
         # 把用户对象放到cleaned_data
