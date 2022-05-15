@@ -121,6 +121,7 @@
             <div class="item"><el-button type="warning" @click="edit_password_dialogVisible=true">修改密码</el-button></div>
             <div class="item"><el-button type="danger">注销退出</el-button></div>
         </div>
+
             {% block content %}
             {% if collects_query.count %}
             <form method="post" action="/api/cancel_collection/" class="collection_all">

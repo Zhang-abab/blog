@@ -1,3 +1,4 @@
+@charset "UTF-8";
 .pager {
   list-style: none;
   width: 100%;
@@ -7,7 +8,7 @@
     display: inline-flex;
     min-width: 30px;
     height: 30px;
-    background-color: white;
+    background-color: var(--card_bg);
     border-radius: 5px;
     transition: all 0.3s;
     margin: 5px; }
@@ -20,29 +21,32 @@
       justify-content: center;
       align-items: center; }
     .pager > li:hover {
-      background-color: #ff9800; }
+      background-color: var(--active); }
       .pager > li:hover a {
         color: white; }
   .pager > li.active {
     background-color: #ff9800; }
     .pager > li.active a {
-      color: white; }
+      color: var(--card_bg); }
+
+a {
+  color: var(--font_2); }
 
 .card .title {
   border-radius: 5px 5px 0 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #f5f5f5;
+  border-bottom: 1px solid var(--bg);
   padding: 20px 20px 10px;
-  background-color: #fff; }
+  background-color: var(--card_bg); }
   .card .title h2 {
     font-size: 20px; }
   .card .title > div a {
     font-size: 14px; }
 .card .body {
   padding: 10px 20px 20px;
-  background-color: #fff;
+  background-color: var(--card_bg);
   border-radius: 0 0 5px 5px; }
 
 #app {
@@ -55,16 +59,16 @@
     #app .main > div > div {
       margin-bottom: 20px; }
     #app .main .left {
-      width: 69%; }
+      width: 65%; }
       #app .main .left .boutique_card > .title .switch_article_category span {
         cursor: pointer;
         font-size: 16px;
         font-weight: bold;
         transition: all 0.3s; }
         #app .main .left .boutique_card > .title .switch_article_category span:hover {
-          color: #ff9800; }
+          color: var(--active); }
         #app .main .left .boutique_card > .title .switch_article_category span[active] {
-          color: #ff9800; }
+          color: var(--active); }
       #app .main .left .boutique_card > .body {
         padding: 0 20px; }
         #app .main .left .boutique_card > .body > ul {
@@ -76,12 +80,12 @@
             display: flex;
             padding: 10px 0; }
             #app .main .left .boutique_card > .body > ul > li:nth-child(1), #app .main .left .boutique_card > .body > ul > li:nth-child(3), #app .main .left .boutique_card > .body > ul > li:nth-child(5) {
-              border-right: 1px solid #f0eeee;
+              border-right: 1px solid var(--bg);
               padding: 10px 10px 10px 0; }
             #app .main .left .boutique_card > .body > ul > li:nth-child(2), #app .main .left .boutique_card > .body > ul > li:nth-child(4), #app .main .left .boutique_card > .body > ul > li:nth-child(6) {
               padding: 10px; }
             #app .main .left .boutique_card > .body > ul > li:nth-child(1), #app .main .left .boutique_card > .body > ul > li:nth-child(4), #app .main .left .boutique_card > .body > ul > li:nth-child(2), #app .main .left .boutique_card > .body > ul > li:nth-child(3) {
-              border-bottom: 1px solid #f0eeee; }
+              border-bottom: 1px solid var(--bg); }
             #app .main .left .boutique_card > .body > ul > li .left {
               width: 40%; }
               #app .main .left .boutique_card > .body > ul > li .left > div {
@@ -109,7 +113,7 @@
                 text-overflow: ellipsis; }
               #app .main .left .boutique_card > .body > ul > li .right span {
                 font-size: 14px;
-                color: #555; }
+                color: var(--font_2); }
       #app .main .left .hotList > .body > div {
         display: flex;
         font-size: 14px; }
@@ -121,7 +125,7 @@
           margin-right: 20px; }
         #app .main .left .hotList > .body > div a {
           width: 77%;
-          color: #3a8ee6; }
+          color: var(--active); }
         #app .main .left .hotList > .body > div .num {
           width: 20%;
           display: flex;
@@ -134,7 +138,7 @@
           #app .main .left .all_article > .body > .active_content > li {
             width: 100%;
             display: flex;
-            background-color: #fff;
+            background-color: var(--card_bg);
             margin-bottom: 20px;
             border-radius: 5px;
             transition: all 0.3s;
@@ -179,19 +183,21 @@
                 margin-bottom: 30px; }
               #app .main .left .all_article > .body > .active_content > li .right .article_info {
                 font-size: 14px;
-                color: #555; }
+                color: var(--font_2); }
                 #app .main .left .all_article > .body > .active_content > li .right .article_info > span {
                   margin-right: 10px; }
                   #app .main .left .all_article > .body > .active_content > li .right .article_info > span i {
                     margin-right: 5px; }
+                  #app .main .left .all_article > .body > .active_content > li .right .article_info > span i.show {
+                    color: var(--active); }
                 #app .main .left .all_article > .body > .active_content > li .right .article_info > a {
                   position: absolute;
                   right: 20px;
                   bottom: 20px;
                   width: 100px;
                   height: 40px;
-                  background-color: #ff9800;
-                  color: white;
+                  background-color: var(-bg);
+                  color: var(--card_bg);
                   display: flex;
                   align-items: center;
                   justify-content: center;
@@ -200,21 +206,19 @@
                   font-size: 14px; }
             #app .main .left .all_article > .body > .active_content > li .category_flag {
               display: flex;
+              color: white;
               position: absolute;
               top: 10px;
               right: -80px;
               width: 200px;
               height: 20px;
               font-size: 14px;
-              background-color: red;
-              color: white;
+              background-color: var(--font_del);
               justify-content: center;
               align-items: center;
               transform: rotate(45deg); }
-              #app .main .left .all_article > .body > .active_content > li .category_flag[len='4'] {
-                font-size: 12px; }
-              #app .main .left .all_article > .body > .active_content > li .category_flag[type='None'] {
-                background-color: #26c6da; }
+              #app .main .left .all_article > .body > .active_content > li .category_flag[type='前端'] {
+                background-color: var(--active); }
     #app .main .right {
       width: 30%; }
       #app .main .right .tags > .body {
@@ -247,7 +251,7 @@
             width: 20px;
             height: 20px;
             content: " ";
-            background-color: #ff9800;
+            background-color: var(--active);
             -webkit-animation-name: move_box;
             animation-name: move_box;
             -webkit-animation-duration: 5s;
@@ -260,12 +264,22 @@
             justify-content: center;
             width: 33.33%;
             height: 40px;
-            background-color: #fff;
+            background-color: var(--card_bg);
             box-sizing: border-box; }
             #app .main .right .tags > .body ul li:nth-child(6n+1), #app .main .right .tags > .body ul li:nth-child(6n+2), #app .main .right .tags > .body ul li:nth-child(6n+3) {
-              background-color: #f5f5f5; }
+              background-color: var(--bg); }
             #app .main .right .tags > .body ul li:nth-child(3n+1), #app .main .right .tags > .body ul li:nth-child(3n+2) {
-              border-right: 1px solid #f0eeee; }
+              border-right: 1px solid var(--bg_darken); }
+            #app .main .right .tags > .body ul li i {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              width: 20px;
+              height: 20px;
+              color: var(--card_bg);
+              background-color: var(--active);
+              border-radius: 50%;
+              margin-left: 5px; }
       #app .main .right .advertisement > .body {
         padding: 20px;
         height: 240px; }
@@ -328,6 +342,6 @@
     height: 55px;
     border-radius: 5px; }
 .el-select-dropdown__list li.selected {
-  background-color: #7ccdda26; }
+  background-color: var(--bg); }
 
 /*# sourceMappingURL=index.css.map */

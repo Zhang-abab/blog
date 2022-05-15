@@ -3,13 +3,13 @@
     {% load my_tag my_filter%}
     <head>
         <title>{% block title %}无名小站{% endblock %}</title>
-        <link rel="stylesheet" href="/static/my/css/base.css">
         {% block CSS %}
             <link rel="stylesheet" href="/static/my/css/index.css">
         {% endblock %}
+        <link rel="stylesheet" href="/static/elementui/theme-chalk/index.css">
+        <link rel="stylesheet" href="/static/my/css/base.css">
         <link rel="stylesheet" href="/static/my/css/reset.css">
         <link rel="stylesheet" href="/static/fontawesome-free-5/css/all.min.css">
-        <link rel="stylesheet" href="/static/elementui/theme-chalk/index.css">
         <script src="/static/vue/vue.js"></script>
         <script src="/static/jquery/jquery.min.js"></script>
         <script src="/static/elementui/index.js"></script>
@@ -450,7 +450,7 @@
                     }
                 }
                 */
-            new Vue({
+            var vue = new Vue({
                 el: '#app',
                 delimiters: [
                     "[[", "]]"

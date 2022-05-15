@@ -13,22 +13,22 @@
 {% endblock %}
 
 {% block main %}
-<div class="slider_bar" ref="slider">
-        <div class="title">
-            <span>[[ slide_text ]]</span>
-                <el-switch
-                    v-model="isShowSlider"
-                    active-color="#13ce66"
-                    @change="sliderChange"
-                    inactive-color="#ff4949">
-                </el-switch>
-        </div>
-        <div class="body">
-            <p :tagName="item.tagName" @click="go_side_bar(item.pos, $event)" v-for="(item, index) in slide_list" :key="index">
-                [[ item.c ]]
-            </p>
-        </div>
-</div>
+{#<div class="slider_bar" ref="slider">#}
+{#        <div class="title">#}
+{#            <span>[[ slide_text ]]</span>#}
+{#                <el-switch#}
+{#                    v-model="isShowSlider"#}
+{#                    active-color="#13ce66"#}
+{#                    @change="sliderChange"#}
+{#                    inactive-color="#ff4949">#}
+{#                </el-switch>#}
+{#        </div>#}
+{#        <div class="body">#}
+{#            <p :tagName="item.tagName" @click="go_side_bar(item.pos, $event)" v-for="(item, index) in slide_list" :key="index">#}
+{#                [[ item.c ]]#}
+{#            </p>#}
+{#        </div>#}
+{#</div>#}
 <div class="article">
 
     <div class="article_actions">
@@ -78,7 +78,13 @@
         <div class="title">你觉得文章怎么样</div>
         {% csrf_token %}
         <div class="body">
-            <textarea name="" id="" ref="comment_content" cols="30" rows="10" v-model="comment_content" placeholder="写下你想说的话,开始我们的对话"></textarea>
+            <textarea
+                    @keydown.enter.ctrl="add_comment({{ article_obj.nid }})"
+                    name="" id=""
+                    ref="comment_content"
+                    rows="10" v-model="comment_content"
+                    placeholder="写下你想说的话,开始我们的对话(支持Markdown语法)">
+            </textarea>
             <button class = 'submit_comment' @click="add_comment('{{ article_obj.nid }}')">发布评论</button>
         </div>
         <div class="footer">
@@ -88,7 +94,7 @@
             </p>
         </div>
     </div>
-    <div class="comment_list">
+    <div class="comment_list" comment_list="{{ comment_list|get_coll_nid }}">
         <ul>
             {% for comment in comment_list %}
                 <li>
@@ -97,8 +103,8 @@
                 </div>
                 <div class="right">
                     <h4>{{ comment.user.username }}</h4>
-                    <div class="comment_content">
-                        {{ comment.content }}
+                    <div id="comment_show__{{ comment.nid }}">
+                        <textarea style="display: none">{{ comment.content }}</textarea>
                     </div>
                     <div class="comment_info">
                         <span>{{ comment.create_time }}</span>
@@ -162,5 +168,14 @@
                 path: "/static/editor-md/lib",
             })
         })
+        let comment_list = document.querySelector('.comment_list')
+        let lis = eval(comment_list.getAttribute('comment_list'))
+        for (const li of lis) {
+            editormd.markdownToHTML(`comment_show__${li}`,{
+               width:"100%",
+                height:"100%",
+                path: "/static/editor-md/lib",
+            });
+        }
     </script>
 {% endblock %}

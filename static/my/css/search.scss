@@ -1,6 +1,4 @@
-main{
-  min-height: 0;
-}
+
 .mian{
   width: 1080px;
   margin-top: 80px;
@@ -18,112 +16,140 @@ main{
         margin-right: 0;
       }
     }
-    input{
+    input {
       width: 300px;
       height: 40px;
       outline: none;
-      border: 1px solid #777;
+      border: 1px solid var(--bg_darken);
       border-radius: 5px;
       padding-left: 10px;
+      color: var(--font_2);
+      background-color: var(--ele_bg);
     }
-    button{
+
+    button {
       width: 100px;
-      background-color: #00a1d6;
       border-radius: 5px;
       height: 40px;
+      background-color: var(--active);
       color: white;
       border: none;
       cursor: pointer;
     }
   }
-  .search_criteria{
+  .search_criteria {
     margin: 20px 0;
     width: 100%;
     font-size: 13px;
-    &::before{
+
+    &::before {
       display: block;
       width: 100%;
       height: 1px;
-      background-color: #e5e9ef;
+      background-color: var(--bg_darken);
       content: '';
       margin-bottom: 20px;
     }
-    &::after{
+
+    &::after {
       display: block;
       width: 100%;
       height: 1px;
-      background-color: #e5e9ef;
+      background-color: var(--bg_darken);
       content: '';
       margin-top: 20px;
     }
-    >ul{
+
+    > ul {
       display: flex;
       list-style: none;
       margin: 10px 0;
       flex-wrap: wrap;
-      >li{
+
+      > li {
         padding: 3px 8px;
         margin-right: 10px;
-        &:hover{
-          a{
-            color: #00a1d6;
+
+        &:hover {
+          a {
+            color: var(--active);
           }
         }
-        a{
-          color: #333;
+
+        a {
+          color: var(--font_2);
         }
       }
-      >li.active{
-        background-color: #00a1d6;
+
+      > li.active {
+        background-color: var(--active);
         border-radius: 5px;
-        a{
+
+        a {
           color: white;
         }
       }
     }
   }
-  .no_content{
-    width: 100%;
-    background: url("/static/my/img/search/no_content.png") no-repeat center;
-    height: 300px;
-  }
-  .search_content{
+
+  .search_content {
     width: 100%;
     list-style: none;
     display: flex;
     flex-wrap: wrap;
-    >li{
+
+    > li {
       width: 190px;
       height: 190px;
-      border: 1px solid #e5e9ef;
+      border: 1px solid var(--bg_darken);
       border-radius: 5px;
       overflow: hidden;
       margin: 0 30px 30px 0;
-      &:nth-child(5n){
+      transition: all 0.3s;
+
+      &:hover {
+        transform: translateY(-10px);
+
+        .img img {
+          transform: scale(1.1);
+        }
+
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      &:nth-child(5n) {
         margin-right: 0;
       }
-      .img{
+
+      .img {
         display: block;
         width: 100%;
         height: 100px;
         overflow: hidden;
-        img{
+
+        img {
           width: 100%;
           height: 100%;
+          transition: all 0.3s;
           object-fit: cover;
         }
       }
-      .info{
+
+      .info {
         padding: 8px;
-        .title{
+        color: #777;
+
+        .title {
           margin-bottom: 5px;
           height: 43px;
         }
-        a{
-          color: #333;
+
+        a {
+          color: var(--font_2);
           font-size: 14px;
         }
-        .icon{
+
+        .icon {
           font-size: 13px;
           display: flex;
           justify-content: space-between;
@@ -131,43 +157,56 @@ main{
       }
     }
   }
+
+  .no_content {
+    width: 100%;
+    background: url("/static/my/img/search/no_content.png") no-repeat center center;
+    height: 300px;
+  }
 }
 
-.pager{
+.pager {
   list-style: none;
   width: 100%;
   display: flex;
   justify-content: center;
-  >li{
-    display: inline-flex;
+
+  > li {
     min-width: 30px;
     height: 30px;
     background-color: transparent;
     border-radius: 5px;
-    border: 1px solid #e5e9ef;
+    border: 1px solid var(--bg_darken);
     transition: all 0.3s;
-    margin: 5px;
-    &:last-child{
+    margin-right: 10px;
+
+    &:last-child {
       margin-right: 0;
     }
-    a{
+
+    a {
       width: 100%;
       height: 100%;
-      display: inline-flex;
       justify-content: center;
       align-items: center;
-      color: #333;
+      display: inline-flex;
+      padding: 0 10px;
+      color: var(--font_2);
     }
-    &:hover{
-      background-color: #00a1dd;
-      a{
+
+    &:hover {
+      background-color: var(--active);
+
+      a {
         color: white;
       }
     }
   }
-  >li.active{
-    background-color: #00a1dd;
-    a{
+
+  > li.active {
+    background-color: var(--active);
+
+    a {
       color: white;
     }
   }

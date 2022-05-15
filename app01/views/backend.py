@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from app01.models import *
 
-
 def backend(request):
     if not request.user.username:
         return redirect('/')
@@ -56,7 +55,13 @@ def edit_article(request, nid):
 
 
 def admin_home(request):
-    return render(request, 'admin_home.html')
+    user_count = UserInfo.objects.count()
+    article_count = Articles.objects.count()
+    navs_count = Navs.objects.count()
+    moods_count = Moods.objects.count()
+    link_count = Navs.objects.filter(tag__title='博客').count()
+
+    return render(request, 'admin_home.html',locals())
 
 
 # 头像列表
@@ -69,3 +74,5 @@ def avatar_list(request):
 def cover_list(request):
     cover_query = Cover.objects.all()
     return render(request, 'backend/cover_list.html', locals())
+
+

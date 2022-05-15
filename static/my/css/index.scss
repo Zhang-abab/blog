@@ -1,4 +1,7 @@
 @import "./pager";
+a{
+    color: var(--font_2);
+}
 
 .card {
     .title {
@@ -6,9 +9,9 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        border-bottom: 1px solid #f5f5f5;
+        border-bottom: 1px solid var(--bg);
         padding: 20px 20px 10px;
-        background-color: #fff;
+        background-color: var(--card_bg);
 
         h2 {
             font-size: 20px;
@@ -23,7 +26,7 @@
     }
     .body {
         padding: 10px 20px 20px;
-        background-color: #fff;
+        background-color: var(--card_bg);
         border-radius: 0 0 5px 5px;
     }
 }
@@ -40,7 +43,7 @@
             margin-bottom: 20px;
         }
         .left {
-            width: 69%;
+            width: 65%;
             .boutique_card > .title{
                 .switch_article_category{
                     span{
@@ -49,11 +52,11 @@
                         font-weight: bold;
                         transition: all 0.3s;
                         &:hover{
-                            color: #ff9800;
+                            color: var(--active);
                         }
 
                         &[active]{
-                            color: #ff9800;
+                            color: var(--active);
                         }
                     }
                 }
@@ -71,7 +74,7 @@
                         &:nth-child(1),
                         &:nth-child(3),
                         &:nth-child(5){
-                            border-right: 1px solid #f0eeee;
+                            border-right: 1px solid var(--bg);
                             padding: 10px 10px 10px 0;
                         }
                         &:nth-child(2),
@@ -83,7 +86,7 @@
                         &:nth-child(4),
                         &:nth-child(2),
                         &:nth-child(3){
-                            border-bottom: 1px solid #f0eeee;
+                            border-bottom: 1px solid var(--bg);
                         }
                         .left{
                             width: 40%;
@@ -118,7 +121,7 @@
                             }
                             span{
                                 font-size: 14px;
-                                color: #555;
+                                color: var(--font_2);
                             }
                         }
                     }
@@ -129,23 +132,23 @@
                     display: flex;
                     font-size: 14px;
                     .index {
-                        width: 20px;
-                        color: #333;
-                        border-radius: 5px;
-                        display: flex;
-                        margin-right: 20px;
-                      }
-                      a{
-                        width: 77%;
-                        color: #3a8ee6;
-                      }
-                      .num{
-                        width: 20%;
-                        display: flex;
-                        justify-content: right;
-                      }
-                        }
+                    width: 20px;
+                    color: #333;
+                    border-radius: 5px;
+                    display: flex;
+                    margin-right: 20px;
                     }
+                    a{
+                    width: 77%;
+                    color: var(--active);
+                    }
+                    .num{
+                    width: 20%;
+                    display: flex;
+                    justify-content: right;
+                    }
+                }
+            }
             .all_article > .body {
                 background-color: transparent;
                 padding: 0;
@@ -154,7 +157,7 @@
                     > li {
                         width: 100%;
                         display: flex;
-                        background-color: #fff;
+                        background-color: var(--card_bg);
                         margin-bottom: 20px;
                         border-radius: 5px;
                         transition: all 0.3s;
@@ -211,11 +214,14 @@
 
                             .article_info {
                                 font-size: 14px;
-                                color: #555;
+                                color: var(--font_2);
                                 > span {
                                     margin-right: 10px;
                                     i {
                                         margin-right: 5px;
+                                    }
+                                    i.show {
+                                        color: var(--active);
                                     }
                                 }
                                 > a {
@@ -224,8 +230,8 @@
                                     bottom: 20px;
                                     width: 100px;
                                     height: 40px;
-                                    background-color: #ff9800;
-                                    color: white;
+                                    background-color: var(-bg);
+                                    color: var(--card_bg);
                                     display: flex;
                                     align-items: center;
                                     justify-content: center;
@@ -237,22 +243,19 @@
                         }
                         .category_flag{
                             display: flex;
+                            color: white;
                             position: absolute;
                             top:10px;
                             right: -80px;
                             width: 200px;
                             height: 20px;
                             font-size: 14px;
-                            background-color: red;
-                            color: white;
+                            background-color: var(--font_del);
                             justify-content: center;
                             align-items: center;
                             transform: rotate(45deg);
-                            &[len='4']{
-                                font-size: 12px;
-                            }
-                            &[type='None']{
-                                background-color: #26c6da;
+                            &[type='前端']{
+                                background-color: var(--active);
                             }
                         }
                     }
@@ -298,7 +301,7 @@
                         width: 20px;
                         height: 20px;
                         content: " ";
-                        background-color: #ff9800;
+                        background-color: var(--active);
                         -webkit-animation-name: move_box;
                         animation-name: move_box;
                         -webkit-animation-duration: 5s;
@@ -312,16 +315,27 @@
                         justify-content: center;
                         width: 33.33%;
                         height: 40px;
-                        background-color: #fff;
+                        background-color: var(--card_bg);
                         box-sizing: border-box;
                         &:nth-child(6n+1),
                         &:nth-child(6n+2),
                         &:nth-child(6n+3) {
-                            background-color: #f5f5f5;
+                            background-color: var(--bg);
                         }
                         &:nth-child(3n+1),
                         &:nth-child(3n+2) {
-                            border-right: 1px solid #f0eeee;
+                            border-right: 1px solid var(--bg_darken);
+                        }
+                        i{
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            width: 20px;
+                            height: 20px;
+                            color: var(--card_bg);
+                            background-color: var(--active);
+                            border-radius: 50%;
+                            margin-left: 5px;
                         }
                     }
                 }
@@ -423,8 +437,8 @@
         }
     }
     li.selected{
-            background-color: #7ccdda26;
+            background-color: var(--bg);
     }
 }
 
-    
+

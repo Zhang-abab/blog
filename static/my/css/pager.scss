@@ -7,7 +7,7 @@
     display: inline-flex;
     min-width: 30px;
     height: 30px;
-    background-color: white;
+    background-color: var(--card_bg);
     border-radius: 5px;
     transition: all 0.3s;
     margin: 5px;
@@ -22,7 +22,7 @@
       align-items: center;
     }
     &:hover{
-      background-color: #ff9800;
+      background-color: var(--active);
       a{
         color: white;
       }
@@ -31,7 +31,7 @@
   >li.active{
     background-color: #ff9800;
     a{
-      color: white;
+      color: var(--card_bg);
     }
   }
 }
