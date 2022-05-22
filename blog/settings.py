@@ -85,14 +85,24 @@ WSGI_APPLICATION = 'blog.wsgi.application'
 #     }
 # }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'blog',
+#         'USER': 'root',
+#         'PASSWORD': '123456',
+#         'HOST': '127.0.0.1',
+#         "PORT": '3300',
+#     }
+# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'blog',
-        'USER': 'zhang',
-        'PASSWORD': 'zhang',
-        'HOST': '127.0.0.1',
-        "PORT": '3000',
+        'ENGINE': 'django.db.backends.mysql',  # 数据库引擎
+        'NAME': os.environ.get('POSTGRES_NAME'),  # 数据库名称
+        'USER': os.environ.get('POSTGRES_USER'),  # 连接数据库的用户名称
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),  # 用户密码
+        'HOST': 'mysql',  # 访问的数据库的主机的ip地址
+        'PORT': '3306',  # 默认mysql访问端口
     }
 }
 CACHES = {

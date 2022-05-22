@@ -16,7 +16,7 @@ class AvatarView(View):
         kb = file.size / 1024 / 1024
         name: str = file.name
         white_file_type = [
-            'jpg', 'jpeg', 'png', 'JPG'
+            'jpg', 'jpeg', 'png', 'JPG', 'ico'
         ]
         if name.split('.')[-1] not in white_file_type:
             return JsonResponse(res)
@@ -64,7 +64,7 @@ class CoverView(View):
         kb = file.size / 1024 / 1024
         name: str = file.name
         white_file_type = [
-            'jpg', 'jpeg', 'png', 'JPG'
+            'jpg', 'jpeg', 'png', 'JPG', 'ico'
         ]
         if name.split('.')[-1] not in white_file_type:
             return JsonResponse(res)

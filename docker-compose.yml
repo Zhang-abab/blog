@@ -4,7 +4,7 @@ services:
   mysql:
    image: mysql/mysql-server
    ports:
-     - 3306:3306
+     - "3306:3306"
    #estart: always
    command:
       - mysqld
@@ -16,10 +16,10 @@ services:
       - --character-set-server=utf8
       - --collation-server=utf8_general_ci
    environment:
-      - MYSQL_DATABASE=YOLO
+      - MYSQL_DATABASE=blog
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_USER=zhang
-      - MYSQL_PASSWORD=zhang
+      - MYSQL_PASSWORD=Zhang.123
    volumes:
       - /home/data/mysql/data:/var/lib/mysql       #将容器中运行的mysql数据保存到宿主机，防止容器删除后数据丢失
       - /home/data/conf:/etc/my.conf.d 
@@ -34,9 +34,9 @@ services:
     volumes:
       - .:/code
     environment:
-      - POSTGRES_NAME=YOLO
+      - POSTGRES_NAME=blog
       - POSTGRES_USER=zhang
-      - POSTGRES_PASSWORD=zhang
+      - POSTGRES_PASSWORD=Zhang.123
     ports:
       - "8000:8000"
     networks:

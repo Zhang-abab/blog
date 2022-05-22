@@ -15,7 +15,9 @@ def banner(menu_name, article=None):
         slogan_list = [article.abstract[:30]]
         slogan_time = 0
         return locals()
-
+    menu_list = Menu.objects.all()
+    if not menu_list:
+        return
     menu_obj = Menu.objects.get(menu_title_en=menu_name)
     menu_time = menu_obj.menu_time
     img_list = [i.url.url for i in menu_obj.menu_url.all()]
@@ -76,11 +78,11 @@ def dynamic_navigation(request):
     path = request.path_info
     path_dict = {
         '/': '首页',
-        '/news/': '新闻',
+        # '/news/': '新闻',
         # '/moods/': '心情',
-        '/Led/': 'Mqtt',
-        '/history/': '回忆录',
-        '/about/': '关于',
+        # '/Led/': 'Mqtt',
+        # '/history/': '回忆录',
+        # '/about/': '关于',
         '/sites/': '导航',
     }
     nav_list = []

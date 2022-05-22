@@ -36,6 +36,7 @@ class AddArticleForm(forms.Form):
             return cover_id
         cover_set = Cover.objects.all().values('nid')
         cover_id = random.choice(cover_set)['nid']
+        print(cover_id)
         return cover_id
 
     def clean_category(self):
@@ -63,11 +64,11 @@ class ArticleView(View):
             'code': 412,
             'data': None,
         }
-        data=request.data
+        data = request.data
         data['status'] = 1
-
+        print(data)
         form = AddArticleForm(data)
-
+        print(form.is_valid())
         if not form.is_valid():
             res['self'], res['msg'] = clean_form(form)
             return JsonResponse(res)

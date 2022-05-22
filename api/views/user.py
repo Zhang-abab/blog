@@ -153,7 +153,6 @@ class FeedBackFormView(forms.Form):
 class FeedBackView(View):
 
     def post(self, request):
-        print(1)
         res = {
             'msg': '反馈成功,小张正在认真阅读！',
             'code': 414,
