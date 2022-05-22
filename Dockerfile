@@ -11,8 +11,8 @@ RUN apt-get install -y vim
 
 RUN mkdir /usr/src/app
 
-COPY . /usr/src/app/djtest
-WORKDIR /usr/src/app/djtest
+COPY . /usr/src/app/blog
+WORKDIR /usr/src/app/blog
 
 RUN pip install -i https://mirrors.aliyun.com/pypi/simple/ -r requirements.txt
 
